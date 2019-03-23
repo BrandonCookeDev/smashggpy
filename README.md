@@ -1,1 +1,1 @@
-# project-alpha
+# smashgg.py
