@@ -1,0 +1,1 @@
+docker run smashgg.py
