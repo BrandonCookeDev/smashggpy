@@ -2,5 +2,6 @@ import time
 
 class QueryFactory(object):
 
-	def create_query(self, query, variables):
+	@staticmethod
+	def create_query(query: str, variables: dict):
 		return Query(query, variables, time.asctime())

@@ -28,7 +28,7 @@ class Logger(object):
 	@staticmethod
 	def translate_log_level(level='info'):
 		if level not in ('info', 'warning', 'debug', 'error', 'critical'):
-			raise Exception('invalid value for log level: %s' % level)
+			raise Exception('invalid value for log level: {}'.format(level))
 
 		if level is 'info': return logging.INFO
 		elif level is 'error': return logging.ERROR
