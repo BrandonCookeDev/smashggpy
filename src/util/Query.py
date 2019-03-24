@@ -3,10 +3,9 @@ import time
 
 class Query(object):
 
-	def __init__(self, query: str='', variables: dict={}, timestamp=time.asctime()):
+	def __init__(self, query: str='', variables: dict={}):
 		self.query = query
 		self.variables = variables
-		self.timestamp = timestamp
 
 	def get_query_dict(self):
 		return {

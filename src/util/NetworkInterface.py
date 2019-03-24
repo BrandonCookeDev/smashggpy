@@ -32,3 +32,10 @@ class NetworkInterface(object):
 		log.debug(response)
 		log.debug('JSON Response: {}'.format(response.json()))
 		return response.json()
+
+	@staticmethod
+	def paginated_query(query: Query):
+		first_result = NetworkInterface.query(query)
+
+		
+
