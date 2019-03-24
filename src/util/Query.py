@@ -11,7 +11,7 @@ class Query(object):
 	def get_query_dict(self):
 		return {
 			'query': self.query,
-			'variables': self.variables
+			'variables': json.dumps(self.variables)
 		}
 
 	def get_query_string(self):
@@ -19,3 +19,15 @@ class Query(object):
 			'query': self.query,
 			'variables': json.dumps(self.variables)
 		})
+
+	def get_query(self):
+		return self.query
+
+	def get_query_s(self):
+		return str(self.query)
+
+	def get_variables(self):
+		return self.variables
+
+	def get_variables_s(self):
+		return str(self.variables)

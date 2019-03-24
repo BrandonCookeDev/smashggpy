@@ -25,16 +25,17 @@ log.info('Env: {}'.format(os.environ))
 log.info('using token: {}'.format(token))
 
 # format query 
-test_query = 'query TournamentQuery($slug: String){\n' \
-'	tournament(slug: $slug){\n' \
-'		id \n' \
-'		name \n' \
-'		events{ \n' \
-'			id \n' \
-'			name \n' \
-'		}\n' \
-'	}\n' \
-'}'
+test_query = '''
+query TournamentQuery($slug: String){
+	tournament(slug: $slug){
+		id
+		name
+		events{
+			id
+			name
+		}
+	}
+}'''
 test_variable = {'slug': 'to12'}
 new_query = Query(test_query, test_variable)
 

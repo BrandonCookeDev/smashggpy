@@ -7,7 +7,7 @@ class Logger(object):
 	__format = '%(asctime)s :: %(levelname)s: %(message)s'
 
 	@staticmethod
-	def init(level='info'):
+	def init(level: str='info'):
 		if Logger.__instance is None:
 			level = Logger.translate_log_level(level)
 
@@ -26,7 +26,7 @@ class Logger(object):
 		return Logger.__instance
 
 	@staticmethod
-	def translate_log_level(level='info'):
+	def translate_log_level(level: str='info'):
 		if level not in ('info', 'warning', 'debug', 'error', 'critical'):
 			raise Exception('invalid value for log level: {}'.format(level))
 
