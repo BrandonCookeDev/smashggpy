@@ -1,5 +1,6 @@
 from src.util.Logger import Logger
 from src.util.TokenHandler import TokenHandler
+from src.util.QueryQueue import QueryQueue
 
 def initialize(dependencies: dict={}):
 	log_level = dependencies['log_level']

@@ -1,7 +1,8 @@
 import time
+from src.util.Query import Query
 
 class QueryFactory(object):
 
 	@staticmethod
-	def create_query(query: str, variables: dict):
-		return Query(query, variables, time.asctime())
+	def create(query: str, variables: dict):
+		return Query(query, variables)
