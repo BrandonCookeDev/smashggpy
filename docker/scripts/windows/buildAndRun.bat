@@ -1,0 +1,5 @@
+SET CURDIR=%cd%
+SET BASEDIR=%~dp0
+SET IMAGE_NAME=cs6310
+
+%BASEDIR%\build.bat && %BASEDIR%\run.bat
