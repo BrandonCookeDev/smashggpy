@@ -24,11 +24,7 @@ class NetworkInterface(object):
 		headers = NetworkInterface.get_headers()
 		payload = query.get_query_dict()
 
-		q = query.get_query_s()
-		v = query.get_variables()
-
-		log.debug('Query: {}'.format(q))
-		log.debug('Variables: {}'.format(v))
+		log.debug('Payload: {}'.format(payload))
 		log.debug('Headers: {}'.format(headers))
 
 		response = requests.post(url=url, headers=headers, json=payload)
