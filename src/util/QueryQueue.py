@@ -1,5 +1,7 @@
 from src.util.Query import Query
+from src.util.ThreadFactory import ThreadFactory
 from src.util.QueryQueueElement import QueryQueueElement
+from src.util.NetworkInterface import NetworkInterface as NI
 from src.common.Exceptions import NotInitializedException
 
 class QueryQueue(object):
@@ -24,7 +26,8 @@ class QueryQueue(object):
 
 	def add(self, query: Query):
 		QueryQueue.verify_initialized()
-		element = QueryQueueElement(query)
+		thread = ThreadFactory(NI.query, query)
+		element = QueryQueueElement(thread)
 		self.queue.append(element)
 
 	def pop(self):
