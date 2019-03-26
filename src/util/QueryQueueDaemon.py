@@ -1,4 +1,5 @@
 import time
+from src.util.Logger import Logger
 from src.util.QueryQueue import QueryQueue
 from src.util.ThreadFactory import ThreadFactory
 from src.util.NetworkInterface import NetworkInterface as NI
@@ -22,13 +23,15 @@ class QueryQueueDaemon(object):
 
 	@staticmethod
 	def daemon(DELINQUENCY_RATE: int=80, QUERY_TIME_IN_SECONDS: int=60):
-		'''
+		"""
 		1) check if the queue is empty, if not check if element 0 should be popped
 		2) check if we are delinquent and if so give the user a message about how long 
 			until the next query is fired
 		3) check if the queue has reached unexecuted non-delinquent queries
-		'''
+		"""
 		active_threads = []
+
+		log = Logger.get_instance()
 
 		while True:
 			now = time.time()

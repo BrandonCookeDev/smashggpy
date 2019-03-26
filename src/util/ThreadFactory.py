@@ -1,5 +1,7 @@
 import threading
 
+from src.util.Logger import Logger
+
 class ThreadFactory(object):
 
 	@staticmethod
