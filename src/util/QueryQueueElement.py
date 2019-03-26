@@ -4,8 +4,8 @@ from src.util.Query import Query
 
 class QueryQueueElement(object):
 
-	def __init__(self, threat: Thread, timestamp):
-		self.threat = threat
+	def __init__(self, thread: Thread, timestamp):
+		self.thread = thread
 		self.timestamp = timestamp
 
 	def set_timestamp(self):
