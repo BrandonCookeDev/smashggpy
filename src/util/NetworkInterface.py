@@ -34,6 +34,7 @@ class NetworkInterface(object):
 
 	@staticmethod
 	def paginated_query(query: Query):
+		log = Logger.get_instance()
 		first_result = NetworkInterface.query(query)
 
 		
