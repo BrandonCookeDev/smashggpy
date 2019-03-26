@@ -4,8 +4,6 @@ from src.util.Query import Query
 from src.util.TokenHandler import TokenHandler
 from src.util.Logger import Logger
 
-log = Logger.get_instance()
-
 class NetworkInterface(object):
 
 	API_URL='https://api.smash.gg/gql/alpha'
@@ -20,6 +18,7 @@ class NetworkInterface(object):
 
 	@staticmethod
 	def query(query: Query):
+		log = Logger.get_instance()
 		url = NetworkInterface.API_URL
 		headers = NetworkInterface.get_headers()
 		payload = query.get_query_dict()
