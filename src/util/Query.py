@@ -2,7 +2,6 @@ import json
 import time
 
 from src.util.Logger import Logger
-from src.util.NetworkInterface import NetworkInterface as NI
 
 class Query(object):
 
@@ -21,9 +20,6 @@ class Query(object):
 			'query': self.query,
 			'variables': json.dumps(self.variables)
 		})
-	
-	def run(self):
-		return NI.query(self.query, self.variables)
 
 	def get_query(self):
 		return self.query

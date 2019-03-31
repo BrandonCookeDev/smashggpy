@@ -1,6 +1,5 @@
 import time
 from threading import Thread
-from src.util.Query import Query
 from src.util.Logger import Logger
 
 class QueryQueueElement(object):
