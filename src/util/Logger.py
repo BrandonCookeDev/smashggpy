@@ -50,3 +50,23 @@ class Logger(object):
 	def add_handler(handler):
 		Logger.verify_initialized()
 		Logger.get_instance().addHandler(handler)
+	
+	@staticmethod
+	def info(message):
+		Logger.__instance.info(message)
+
+	@staticmethod
+	def debug(message):
+		Logger.__instance.debug(message)
+
+	@staticmethod
+	def critical(message):
+		Logger.__instance.critical(message)
+
+	@staticmethod
+	def error(message):
+		Logger.__instance.error(message)
+
+	@staticmethod
+	def warning(message):
+		Logger.__instance.warning(message)

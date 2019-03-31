@@ -32,17 +32,18 @@ class QueryQueueDaemon(object):
 		active_threads = []
 
 		log = Logger.get_instance()
+		log.info('Running the QueryQueue Daemon')
 
 		while True:
 			now = time.time()
 			queue = QueryQueue.get_instance()
 
-			if len(queue) > 0:
+			if queue.length() > 0:
 				# execute waiting non-delinquent queries and fill in missing timestamps
 				for i in range(DELINQUENCY_RATE, -1, -1):
 					current_element = queue[i]
 					if current_element.timestamp is None:
-						ThreadFactory.create(NI.query, {'query': })
+						current_element.run()
 						current_element.set_timestamp()
 
 				# determine if we need to pop elements
@@ -51,9 +52,4 @@ class QueryQueueDaemon(object):
 					time_difference_in_seconds = now - current_element.timestamp
 					if time_difference_in_seconds > QUERY_TIME_IN_SECONDS:
 						queue.pop(i)
-
-
-
-
-
 
