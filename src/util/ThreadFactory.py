@@ -1,4 +1,4 @@
-import threading
+from threading import Thread
 
 from src.util.Logger import Logger
 

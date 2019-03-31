@@ -8,7 +8,7 @@ from src.util.Initializer import initialize
 token = os.environ['API_TOKEN']
 dependencies = {
 	'api_token': token,
-	'log_level': 'info'
+	'log_level': 'debug'
 }
 initialize(dependencies)
 
@@ -36,8 +36,7 @@ query TournamentQuery($slug: String){
 	}
 }'''
 test_variable = {'slug': 'to12'}
-new_query = QueryFactory.create(test_query, test_variable)
 
 # send query and get data back
-to12 = NI.query(new_query)
+to12 = NI.query(test_query, test_variable)
 log.info(to12['data']['tournament']['name'])
