@@ -1,8 +1,3 @@
-from src.util.Logger import Logger
-from src.util.ThreadFactory import ThreadFactory
-from src.util.QueryQueueElement import QueryQueueElement
-from src.common.Exceptions import NotInitializedException
-from src.util.NetworkInterface import NetworkInterface as NI
 
 class QueryQueue(object):
 
@@ -39,3 +34,9 @@ class QueryQueue(object):
 	def length(self):
 		# Logger.debug('getting length of Query Queue')
 		return len(self.queue)
+
+from src.util.Logger import Logger
+from src.util.ThreadFactory import ThreadFactory
+from src.util.QueryQueueElement import QueryQueueElement
+from src.common.Exceptions import NotInitializedException
+from src.util.NetworkInterface import NetworkInterface as NI

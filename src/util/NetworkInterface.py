@@ -1,8 +1,5 @@
 import json
 import requests
-from src.util.Logger import Logger
-from src.util.TokenHandler import TokenHandler
-from src.util.QueryFactory import QueryFactory
 
 class NetworkInterface(object):
 
@@ -45,3 +42,9 @@ class NetworkInterface(object):
 	def paginated_query(query):
 		log = Logger.get_instance()
 		first_result = NetworkInterface.query(query)
+
+# Path imports
+from src.util.Logger import Logger
+from src.util.TokenHandler import TokenHandler
+from src.util.QueryFactory import QueryFactory
+from src.util.QueryQueue import QueryQueue

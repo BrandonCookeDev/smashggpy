@@ -1,7 +1,6 @@
 import re
 
 from src.util.Logger import Logger
-from src.common.Exceptions import NotInitializedException, BadTokenException
 
 class TokenHandler(object):
 
@@ -27,3 +26,4 @@ class TokenHandler(object):
 			raise NotInitializedException()
 		return TokenHandler.__token
 
+from src.common.Exceptions import NotInitializedException, BadTokenException
