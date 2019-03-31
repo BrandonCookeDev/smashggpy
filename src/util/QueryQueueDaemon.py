@@ -1,9 +1,4 @@
 import time
-from src.util.Logger import Logger
-from src.util.QueryQueue import QueryQueue
-from src.util.ThreadFactory import ThreadFactory
-from src.util.NetworkInterface import NetworkInterface as NI
-from src.util.QueryQueueElement import QueryQueueElement
 
 class QueryQueueDaemon(object):
 	'''
@@ -53,3 +48,10 @@ class QueryQueueDaemon(object):
 					if time_difference_in_seconds > QUERY_TIME_IN_SECONDS:
 						queue.pop(i)
 
+
+
+from src.util.Logger import Logger
+from src.util.QueryQueue import QueryQueue
+from src.util.ThreadFactory import ThreadFactory
+from src.util.NetworkInterface import NetworkInterface as NI
+from src.util.QueryQueueElement import QueryQueueElement

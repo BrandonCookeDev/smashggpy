@@ -1,8 +1,6 @@
 import json
 import time
 
-from src.util.Logger import Logger
-
 class Query(object):
 
 	def __init__(self, query: str='', variables: dict={}):
@@ -32,3 +30,5 @@ class Query(object):
 
 	def get_variables_s(self):
 		return str(self.variables)
+
+from src.util.Logger import Logger

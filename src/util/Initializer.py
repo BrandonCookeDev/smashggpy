@@ -1,8 +1,3 @@
-from src.util.Logger import Logger
-from src.util.TokenHandler import TokenHandler
-from src.util.QueryQueue import QueryQueue
-from src.util.ThreadFactory import ThreadFactory
-from src.util.QueryQueueDaemon import QueryQueueDaemon
 
 def initialize(dependencies: dict={}):
 	log_level = dependencies['log_level']
@@ -15,3 +10,9 @@ def initialize(dependencies: dict={}):
 	daemonThread = ThreadFactory.create(QueryQueueDaemon.daemon, {})
 	daemonThread.daemon = True
 	daemonThread.start()
+
+from src.util.Logger import Logger
+from src.util.TokenHandler import TokenHandler
+from src.util.QueryQueue import QueryQueue
+from src.util.ThreadFactory import ThreadFactory
+from src.util.QueryQueueDaemon import QueryQueueDaemon
