@@ -17,9 +17,10 @@ class NetworkInterface(object):
 	def query(query_string: str, variables: dict):
 		Logger.debug('NetworkInterface.query: creating query object')
 		query = QueryFactory.create(query_string, variables)
+		Logger.debug('NetworkInterface.query: created query {}'.format(query))
 
 		Logger.debug('NetworkInterface.query: sending query to queue')
-		QueryQueue.add(query)
+		return QueryQueue.get_instance().add(query)
 
 
 	@staticmethod

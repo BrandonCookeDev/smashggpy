@@ -22,9 +22,10 @@ class QueryQueue(object):
 	def add(self, query):
 		Logger.debug('adding element to queue: {}'.format(query))
 		QueryQueue.verify_initialized()
-		thread = ThreadFactory(NI.query_raw, )
+		thread = ThreadFactory.create(NI.execute_query, query)
 		element = QueryQueueElement(thread)
 		self.queue.append(element)
+		return element
 
 	def pop(self):
 		Logger.debug('popping from queue')

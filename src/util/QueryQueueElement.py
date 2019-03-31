@@ -3,7 +3,7 @@ from threading import Thread
 
 class QueryQueueElement(object):
 
-	def __init__(self, thread: Thread, timestamp):
+	def __init__(self, thread: Thread, timestamp=None):
 		self.thread = thread
 		self.timestamp = timestamp
 
@@ -15,6 +15,9 @@ class QueryQueueElement(object):
 		return now - self.timestamp 
 
 	def execute(self):
-		self.thread.run()
+		self.thread.start()
+
+	def get_result(self):
+		self.thread.join()
 
 from src.util.Logger import Logger
