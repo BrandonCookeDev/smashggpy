@@ -12,4 +12,6 @@ def initialize(dependencies: dict={}):
 	TokenHandler.init(api_token)
 
 	# initialize query queue daemon in background
-	daemonThread = ThreadFactory.create(QueryQueueDaemon.daemon, {}).run()
+	daemonThread = ThreadFactory.create(QueryQueueDaemon.daemon, {})
+	daemonThread.daemon = True
+	daemonThread.start()

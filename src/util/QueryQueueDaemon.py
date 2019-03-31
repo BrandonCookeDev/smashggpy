@@ -43,7 +43,7 @@ class QueryQueueDaemon(object):
 				for i in range(DELINQUENCY_RATE, -1, -1):
 					current_element = queue[i]
 					if current_element.timestamp is None:
-						current_element.run()
+						current_element.execute()
 						current_element.set_timestamp()
 
 				# determine if we need to pop elements

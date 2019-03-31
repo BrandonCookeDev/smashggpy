@@ -1,8 +1,8 @@
-from src.util.Query import Query
 from src.util.Logger import Logger
 from src.util.ThreadFactory import ThreadFactory
 from src.util.QueryQueueElement import QueryQueueElement
 from src.common.Exceptions import NotInitializedException
+from src.util.NetworkInterface import NetworkInterface as NI
 
 class QueryQueue(object):
 
@@ -24,10 +24,10 @@ class QueryQueue(object):
 		if not QueryQueue.__initialized:
 			raise NotInitializedException()
 
-	def add(self, query: Query):
+	def add(self, query):
 		Logger.debug('adding element to queue: {}'.format(query))
 		QueryQueue.verify_initialized()
-		thread = ThreadFactory(query.run(), {})
+		thread = ThreadFactory(NI.query_raw, )
 		element = QueryQueueElement(thread)
 		self.queue.append(element)
 
@@ -37,5 +37,5 @@ class QueryQueue(object):
 		return self.queue.pop(0)
 		
 	def length(self):
-		Logger.debug('getting length of Query Queue')
+		# Logger.debug('getting length of Query Queue')
 		return len(self.queue)
