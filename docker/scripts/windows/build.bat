@@ -8,5 +8,5 @@ for /f %%i in ('type %BASEDIR%\..\ImageName.txt') do set IMAGE_NAME=%%i
 echo Building Docker container %IMAGE_NAME%
 
 cd %BASEDIR%\..\..\..
-docker build -t %IMAGE_NAME% .
+docker build --rm -t %IMAGE_NAME% .
 cd %CURDIR%
