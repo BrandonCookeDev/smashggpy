@@ -52,7 +52,7 @@ class QueryQueueDaemon(object):
 					Logger.debug('time difference in seconds: {}'.format(time_difference_in_seconds))
 					if time_difference_in_seconds > QUERY_TIME_IN_SECONDS:
 						Logger.debug('removing element')
-						queue.pop(i)
+						queue.pop()
 						
 
 from src.util.Logger import Logger
