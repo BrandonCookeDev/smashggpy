@@ -6,6 +6,7 @@ class QueryQueue(object):
 
 	def __init__(self, queue: list=[]):
 		self.queue = queue
+		
 
 	@staticmethod
 	def get_instance():
@@ -19,11 +20,21 @@ class QueryQueue(object):
 		if not QueryQueue.__initialized:
 			raise NotInitializedException()
 
+	def initialize(count: int):
+		pass
+		#Logger.debug('QueryQueue.initialize called')
+		#for i in range(0, count, 1):
+			#self.queue[i] = new QueryQueueElement()
+
+	def get(self, index):
+		Logger.debug('getting element from queue: {}'.format(index))
+		return self.queue[index]
+
 	def add(self, query):
 		Logger.debug('adding element to queue: {}'.format(query))
 		QueryQueue.verify_initialized()
-		thread = ThreadFactory.create(NI.execute_query, query)
-		element = QueryQueueElement(thread)
+		# thread = ThreadFactory.create(NI.execute_query, query)
+		element = QueryQueueElement()
 		self.queue.append(element)
 		return element
 

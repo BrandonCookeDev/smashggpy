@@ -1,5 +1,6 @@
 import time
 
+
 class QueryQueueDaemon(object):
 	'''
 	This class is a loop that runs forever on a seperate thread. This 
@@ -34,21 +35,25 @@ class QueryQueueDaemon(object):
 			queue = QueryQueue.get_instance()
 
 			if queue.length() > 0:
+				queue_length = queue.length()
+				back_limit = DELINQUENCY_RATE - 1 if queue_length > DELINQUENCY_RATE else queue_length - 1
+				Logger.debug('Queue size: {}, Back Limit: {}'.format(queue_length, back_limit))
+
 				# execute waiting non-delinquent queries and fill in missing timestamps
-				for i in range(DELINQUENCY_RATE, -1, -1):
-					current_element = queue[i]
+				for i in range(back_limit, -1, -1):
+					current_element = queue.get(i)
 					if current_element.timestamp is None:
-						current_element.execute()
 						current_element.set_timestamp()
 
 				# determine if we need to pop elements
-				for i in range(0, DELINQUENCY_RATE, 1):
-					current_element = queue[i]
+				for i in range(0, queue_length, 1):
+					current_element = queue.get(i)
 					time_difference_in_seconds = now - current_element.timestamp
+					Logger.debug('time difference in seconds: {}'.format(time_difference_in_seconds))
 					if time_difference_in_seconds > QUERY_TIME_IN_SECONDS:
+						Logger.debug('removing element')
 						queue.pop(i)
-
-
+						
 
 from src.util.Logger import Logger
 from src.util.QueryQueue import QueryQueue

@@ -1,2 +1,6 @@
+src/util/__pycache__/
+__pycache__/
+.idea/
+
 .env
 token.txt

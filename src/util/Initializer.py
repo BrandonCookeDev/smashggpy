@@ -6,6 +6,9 @@ def initialize(dependencies: dict={}):
 	Logger.init(log_level)
 	TokenHandler.init(api_token)
 
+	# initialize the query queue
+	#QueryQueue.init()
+
 	# initialize query queue daemon in background
 	daemonThread = ThreadFactory.create(QueryQueueDaemon.daemon, {})
 	daemonThread.daemon = True
