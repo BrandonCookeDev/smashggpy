@@ -1,6 +1,7 @@
 # dotenv imports .env file as environment variables for run of program
 import os
 from src.common import Common
+from src.models import Tournament
 Common.dotenv()
 
 # initialize the SDK
@@ -38,8 +39,11 @@ query TournamentQuery($slug: String){
 test_variable = {'slug': 'to12'}
 
 # send query and get data back
-to12 = NI.query(test_query, test_variable)
-log.info(to12['data']['tournament']['name'])
+#to12 = NI.query(test_query, test_variable)
+#log.info(to12['data']['tournament']['name'])
+
+to12 = Tournament.Tournament.get_by_slug('to12')
+
 
 while True:
 	pass
