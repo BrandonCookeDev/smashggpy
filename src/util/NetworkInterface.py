@@ -20,7 +20,8 @@ class NetworkInterface(object):
 		Logger.debug('NetworkInterface.query: created query {}'.format(query))
 
 		Logger.debug('NetworkInterface.query: sending query to queue')
-		return QueryQueue.get_instance().add(query)
+		QueryQueue.get_instance().add(query)
+		return NetworkInterface.execute_query(query)
 
 
 	@staticmethod

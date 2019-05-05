@@ -39,5 +39,7 @@ test_variable = {'slug': 'to12'}
 
 # send query and get data back
 to12 = NI.query(test_query, test_variable)
-#log.info(to12['data']['tournament']['name'])
-log.info(to12.get_result())
+log.info(to12['data']['tournament']['name'])
+
+while True:
+	pass

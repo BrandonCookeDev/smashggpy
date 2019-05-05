@@ -3,8 +3,7 @@ from threading import Thread
 
 class QueryQueueElement(object):
 
-	def __init__(self, thread: Thread, timestamp=None):
-		self.thread = thread
+	def __init__(self, timestamp=None):
 		self.timestamp = timestamp
 
 	def set_timestamp(self):
@@ -12,12 +11,6 @@ class QueryQueueElement(object):
 
 	def get_time_difference_in_seconds(self):
 		now = time.time()
-		return now - self.timestamp 
-
-	def execute(self):
-		self.thread.start()
-
-	def get_result(self):
-		self.thread.join()
+		return now - self.timestamp
 
 from src.util.Logger import Logger
