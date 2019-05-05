@@ -43,7 +43,7 @@ test_variable = {'slug': 'to12'}
 #log.info(to12['data']['tournament']['name'])
 
 to12 = Tournament.Tournament.get_by_slug('to12')
-
+log.info(to12)
 
 while True:
 	pass

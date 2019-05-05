@@ -1,15 +1,19 @@
 import src.queries.Tournament_Queries as queries
 from src.util.NetworkInterface import NetworkInterface as NI
+from src.models.Venue import Venue
+from src.models.Organizer import Organizer
 
 class Tournament(object):
 
-    def __init__(self, id, name, slug, startTime, endTime, timezone):
+    def __init__(self, id, name, slug, startTime, endTime, timezone, venue, organizer):
         self.id = id
         self.name = name
         self.slug = slug
         self.startTime = startTime
         self.endTime = endTime
         self.timezone = timezone
+        self.venue = venue
+        self.organizer = organizer
 
     @staticmethod
     def get(id: int):
@@ -30,5 +34,9 @@ class Tournament(object):
             base_data['slug'],
             base_data['startAt'],
             base_data['endAt'],
-            base_data['timezone']
+            base_data['timezone'],
+            Venue.parse(base_data),
+            Organizer.parse(base_data)
         )
+
+

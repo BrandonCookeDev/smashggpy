@@ -2,9 +2,24 @@ tournament_schema = """
     id
     name
     slug
+    city
+    postalCode
+    addrState
+    countryCode
+    region
+    venueAddress
+    venueName
+    gettingThere
+    lat
+    lng
+    timezone
     startAt
     endAt
-    timezone
+    contactInfo
+    contactEmail
+    contactTwitter
+    contactPhone
+    ownerId
 """
 
 get_tournament = """
