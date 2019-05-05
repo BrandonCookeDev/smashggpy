@@ -17,3 +17,16 @@ query TournamentQuery($slug: String){{
 """.format(schema.tournament_schema)
 
 
+get_tournament_events = """
+query TournamentEvents(id: ID!){{
+    tournament(id: $id){{
+        events{{
+            {0}
+        }}
+    }}
+}}
+""".format(schema.event_schema)
+
+get_tournament_phases = """
+
+"""
