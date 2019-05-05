@@ -1,9 +1,4 @@
-phase_schema = """
-id
-name
-numSeeds
-groupCount
-"""
+import src.queries.Schema as schema
 
 phase_by_id = """
 query PhaseQuery($id: ID!){{
@@ -11,4 +6,4 @@ query PhaseQuery($id: ID!){{
         {0}
     }}
 }}
-""".format(phase_schema)
+""".format(schema.phase_schema)
