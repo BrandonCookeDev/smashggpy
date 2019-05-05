@@ -16,13 +16,13 @@ class Tournament(object):
         self.organizer = organizer
 
     @staticmethod
-    def get(id: int):
-        data = NI.query(queries.get_tournament, {'id': id})
+    def get(slug: str):
+        data = NI.query(queries.get_tournament_by_slug, {'slug': slug})
         return Tournament.parse(data)
 
     @staticmethod
-    def get_by_slug(slug: str):
-        data = NI.query(queries.get_tournament_by_slug, {'slug': slug})
+    def get_by_id(id: int):
+        data = NI.query(queries.get_tournament_by_id, {'id': id})
         return Tournament.parse(data)
 
     @staticmethod

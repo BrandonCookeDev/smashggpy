@@ -1,7 +1,8 @@
 # dotenv imports .env file as environment variables for run of program
 import os
 from src.common import Common
-from src.models import Tournament
+from src.models.Tournament import Tournament
+from src.models.Event import Event
 Common.dotenv()
 
 # initialize the SDK
@@ -42,8 +43,11 @@ test_variable = {'slug': 'to12'}
 #to12 = NI.query(test_query, test_variable)
 #log.info(to12['data']['tournament']['name'])
 
-to12 = Tournament.Tournament.get_by_slug('to12')
+to12 = Tournament.get('to12')
 log.info(to12)
+
+to12_melee = Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
+log.info(to12_melee)
 
 while True:
 	pass
