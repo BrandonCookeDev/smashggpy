@@ -3,6 +3,8 @@ import os
 from src.common import Common
 from src.models.Tournament import Tournament
 from src.models.Event import Event
+from src.models.Phase import Phase
+from src.models.PhaseGroup import PhaseGroup
 Common.dotenv()
 
 # initialize the SDK
@@ -10,7 +12,7 @@ from src.util.Initializer import initialize
 token = os.environ['API_TOKEN']
 dependencies = {
 	'api_token': token,
-	'log_level': 'debug'
+	'log_level': 'info'
 }
 initialize(dependencies)
 
@@ -48,6 +50,12 @@ log.info(to12)
 
 to12_melee = Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
 log.info(to12_melee)
+
+to12_top8_phase = Phase.get(172834)
+log.info(to12_top8_phase)
+
+to12_top8 = PhaseGroup.get(453051)
+log.info(to12_top8)
 
 while True:
 	pass
