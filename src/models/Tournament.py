@@ -39,4 +39,5 @@ class Tournament(object):
             Organizer.parse(base_data)
         )
 
-
+    def get_events(self):
+        pass

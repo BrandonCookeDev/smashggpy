@@ -1,26 +1,4 @@
-tournament_schema = """
-    id
-    name
-    slug
-    city
-    postalCode
-    addrState
-    countryCode
-    region
-    venueAddress
-    venueName
-    gettingThere
-    lat
-    lng
-    timezone
-    startAt
-    endAt
-    contactInfo
-    contactEmail
-    contactTwitter
-    contactPhone
-    ownerId
-"""
+import src.queries.Schema as schema
 
 get_tournament = """
 query TournamentQuery($id: ID!){{
@@ -28,7 +6,7 @@ query TournamentQuery($id: ID!){{
         {0}
     }}
 }}
-""".format(tournament_schema)
+""".format(schema.tournament_schema)
 
 get_tournament_by_slug = """
 query TournamentQuery($slug: String){{
@@ -36,5 +14,6 @@ query TournamentQuery($slug: String){{
         {0}
     }}
 }}
-""".format(tournament_schema)
+""".format(schema.tournament_schema)
+
 

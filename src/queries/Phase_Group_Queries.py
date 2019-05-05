@@ -1,12 +1,4 @@
-phase_group_schema = """
-id
-displayIdentifier
-firstRoundTime
-state
-phaseId
-waveId
-tiebreakOrder
-"""
+import src.queries.Schema as schema
 
 phase_group_by_id = """
 query PhaseGroupQueries($id: ID!){{
@@ -14,4 +6,4 @@ query PhaseGroupQueries($id: ID!){{
         {0}
     }}
 }}
-""".format(phase_group_schema)
+""".format(schema.phase_group_schema)

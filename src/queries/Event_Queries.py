@@ -1,17 +1,4 @@
-event_schema = """
-id
-name
-slug
-state
-startAt
-numEntrants
-checkInBuffer
-checkInDuration
-checkInEnabled
-isOnline
-teamNameAllowed
-teamManagementDeadline
-"""
+import src.queries.Schema as schema
 
 get_event_by_id = """
 query EventQuery($id: ID!){{
@@ -19,7 +6,7 @@ query EventQuery($id: ID!){{
         {0}
     }}
 }}
-""".format(event_schema)
+""".format(schema.event_schema)
 
 get_event_by_slugs = """
 query EventQuery($slug: String){{
@@ -27,4 +14,4 @@ query EventQuery($slug: String){{
         {0}
     }}
 }}
-""".format(event_schema)
+""".format(schema.event_schema)
