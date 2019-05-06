@@ -66,6 +66,13 @@ log.info(len(to12_phases))
 to12_groups = to12.get_phase_groups()
 log.info(len(to12_groups))
 
+to12_melee_phases = to12_melee.get_phases()
+log.info(len(to12_melee_phases))
+
+to12_melee_groups = to12_melee.get_phase_groups()
+log.info(len(to12_melee_groups))
+
+
 
 while True:
 	pass
