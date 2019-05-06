@@ -48,3 +48,16 @@ class Event(object):
             data['teamNameAllowed'],
             data['teamManagementDeadline']
         )
+
+    def get_phases(self):
+        data = NI.query(queries.get_event_phases, {'id': self.id})
+        phases_data = data['data']['event']['phases']
+        return [Phase.parse(phase_data) for phase_data in phases_data]
+
+    def get_phase_groups(self):
+        data = NI.query(queries.get_event_phase_groups, {'id': self.id})
+        phase_groups_data = data['data']['event']['phaseGroups']
+        return [PhaseGroup.parse(phase_group_data) for phase_group_data in phase_groups_data]
+
+from src.models.Phase import Phase
+from src.models.PhaseGroup import PhaseGroup
