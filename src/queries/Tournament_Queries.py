@@ -18,7 +18,7 @@ query TournamentQuery($slug: String){{
 
 
 get_tournament_events = """
-query TournamentEvents(id: ID!){{
+query TournamentEvents($id: ID!){{
     tournament(id: $id){{
         events{{
             {0}
@@ -28,5 +28,25 @@ query TournamentEvents(id: ID!){{
 """.format(schema.event_schema)
 
 get_tournament_phases = """
+query TournamentPhases($id: ID!){{
+    tournament(id: $id){{
+        events{{
+            phases{{
+                {0}
+            }}
+        }}
+    }}
+}}
+""".format(schema.phase_schema)
 
-"""
+get_tournament_phase_groups = """
+query TournamentPhaseGroups($id: ID!){{
+    tournament(id: $id){{
+        events{{
+            phaseGroups{{
+                {0}
+            }}
+        }}
+    }}
+}}
+""".format(schema.phase_group_schema)
