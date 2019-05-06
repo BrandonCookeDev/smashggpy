@@ -12,14 +12,14 @@ class Phase(object):
     @staticmethod
     def get(id: int):
         data = NI.query(queries.phase_by_id, {'id': id})
-        return Phase.parse(data)
+        base_data = data['data']['phase']
+        return Phase.parse(base_data)
 
     @staticmethod
     def parse(data):
-        base_data = data['data']['phase']
         return Phase(
-            base_data['id'],
-            base_data['name'],
-            base_data['numSeeds'],
-            base_data['groupCount']
+            data['id'],
+            data['name'],
+            data['numSeeds'],
+            data['groupCount']
         )

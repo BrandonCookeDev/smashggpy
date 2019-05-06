@@ -15,17 +15,17 @@ class PhaseGroup(object):
     @staticmethod
     def get(id: int):
         data = NI.query(queries.phase_group_by_id, {'id': id})
-        return PhaseGroup.parse(data)
+        base_data = data['data']['phaseGroup']
+        return PhaseGroup.parse(base_data)
 
     @staticmethod
     def parse(data):
-        base_data = data['data']['phaseGroup']
         return PhaseGroup(
-            base_data['id'],
-            base_data['displayIdentifier'],
-            base_data['firstRoundTime'],
-            base_data['state'],
-            base_data['phaseId'],
-            base_data['waveId'],
-            base_data['tiebreakOrder']
+            data['id'],
+            data['displayIdentifier'],
+            data['firstRoundTime'],
+            data['state'],
+            data['phaseId'],
+            data['waveId'],
+            data['tiebreakOrder']
         )

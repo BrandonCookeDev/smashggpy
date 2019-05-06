@@ -23,27 +23,28 @@ class Event(object):
     def get(tournament_slug: str, event_slug: str):
         slug = "tournament/{0}/event/{1}".format(tournament_slug, event_slug)
         data = NI.query(queries.get_event_by_slugs, {"slug": slug})
-        return Event.parse(data)
+        base_data = data['data']['event']
+        return Event.parse(base_data)
 
     @staticmethod
     def get_by_id(id: int):
         data = NI.query(queries.get_event_by_id, {'id': id})
-        return Event.parse(data)
+        base_data = data['data']['event']
+        return Event.parse(base_data)
 
     @staticmethod
     def parse(data):
-        base_data = data['data']['event']
         return Event(
-            base_data['id'],
-            base_data['name'],
-            base_data['slug'],
-            base_data['state'],
-            base_data['startAt'],
-            base_data['numEntrants'],
-            base_data['checkInBuffer'],
-            base_data['checkInDuration'],
-            base_data['checkInEnabled'],
-            base_data['isOnline'],
-            base_data['teamNameAllowed'],
-            base_data['teamManagementDeadline']
+            data['id'],
+            data['name'],
+            data['slug'],
+            data['state'],
+            data['startAt'],
+            data['numEntrants'],
+            data['checkInBuffer'],
+            data['checkInDuration'],
+            data['checkInEnabled'],
+            data['isOnline'],
+            data['teamNameAllowed'],
+            data['teamManagementDeadline']
         )

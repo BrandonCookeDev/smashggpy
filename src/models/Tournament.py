@@ -18,26 +18,52 @@ class Tournament(object):
     @staticmethod
     def get(slug: str):
         data = NI.query(queries.get_tournament_by_slug, {'slug': slug})
-        return Tournament.parse(data)
+        base_data = data['data']['tournament']
+        return Tournament.parse(base_data)
 
     @staticmethod
     def get_by_id(id: int):
         data = NI.query(queries.get_tournament_by_id, {'id': id})
-        return Tournament.parse(data)
+        base_data = data['data']['tournament']
+        return Tournament.parse(base_data)
 
     @staticmethod
     def parse(data):
-        base_data = data['data']['tournament']
         return Tournament(
-            base_data['id'],
-            base_data['name'],
-            base_data['slug'],
-            base_data['startAt'],
-            base_data['endAt'],
-            base_data['timezone'],
-            Venue.parse(base_data),
-            Organizer.parse(base_data)
+            data['id'],
+            data['name'],
+            data['slug'],
+            data['startAt'],
+            data['endAt'],
+            data['timezone'],
+            Venue.parse(data),
+            Organizer.parse(data)
         )
 
     def get_events(self):
-        pass
+        data = NI.query(queries.get_tournament_events, {'id': self.id})
+        base_data = data['data']['tournament']['events']
+        return [Event.parse(event_data) for event_data in base_data]
+
+    def get_phases(self):
+        data = NI.query(queries.get_tournament_phases, {'id': self.id})
+        base_events = data['data']['tournament']['events']
+        phases = []
+        for event in base_events:
+            for event_phase in event['phases']:
+                phases.append(Phase.parse(event_phase))
+        return phases
+
+    def get_phase_groups(self):
+        data = NI.query(queries.get_tournament_phase_groups, {'id': self.id})
+        base_events = data['data']['tournament']['events']
+        phase_groups = []
+        for event in base_events:
+            for event_phase_groups in event['phaseGroups']:
+                phase_groups.append(PhaseGroup.parse(event_phase_groups))
+        return phase_groups
+
+
+from src.models.Event import Event
+from src.models.Phase import Phase
+from src.models.PhaseGroup import PhaseGroup

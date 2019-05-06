@@ -57,5 +57,15 @@ log.info(to12_top8_phase)
 to12_top8 = PhaseGroup.get(453051)
 log.info(to12_top8)
 
+to12_events = to12.get_events()
+log.info(len(to12_events))
+
+to12_phases = to12.get_phases()
+log.info(len(to12_phases))
+
+to12_groups = to12.get_phase_groups()
+log.info(len(to12_groups))
+
+
 while True:
 	pass
