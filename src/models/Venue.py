@@ -1,13 +1,13 @@
 
 class Venue(object):
 
-    def __init__(self, name, address, city, state, postalCode, countryCode, region, latitude, longitude):
+    def __init__(self, name, address, city, state, postal_code, country_code, region, latitude, longitude):
         self.name = name
         self.address = address
         self.city = city
         self.state = state
-        self.postalCode = postalCode
-        self.countryCode = countryCode
+        self.postal_code = postal_code
+        self.country_code = country_code
         self.region = region
         self.latitude = latitude
         self.longitude = longitude

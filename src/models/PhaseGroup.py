@@ -3,14 +3,14 @@ from src.util.NetworkInterface import NetworkInterface as NI
 
 class PhaseGroup(object):
 
-    def __init__(self, id, displayIdentifier, firstRoundTime, state, phaseId, waveId, tiebreakOrder):
+    def __init__(self, id, display_identifier, first_round_time, state, phase_id, wave_id, tiebreak_order):
         self.id = id
-        self.displayIdentifier = displayIdentifier
-        self.firstRoundTime = firstRoundTime
+        self.display_identifier = display_identifier
+        self.first_round_time = first_round_time
         self.state = state
-        self.phaseId = phaseId
-        self.waveId = waveId
-        self.tiebreakOrder = tiebreakOrder
+        self.phase_id = phase_id
+        self.wave_id = wave_id
+        self.tiebreak_order = tiebreak_order
 
     @staticmethod
     def get(id: int):

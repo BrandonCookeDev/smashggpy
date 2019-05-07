@@ -3,11 +3,11 @@ from src.util.NetworkInterface import NetworkInterface as NI
 
 class Phase(object):
 
-    def __init__(self, id, name, numSeeds, groupCount):
+    def __init__(self, id, name, num_seeds, group_count):
         self.id = id
         self.name = name
-        self.numSeeds = numSeeds
-        self.groupCount = groupCount
+        self.num_seeds = num_seeds
+        self.group_count = group_count
 
     @staticmethod
     def get(id: int):
