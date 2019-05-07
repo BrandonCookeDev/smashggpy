@@ -53,3 +53,40 @@ phaseId
 waveId
 tiebreakOrder
 """
+
+user_schema = """
+id
+gamerTag
+prefix
+color
+twitchStream
+twitterHandle
+youtube
+region
+state
+country
+gamerTagChangedAt
+"""
+
+attendee_schema = """
+id
+gamerTag
+prefix
+createdAt
+claimed
+verified
+playerId
+phoneNumber
+connectedAccounts
+contactInfo
+eventIds
+"""
+
+entrant_schema = """
+id
+name
+eventId
+skill
+attendeeData
+"""
+

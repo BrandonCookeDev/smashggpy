@@ -5,12 +5,12 @@ from src.models.Organizer import Organizer
 
 class Tournament(object):
 
-    def __init__(self, id, name, slug, startTime, endTime, timezone, venue, organizer):
+    def __init__(self, id, name, slug, start_time, end_time, timezone, venue, organizer):
         self.id = id
         self.name = name
         self.slug = slug
-        self.startTime = startTime
-        self.endTime = endTime
+        self.start_time = start_time
+        self.end_time = end_time
         self.timezone = timezone
         self.venue = venue
         self.organizer = organizer

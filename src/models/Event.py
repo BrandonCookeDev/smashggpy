@@ -3,21 +3,21 @@ from src.util.NetworkInterface import NetworkInterface as NI
 
 class Event(object):
 
-    def __init__(self, id, name, slug, state, startAt, numEntrants,
-                 checkInBuffer, checkInDuration, checkInEnabled,
-                 isOnline, teamNameAllowed, teamManagementDeadline):
+    def __init__(self, id, name, slug, state, start_at, num_entrants,
+                 check_in_buffer, check_in_duration, check_in_enabled,
+                 is_online, team_name_allowed, team_management_deadline):
         self.id = id
         self.name = name
         self.slug = slug
         self.state = state
-        self.startAt = startAt
-        self.numEntrants = numEntrants
-        self.checkInBuffer = checkInBuffer
-        self.checkInDuration = checkInDuration
-        self.checkInEnabled = checkInEnabled
-        self.isOnline = isOnline
-        self.teamNameAllowed = teamNameAllowed
-        self.teamManagementDeadline = teamManagementDeadline
+        self.start_at = start_at
+        self.num_entrants = num_entrants
+        self.check_in_buffer = check_in_buffer
+        self.check_in_duration = check_in_duration
+        self.check_in_enabled = check_in_enabled
+        self.is_online = is_online
+        self.team_name_allowed = team_name_allowed
+        self.team_management_deadline = team_management_deadline
 
     @staticmethod
     def get(tournament_slug: str, event_slug: str):
