@@ -109,3 +109,30 @@ participants{{
 }}
 """.format(attendee_schema)
 
+gg_set_slot_schema = """
+id
+entrant {
+    id
+    name
+    participants {
+        id
+    }
+}
+"""
+
+gg_set_schema = """
+id
+eventId
+phaseGroupId
+displayScore
+fullRoundText
+round
+startedAt
+completedAt
+winnerId
+totalGames
+state
+slots(includeByes: false){{
+    {0}
+}}
+""".format(gg_set_slot_schema)

@@ -74,15 +74,17 @@ to12_melee_groups = to12_melee.get_phase_groups()
 log.info(len(to12_melee_groups))
 '''
 
-to12_top8 = PhaseGroup.get(453051)
+to12_top8 = PhaseGroup.get(453050)
 log.info(to12_top8)
 
-to12_melee_attendees = to12_top8.get_attendees()
-log.info(to12_melee_attendees)
+#to12_melee_attendees = to12_top8.get_attendees()
+#log.info(to12_melee_attendees)
 
-to12_melee_entrants = to12_top8.get_entrants()
-log.info(to12_melee_entrants)
+#to12_melee_entrants = to12_top8.get_entrants()
+#log.info(to12_melee_entrants)
 
+to12_top8_sets = to12_top8.get_sets()
+log.info(to12_top8_sets)
 
 while True:
 	pass

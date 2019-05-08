@@ -60,3 +60,17 @@ query PhaseGroupEntrants($id: ID!, $page: Int, $perPage: Int, $sortBy: String, $
 }}
 """.format(schema.entrant_schema)
 
+phase_group_sets = """
+query PhaseGroupEntrants($id: ID!, $page: Int, $perPage: Int, $sortType: SetSortType, $filters: SetFilters){{
+    phaseGroup(id: $id){{
+        paginatedSets(page:$page, perPage:$perPage, sortType:$sortType, filters:$filters){{
+            pageInfo{{
+                totalPages
+            }}
+            nodes{{
+                {0}
+            }}
+        }}
+    }}
+}}
+""".format(schema.gg_set_schema)

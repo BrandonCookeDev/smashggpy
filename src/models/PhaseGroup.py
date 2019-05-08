@@ -42,5 +42,28 @@ class PhaseGroup(object):
         entrants = [Entrant.parse(entrant_data['entrant']) for entrant_data in data]
         return entrants
 
+    def get_sets(self):
+        data = NI.paginated_query(queries.phase_group_sets, {'id': self.id})
+        sets = [GGSet.parse(set_data) for set_data in data]
+        return sets
+
+    def get_incomplete_sets(self):
+        sets = self.get_sets()
+        incomplete_sets = []
+        for gg_set in sets:
+            if set.get_is_completed() is False:
+                incomplete_sets.append(gg_set)
+        return incomplete_sets
+
+    def get_completed_sets(self):
+        sets = self.get_sets()
+        incomplete_sets = []
+        for gg_set in sets:
+            if set.get_is_completed() is True:
+                incomplete_sets.append(gg_set)
+        return incomplete_sets
+
+
 from src.models.Entrant import Entrant
 from src.models.Attendee import Attendee
+from src.models.GGSet import GGSet
