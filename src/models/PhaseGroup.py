@@ -29,3 +29,12 @@ class PhaseGroup(object):
             data['waveId'],
             data['tiebreakOrder']
         )
+
+    def get_attendees(self):
+        data = NI.paginated_query(queries.phase_group_attendees, {'id': self.id})
+
+
+    def get_entrants(self):
+        pass
+
+

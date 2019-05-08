@@ -68,6 +68,19 @@ country
 gamerTagChangedAt
 """
 
+attendee_contact_info_schema = """
+id
+city
+state
+stateId
+country
+countryId
+name
+nameFirst
+nameLast
+zipcode
+"""
+
 attendee_schema = """
 id
 gamerTag
@@ -78,9 +91,13 @@ verified
 playerId
 phoneNumber
 connectedAccounts
-contactInfo
-eventIds
-"""
+contactInfo{{
+    {0}
+}}
+events{{
+    id
+}}
+""".format(attendee_contact_info_schema)
 
 entrant_schema = """
 id
