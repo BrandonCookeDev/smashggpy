@@ -45,6 +45,7 @@ test_variable = {'slug': 'to12'}
 #to12 = NI.query(test_query, test_variable)
 #log.info(to12['data']['tournament']['name'])
 
+'''
 to12 = Tournament.get('to12')
 log.info(to12)
 
@@ -71,7 +72,13 @@ log.info(len(to12_melee_phases))
 
 to12_melee_groups = to12_melee.get_phase_groups()
 log.info(len(to12_melee_groups))
+'''
 
+to12_top8 = PhaseGroup.get(453051)
+log.info(to12_top8)
+
+to12_melee_groups = to12_top8.get_attendees()
+log.info(to12_melee_groups)
 
 
 while True:
