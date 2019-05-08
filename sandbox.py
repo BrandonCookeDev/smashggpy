@@ -92,12 +92,20 @@ log.info(len(to12_melee_groups))
 #to12_sets = to12_melee.get_sets()
 #log.info(to12_sets)
 
-to12 = Tournament.get('to12')
-log.info(to12)
+#to12 = Tournament.get('to12')
+#log.info(to12)
 
-attendees = to12.get_attendees()
+#attendees = to12.get_attendees()
+#log.info(attendees)
+
+to12_top8_phase = Phase.get(172834)
+log.info(to12_top8_phase)
+
+pg = to12_top8_phase.get_phase_groups()
+log.info(pg)
+
+attendees = to12_top8_phase.get_attendees()
 log.info(attendees)
-
 
 while True:
 	pass
