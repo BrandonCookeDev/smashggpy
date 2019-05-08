@@ -15,5 +15,7 @@ class Entrant(object):
             data['name'],
             data['eventId'],
             data['skill'],
-            data['attendeeData']
+            [Attendee.parse(attendee_data) for attendee_data in data['participants']]
         )
+
+from src.models.Attendee import Attendee

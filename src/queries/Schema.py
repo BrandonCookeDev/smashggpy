@@ -104,6 +104,8 @@ id
 name
 eventId
 skill
-attendeeData
-"""
+participants{{
+    {0}
+}}
+""".format(attendee_schema)
 
