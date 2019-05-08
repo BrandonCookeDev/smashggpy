@@ -1,5 +1,6 @@
 import json
 import requests
+from src.common.Common import flatten
 
 class NetworkInterface(object):
 
@@ -45,7 +46,7 @@ class NetworkInterface(object):
 			current_result = query(query_string, variables)
 			results.append(current_result)
 
-		return results
+		return flatten(results)
 
 	@staticmethod
 	def execute_query(query):
