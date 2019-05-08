@@ -1,5 +1,8 @@
 import src.queries.Event_Queries as queries
+from src.util.Logger import Logger
+from src.common.Common import flatten
 from src.util.NetworkInterface import NetworkInterface as NI
+from src.util.ThreadFactory import ThreadFactory
 
 class Event(object):
 
@@ -50,14 +53,26 @@ class Event(object):
         )
 
     def get_phases(self):
+        Logger.info('Getting Phases for Event: {0}:{1}'.format(self.id, self.name))
         data = NI.query(queries.get_event_phases, {'id': self.id})
         phases_data = data['data']['event']['phases']
         return [Phase.parse(phase_data) for phase_data in phases_data]
 
     def get_phase_groups(self):
+        Logger.info('Getting Phase Groups for Event: {0}:{1}'.format(self.id, self.name))
         data = NI.query(queries.get_event_phase_groups, {'id': self.id})
         phase_groups_data = data['data']['event']['phaseGroups']
         return [PhaseGroup.parse(phase_group_data) for phase_group_data in phase_groups_data]
+
+    def get_sets(self):
+        Logger.info('Getting Sets for Event: {0}:{1}'.format(self.id, self.name))
+        phase_groups = self.get_phase_groups()
+        sets = flatten([phase_group.get_sets() for phase_group in phase_groups])
+        return sets
+
+
+
+
 
 from src.models.Phase import Phase
 from src.models.PhaseGroup import PhaseGroup

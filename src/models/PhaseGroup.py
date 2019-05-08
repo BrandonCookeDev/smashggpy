@@ -1,5 +1,6 @@
 import src.queries.Phase_Group_Queries as queries
 from src.common.Common import flatten
+from src.util.Logger import Logger
 from src.util.NetworkInterface import NetworkInterface as NI
 
 class PhaseGroup(object):
@@ -32,22 +33,26 @@ class PhaseGroup(object):
         )
 
     def get_attendees(self):
+        Logger.info('Getting Attendees for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         data = NI.paginated_query(queries.phase_group_attendees, {'id': self.id})
         participants = flatten([entrant_data['entrant']['participants'] for entrant_data in data])
         attendees = [Attendee.parse(participant_data) for participant_data in participants]
         return attendees
 
     def get_entrants(self):
+        Logger.info('Getting Entrants for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         data = NI.paginated_query(queries.phase_group_entrants, {'id': self.id})
         entrants = [Entrant.parse(entrant_data['entrant']) for entrant_data in data]
         return entrants
 
     def get_sets(self):
+        Logger.info('Getting Sets for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         data = NI.paginated_query(queries.phase_group_sets, {'id': self.id})
         sets = [GGSet.parse(set_data) for set_data in data]
         return sets
 
     def get_incomplete_sets(self):
+        Logger.info('Getting Incomplete Sets for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         sets = self.get_sets()
         incomplete_sets = []
         for gg_set in sets:
@@ -56,6 +61,7 @@ class PhaseGroup(object):
         return incomplete_sets
 
     def get_completed_sets(self):
+        Logger.info('Getting Completed Sets for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         sets = self.get_sets()
         incomplete_sets = []
         for gg_set in sets:

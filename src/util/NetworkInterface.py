@@ -35,18 +35,25 @@ class NetworkInterface(object):
 
 		results = []
 		initial_result = NetworkInterface.execute_query(query)
-		main_key = list(initial_result['data'].keys())[0]
-		secondary_key = list(initial_result['data'][main_key].keys())[0]
-		base_data = initial_result['data'][main_key][secondary_key]
+		base_data = NetworkInterface.parse_paginated_result(initial_result)
 		results.append(base_data['nodes'])
 
 		total_pages = base_data['pageInfo']['totalPages']
-		for i in range(1, total_pages, 1):
+		for i in range(2, total_pages + 1, 1):
 			variables['page'] = i
-			current_result = query(query_string, variables)
-			results.append(current_result)
+			current_query = QueryFactory.create(query_string, variables)
+			current_result = NetworkInterface.execute_query(current_query)
+			current_base_data = NetworkInterface.parse_paginated_result(current_result)
+			results.append(current_base_data['nodes'])
 
 		return flatten(results)
+
+	@staticmethod
+	def parse_paginated_result(results: dict):
+		main_key = list(results['data'].keys())[0]
+		secondary_key = list(results['data'][main_key].keys())[0]
+		base_data = results['data'][main_key][secondary_key]
+		return base_data
 
 	@staticmethod
 	def execute_query(query):
