@@ -29,5 +29,5 @@ class Attendee(object):
             data['phoneNumber'],
             data['connectedAccounts'],
             data['contactInfo'],
-            data['eventIds']
+            [ids for ids in data['events']]
         )

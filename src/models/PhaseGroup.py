@@ -1,4 +1,5 @@
 import src.queries.Phase_Group_Queries as queries
+from src.common.Common import flatten
 from src.util.NetworkInterface import NetworkInterface as NI
 
 class PhaseGroup(object):
@@ -32,9 +33,15 @@ class PhaseGroup(object):
 
     def get_attendees(self):
         data = NI.paginated_query(queries.phase_group_attendees, {'id': self.id})
-
+        participants = flatten([entrant_data['entrant']['participants'] for entrant_data in data])
+        attendees = [Attendee.parse(participant_data) for participant_data in participants]
+        return attendees
 
     def get_entrants(self):
-        pass
+        data = NI.paginated_query(queries.phase_group_entrants, {'id': self.id})
+        participants = flatten([entrant_data['entrant']['participants'] for entrant_data in data])
+        entrants = [Entrant.parse(participant_data) for participant_data in participants]
+        return entrants
 
-
+from src.models.Entrant import Entrant
+from src.models.Attendee import Attendee
