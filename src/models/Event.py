@@ -4,6 +4,7 @@ from src.common.Common import flatten
 from src.util.NetworkInterface import NetworkInterface as NI
 from src.util.ThreadFactory import ThreadFactory
 
+
 class Event(object):
 
     def __init__(self, id, name, slug, state, start_at, num_entrants,
@@ -64,14 +65,41 @@ class Event(object):
         phase_groups_data = data['data']['event']['phaseGroups']
         return [PhaseGroup.parse(phase_group_data) for phase_group_data in phase_groups_data]
 
+    def get_attendees(self):
+        Logger.info('Getting Attendees for Event: {0}:{1}'.format(self.id, self.name))
+        phase_groups = self.get_phase_groups()
+        attendees = flatten([phase_group.get_attendees() for phase_group in phase_groups])
+        return attendees
+
+    def get_entrants(self):
+        Logger.info('Getting Entrants for Event: {0}:{1}'.format(self.id, self.name))
+        phase_groups = self.get_phase_groups()
+        entrants = flatten([phase_group.get_entrants() for phase_group in phase_groups])
+        return entrants
+
     def get_sets(self):
         Logger.info('Getting Sets for Event: {0}:{1}'.format(self.id, self.name))
         phase_groups = self.get_phase_groups()
         sets = flatten([phase_group.get_sets() for phase_group in phase_groups])
         return sets
 
+    def get_incomplete_sets(self):
+        Logger.info('Getting Incomplete Sets for Event: {0}:{1}'.format(self.id, self.name))
+        sets = self.get_sets()
+        incomplete_sets = []
+        for ggset in sets:
+            if ggset.get_is_completed() is False:
+                incomplete_sets.append(ggset)
+        return incomplete_sets
 
-
+    def get_completed_sets(self):
+        Logger.info('Getting Completed Sets for Event: {0}:{1}'.format(self.id, self.name))
+        sets = self.get_sets()
+        complete_sets = []
+        for ggset in sets:
+            if ggset.get_is_completed() is True:
+                complete_sets.append(ggset)
+        return complete_sets
 
 
 from src.models.Phase import Phase
