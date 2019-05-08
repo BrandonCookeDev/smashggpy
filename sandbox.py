@@ -86,11 +86,18 @@ log.info(len(to12_melee_groups))
 #to12_top8_sets = to12_top8.get_sets()
 #log.info(to12_top8_sets)
 
-to12_melee = Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
-log.info(to12_melee)
+#to12_melee = Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
+#log.info(to12_melee)
 
-to12_sets = to12_melee.get_sets()
-log.info(to12_sets)
+#to12_sets = to12_melee.get_sets()
+#log.info(to12_sets)
+
+to12 = Tournament.get('to12')
+log.info(to12)
+
+attendees = to12.get_attendees()
+log.info(attendees)
+
 
 while True:
 	pass
