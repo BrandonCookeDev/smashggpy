@@ -31,3 +31,38 @@ class Attendee(object):
             data['contactInfo'],
             [ids for ids in data['events']]
         )
+
+    # GETTERS
+    def get_id(self):
+        return self.id
+    
+    def get_gamer_tag(self):
+        return self.gamer_tag
+    
+    def get_prefix(self):
+        return self.prefix
+    
+    def get_created_at(self):
+        return self.created_at
+    
+    def get_claimed(self):
+        return self.claimed
+    
+    def get_verified(self):
+        return self.verified
+    
+    def get_player_id(self):
+        return self.player_id
+    
+    def get_phone_number(self):
+        return self.phone_number
+    
+    def get_connected_accounts(self):
+        return self.connected_accounts
+    
+    def get_contact_info(self):
+        return self.contact_info
+    
+    def get_event_ids(self):
+        return self.event_ids
+    

@@ -42,70 +42,19 @@ query TournamentQuery($slug: String){
 test_variable = {'slug': 'to12'}
 
 # send query and get data back
-#to12 = NI.query(test_query, test_variable)
-#log.info(to12['data']['tournament']['name'])
-
-'''
-to12 = Tournament.get('to12')
-log.info(to12)
-
-to12_melee = Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
-log.info(to12_melee)
 
 to12_top8_phase = Phase.get(172834)
 log.info(to12_top8_phase)
 
-to12_top8 = PhaseGroup.get(453051)
-log.info(to12_top8)
-
-to12_events = to12.get_events()
-log.info(len(to12_events))
-
-to12_phases = to12.get_phases()
-log.info(len(to12_phases))
-
-to12_groups = to12.get_phase_groups()
-log.info(len(to12_groups))
-
-to12_melee_phases = to12_melee.get_phases()
-log.info(len(to12_melee_phases))
-
-to12_melee_groups = to12_melee.get_phase_groups()
-log.info(len(to12_melee_groups))
-'''
-
-#to12_top8 = PhaseGroup.get(453050)
-#log.info(to12_top8)
-
-#to12_melee_attendees = to12_top8.get_attendees()
-#log.info(to12_melee_attendees)
-
-#to12_melee_entrants = to12_top8.get_entrants()
-#log.info(to12_melee_entrants)
-
-#to12_top8_sets = to12_top8.get_sets()
-#log.info(to12_top8_sets)
-
-#to12_melee = Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
-#log.info(to12_melee)
-
-#to12_sets = to12_melee.get_sets()
-#log.info(to12_sets)
-
-#to12 = Tournament.get('to12')
-#log.info(to12)
-
-#attendees = to12.get_attendees()
-#log.info(attendees)
-
-to12_top8_phase = Phase.get(172834)
-log.info(to12_top8_phase)
-
-pg = to12_top8_phase.get_phase_groups()
-log.info(pg)
-
-attendees = to12_top8_phase.get_attendees()
-log.info(attendees)
+sets = to12_top8_phase.get_sets()
+for ggset in sets:
+	print("{0}: {1} {2} - {3} {4}".format(
+		ggset.full_round_text,
+		ggset.player1,
+		ggset.score1,
+		ggset.score2,
+		ggset.player2)
+	)
 
 while True:
 	pass

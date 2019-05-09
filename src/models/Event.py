@@ -101,6 +101,43 @@ class Event(object):
                 complete_sets.append(ggset)
         return complete_sets
 
+    # GETTERS
+    def get_id(self):
+        return self.id
+
+    def get_name(self):
+        return self.name
+
+    def get_slug(self):
+        return self.slug
+
+    def get_state(self):
+        return self.state
+
+    def get_start_at(self):
+        return self.start_at
+
+    def get_num_entrants(self):
+        return self.num_entrants
+
+    def get_check_in_buffer(self):
+        return self.check_in_buffer
+
+    def get_check_in_duration(self):
+        return self.check_in_duration
+
+    def get_check_in_enabled(self):
+        return self.check_in_enabled
+
+    def get_is_online(self):
+        return self.is_online
+
+    def get_team_name_allowed(self):
+        return self.team_name_allowed
+
+    def get_team_management_deadline(self):
+        return self.team_management_deadline
+
 
 from src.models.Phase import Phase
 from src.models.PhaseGroup import PhaseGroup

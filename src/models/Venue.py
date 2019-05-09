@@ -25,3 +25,31 @@ class Venue(object):
             data['lat'],
             data['lng']
         )
+
+    # GETTERS
+    def get_name(self):
+        return self.name
+
+    def get_address(self):
+        return self.address
+
+    def get_city(self):
+        return self.city
+
+    def get_state(self):
+        return self.state
+
+    def get_postal_code(self):
+        return self.postal_code
+
+    def get_country_code(self):
+        return self.country_code
+
+    def get_region(self):
+        return self.region
+
+    def get_latitude(self):
+        return self.latitude
+
+    def get_longitude(self):
+        return self.longitude

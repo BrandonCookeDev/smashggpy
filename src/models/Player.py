@@ -16,3 +16,13 @@ class Player(object):
             entrant_id,
             attendee_ids
         )
+
+    # GETTERS
+    def get_tag(self):
+        return self.tag
+
+    def get_entrant_id(self):
+        return self.entrant_id
+
+    def get_attendee_ids(self):
+        return self.attendee_ids

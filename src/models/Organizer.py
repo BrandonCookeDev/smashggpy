@@ -17,3 +17,19 @@ class Organizer(object):
             data['contactTwitter'],
             data['contactInfo']
         )
+
+    # GETTERS
+    def get_id(self):
+        return self.id
+
+    def get_email(self):
+        return self.email
+
+    def get_phone(self):
+        return self.phone
+
+    def get_twitter(self):
+        return self.twitter
+
+    def get_info(self):
+        return self.info

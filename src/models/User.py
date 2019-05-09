@@ -31,3 +31,37 @@ class User(object):
             data['country'],
             data['gamerTagChangedAt']
         )
+
+    # GETTERS
+    def get_id(self):
+        return self.id
+
+    def get_gamer_tag(self):
+        return self.gamer_tag
+
+    def get_prefix(self):
+        return self.prefix
+
+    def get_color(self):
+        return self.color
+
+    def get_twitch_stream(self):
+        return self.twitch_stream
+
+    def get_twitter_handle(self):
+        return self.twitter_handle
+
+    def get_youtube(self):
+        return self.youtube
+
+    def get_region(self):
+        return self.region
+
+    def get_state(self):
+        return self.state
+
+    def get_country(self):
+        return self.country
+
+    def get_gamer_tag_changed_at(self):
+        return self.gamer_tag_changed_at

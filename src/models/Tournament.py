@@ -102,6 +102,30 @@ class Tournament(object):
                 complete_sets.append(ggset)
         return complete_sets
 
+    # GETTERS
+    def get_id(self):
+        return self.id
+
+    def get_name(self):
+        return self.name
+
+    def get_slug(self):
+        return self.slug
+
+    def get_start_time(self):
+        return self.start_time
+
+    def get_end_time(self):
+        return self.end_time
+
+    def get_timezone(self):
+        return self.timezone
+
+    def get_venue(self):
+        return self.venue
+
+    def get_organizer(self):
+        return self.organizer
 
 
 from src.models.Event import Event

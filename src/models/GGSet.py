@@ -67,4 +67,51 @@ class GGSet(object):
     def get_is_completed(self):
         return self.completed_at is not None
 
+    # GETTERS
+    def get_id(self):
+        return self.id
+
+    def get_event_id(self):
+        return self.event_id
+
+    def get_phase_group_id(self):
+        return self.phase_group_id
+
+    def get_display_score(self):
+        return self.display_score
+
+    def get_full_round_text(self):
+        return self.full_round_text
+
+    def get_round(self):
+        return self.round
+
+    def get_started_at(self):
+        return self.started_at
+
+    def get_completed_at(self):
+        return self.completed_at
+
+    def get_winner_id(self):
+        return self.winner_id
+
+    def get_total_games(self):
+        return self.total_games
+
+    def get_state(self):
+        return self.state
+
+    def get_player1(self):
+        return self.player1
+
+    def get_player2(self):
+        return self.player2
+
+    def get_score1(self):
+        return self.score1
+
+    def get_score2(self):
+        return self.score2
+
+
 from src.models.Player import Player
