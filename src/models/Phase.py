@@ -67,4 +67,18 @@ class Phase(object):
                 complete_sets.append(ggset)
         return complete_sets
 
+    # GETTERS
+    def get_id(self):
+        return self.id
+
+    def get_name(self):
+        return self.name
+
+    def get_num_seeds(self):
+        return self.num_seeds
+
+    def get_group_count(self):
+        return self.group_count
+
+
 from src.models.PhaseGroup import PhaseGroup

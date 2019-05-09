@@ -69,6 +69,28 @@ class PhaseGroup(object):
                 incomplete_sets.append(gg_set)
         return incomplete_sets
 
+    # GETTERS
+    def get_id(self):
+        return self.id
+
+    def get_display_identifier(self):
+        return self.display_identifier
+
+    def get_first_round_time(self):
+        return self.first_round_time
+
+    def get_state(self):
+        return self.state
+
+    def get_phase_id(self):
+        return self.phase_id
+
+    def get_wave_id(self):
+        return self.wave_id
+
+    def get_tiebreak_order(self):
+        return self.tiebreak_order
+
 
 from src.models.Entrant import Entrant
 from src.models.Attendee import Attendee
