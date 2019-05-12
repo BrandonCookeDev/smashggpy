@@ -14,20 +14,31 @@ from smashgg.py import Initializer, Logger, Event
 if __name__ == '__main__':
     Initializer.initialize('API_KEY')
     
-    f1_melee = Event.get('function-1', 'melee-singles')
-    f1_melee_sets = f1_melee.get_sets()
-    for f1_set in f1_melee_sets:
+    to12_melee = Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
+    sets = to12_melee.get_sets()
+    for ggset in sets:
         print("{0}: {1} {2} - {3} {4}".format(
-            f1_set.full_round_text,
-            f1_set.player1,
-            f1_set.score1,
-            f1_set.score2,
-            f1_set.player2)
+            ggset.full_round_text,
+            ggset.player1,
+            ggset.score1,
+            ggset.score2,
+            ggset.player2)
         )
 ```
     
 This results in the following:
 
+```
+Winners Final: MVG FOX | Mew2King 2 - 0 OeS | NIX
+Losers Semi-Final: Gas$ 0 - 2 bobby big ballz
+Winners Semi-Final: MVG FOX | Mew2King 2 - 0 Gas$
+Winners Semi-Final: OeS | NIX 2 - 0 bobby big ballz
+Losers Quarter-Final: bobby big ballz 2 - 0 DarkGenex
+Losers Quarter-Final: Gas$ 2 - 0 Cynax
+Losers Round 3: Greenmario 1 - 2 Cynax
+Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
+....
+```
     
 ## Docs
 
@@ -518,6 +529,173 @@ This results in the following:
 * get_attendee_ids()
     * get the attendee_ids property of this player
     * returns int[]
+
+### Entrant
+
+#### Properties
+* id
+    * int
+    * id number of the entrant
+* name
+    * string
+    * name of the entrant
+* event_id
+    * int
+    * id number of the event this entrant belongs to
+* skill
+    * int
+    * skill number of the entrant
+* attendee_data
+    * [Attendee](#attendee)[]
+    * array of attendee data attached to this entrant
+
+#### Methods
+
+##### Statics
+* parse(data)
+    * parse smash.gg api data into an Entrant object
+    * parameters
+        * data
+            * json
+            * http response data from a smash.gg api call
+    * returns [Entrant](#entrant)
+
+##### Instance
+* get_id()
+    * get the id property of the Entrant
+    * returns
+* get_name()
+    * get the name property of the Entrant
+    * returns
+* get_event_id()
+    * get the event_id property of the Entrant
+    * returns
+* get_skill()
+    * get the skill property of the Entrant
+    * returns
+* get_attendee_data()
+    * get the attendee_data property of the Entrant
+    * returns
+    
+### Attendee
+
+#### Properties
+* id
+    * int
+    * numeric id of the attendee
+* gamer_tag
+    * string
+    * smashtag of the attendee
+* prefix
+    * string
+    * sponsor tag of the attendee (like PG or RCS)
+* created_at
+    * int
+    * unix epoch of the time this attendee object was created
+* claimed
+    * bool
+    * t/f for if the attendee is claimed or not
+* verified
+    * bool
+    * t/f for if the attendee is verified as actually being in the tournament
+* player_id
+    * int
+    * id number of the corresponding [User](#user) object
+* phone_number
+    * string
+    * phone number of the attendee
+* connected_accounts
+    * json
+    * object showing all accounts connected to this attendee
+* contact_info
+    * json
+    * contact info of the attendee
+* event_ids
+    * int[]
+    * id number of all the events this attendee entered
+
+#### Methods
+
+##### Statics
+* parse(data)
+    * parse smash.gg api data into a Attendee object
+    * parameters
+        * data
+            * json
+            * http response data from a smash.gg api call
+    * returns [Attendee](#attendee)    
+
+##### Instance
+* get_id
+    * get the id property of the Attendee
+    * returns
+* get_gamer_tag
+    * get the gamer_tag property of the Attendee
+    * returns
+* get_prefix
+    * get the prefix property of the Attendee
+    * returns
+* get_created_at
+    * get the created_at property of the Attendee
+    * returns
+* get_claimed
+    * get the claimed property of the Attendee
+    * returns
+* get_verified
+    * get the verified property of the Attendee
+    * returns
+* get_player_id
+    * get the player_id property of the Attendee
+    * returns
+* get_phone_number
+    * get the phone_number property of the Attendee
+    * returns
+* get_connected_accounts
+    * get the connected_accounts property of the Attendee
+    * returns
+* get_contact_info
+    * get the contact_info property of the Attendee
+    * returns
+* get_event_ids
+    * get the event_ids property of the Attendee
+    * returns
+    
+### Stream
+
+#### Properties
+
+#### Methods
+
+##### Statics
+
+##### Instance
+
+### StreamQueue
+
+#### Properties
+
+* stream
+    * [Stream](#stream)
+    * stream this queue is associated with
+* sets
+    * [GGSet](#ggset)[]
+    * sets in the queue
+
+#### Methods
+* parse(data)
+    * parse smash.gg api data into an StreamQueue object
+    * parameters
+        * data
+            * json
+            * http response data from a smash.gg api call
+    * returns [StreamQueue](#streamqueue)
+
+##### Instance
+* get_stream()
+    * get the StreamQueue's stream property
+    * [Stream](#stream)
+* get_sets()
+    * get the StreamQueue's sets property
 
 ## How to run
 
