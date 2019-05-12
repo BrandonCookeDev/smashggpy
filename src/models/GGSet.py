@@ -55,12 +55,13 @@ class GGSet(object):
             'p2_score': -1
         }
 
-        matches = DISPLAY_SCORE_REGEX.match(display_score)
-        if matches is not None:
-            ret['p1_tag'] = matches.group(1)
-            ret['p1_score'] = matches.group(2)
-            ret['p2_tag'] = matches.group(3)
-            ret['p2_score'] = matches.group(4)
+        if display_score is not None or display_score != '':
+            matches = DISPLAY_SCORE_REGEX.match(display_score)
+            if matches is not None:
+                ret['p1_tag'] = matches.group(1)
+                ret['p1_score'] = matches.group(2)
+                ret['p2_tag'] = matches.group(3)
+                ret['p2_score'] = matches.group(4)
 
         return ret
     
