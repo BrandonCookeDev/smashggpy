@@ -29,10 +29,11 @@ Logger.get_instance().debug('using token: {}'.format(token))
 
 # send query and get data back
 
-to12_top8_phase = Phase.get(172834)
-log.info(to12_top8_phase)
+#to12_top8_phase = Phase.get(172834)
+to12_melee = Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
+log.info(to12_melee)
 
-sets = to12_top8_phase.get_sets()
+sets = to12_melee.get_sets()
 for ggset in sets:
 	print("{0}: {1} {2} - {3} {4}".format(
 		ggset.full_round_text,
@@ -42,9 +43,7 @@ for ggset in sets:
 		ggset.player2)
 	)
 
-f1_melee = Event.get('function-1-recursion-regional', 'melee-singles')
-f1_melee_pg = f1_melee.get_phase_groups()
-print(f1_melee_pg[0].get_state())
+
 
 """
 f1_melee_sets = f1_melee.get_sets()
