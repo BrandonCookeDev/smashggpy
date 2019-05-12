@@ -42,4 +42,20 @@ for ggset in sets:
 		ggset.player2)
 	)
 
+f1_melee = Event.get('function-1-recursion-regional', 'melee-singles')
+f1_melee_pg = f1_melee.get_phase_groups()
+print(f1_melee_pg[0].get_state())
+
+"""
+f1_melee_sets = f1_melee.get_sets()
+for f1_set in f1_melee_sets:
+	print("{0}: {1} {2} - {3} {4}".format(
+		f1_set.full_round_text,
+		f1_set.player1,
+		f1_set.score1,
+		f1_set.score2,
+		f1_set.player2)
+	)
+"""
+
 QueryQueueDaemon.kill_daemon()
