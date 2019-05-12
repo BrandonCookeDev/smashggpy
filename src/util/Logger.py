@@ -1,7 +1,9 @@
 import logging
 import logging.handlers
 
+
 class Logger(object):
+
 	__instance = None
 	__initialized = False
 	__format = '%(asctime)s :: %(levelname)s: %(message)s'
@@ -9,21 +11,29 @@ class Logger(object):
 	@staticmethod
 	def init(level: str='info'):
 		if Logger.__instance is None:
-			level = Logger.translate_log_level(level)
-
-			Logger.__instance = logging.getLogger('smashgg.py')
-			Logger.__instance.setLevel(level)
-			
-			console_handler = logging.StreamHandler()
-			console_handler.setLevel(level)
-
-			formatter = logging.Formatter(Logger.__format)
-			console_handler.setFormatter(formatter)
-
-			Logger.__instance.addHandler(console_handler)
-			Logger.__instance.info('initialized Logger')
-		Logger.__initialized = True
+			Logger.initialize(level)
+			Logger.__initialized = True
 		return Logger.__instance
+
+	@staticmethod
+	def initialize(level: str):
+		level = Logger.translate_log_level(level)
+
+		Logger.__instance = logging.getLogger('smashgg.py')
+		Logger.__instance.setLevel(level)
+
+		console_handler = logging.StreamHandler()
+		console_handler.setLevel(level)
+
+		formatter = logging.Formatter(Logger.__format)
+		console_handler.setFormatter(formatter)
+
+		Logger.__instance.addHandler(console_handler)
+		Logger.__instance.info('initialized Logger')
+
+	@staticmethod
+	def set_log_level(level: str='info'):
+		Logger.initialize(level)
 
 	@staticmethod
 	def translate_log_level(level: str='info'):

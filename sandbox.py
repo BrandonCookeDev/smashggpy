@@ -7,39 +7,25 @@ from src.models.Phase import Phase
 from src.models.PhaseGroup import PhaseGroup
 Common.dotenv()
 
-# initialize the SDK
+# dotenv import
 from src.util.Initializer import initialize
 token = os.environ['API_TOKEN']
-dependencies = {
-	'api_token': token,
-	'log_level': 'info'
-}
-initialize(dependencies)
 
 # general imports
 from src.util.Logger import Logger
 from src.util.QueryFactory import QueryFactory
 from src.util.NetworkInterface import NetworkInterface as NI
 from src.util.TokenHandler import TokenHandler
+from src.util.QueryQueueDaemon import QueryQueueDaemon
+
+# initialize
+initialize(token)
+Logger.set_log_level('info')
 
 # assign logger singleton
 log = Logger.get_instance()
 log.debug('Env: {}'.format(os.environ))
-log.debug('using token: {}'.format(token))
-
-# format query 
-test_query = '''
-query TournamentQuery($slug: String){
-	tournament(slug: $slug){
-		id
-		name
-		events{
-			id
-			name
-		}
-	}
-}'''
-test_variable = {'slug': 'to12'}
+Logger.get_instance().debug('using token: {}'.format(token))
 
 # send query and get data back
 
@@ -56,5 +42,4 @@ for ggset in sets:
 		ggset.player2)
 	)
 
-while True:
-	pass
+QueryQueueDaemon.kill_daemon()

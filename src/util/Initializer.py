@@ -1,18 +1,15 @@
 
-def initialize(dependencies: dict={}):
-	log_level = dependencies['log_level']
-	api_token = dependencies['api_token']
+__daemon_thread = None
 
+def initialize(api_token: str, log_level: str='info'):
 	Logger.init(log_level)
 	TokenHandler.init(api_token)
 
 	# initialize the query queue
-	#QueryQueue.init()
+	# QueryQueue.init()
 
 	# initialize query queue daemon in background
-	daemonThread = ThreadFactory.create(QueryQueueDaemon.daemon, {})
-	daemonThread.daemon = True
-	daemonThread.start()
+	QueryQueueDaemon.run_daemon()
 
 from src.util.Logger import Logger
 from src.util.TokenHandler import TokenHandler
