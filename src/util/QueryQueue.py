@@ -28,7 +28,7 @@ class QueryQueue(object):
 
 	def get(self, index):
 		Logger.debug('getting element from queue: {}'.format(index))
-		return self.queue[index]
+		return self.queue[index] or None
 
 	def add(self, query):
 		Logger.debug('adding element to queue: {}'.format(query))
