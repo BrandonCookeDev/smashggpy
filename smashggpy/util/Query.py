@@ -31,4 +31,4 @@ class Query(object):
 	def get_variables_s(self):
 		return str(self.variables)
 
-from src.util.Logger import Logger
+from smashggpy.util.Logger import Logger

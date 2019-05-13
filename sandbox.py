@@ -1,22 +1,22 @@
 # dotenv imports .env file as environment variables for run of program
 import os
-from src.common import Common
-from src.models.Tournament import Tournament
-from src.models.Event import Event
-from src.models.Phase import Phase
-from src.models.PhaseGroup import PhaseGroup
+from smashggpy.common import Common
+from smashggpy.models.Tournament import Tournament
+from smashggpy.models.Event import Event
+from smashggpy.models.Phase import Phase
+from smashggpy.models.PhaseGroup import PhaseGroup
 Common.dotenv()
 
 # dotenv import
-from src.util.Initializer import initialize
+from smashggpy.util.Initializer import initialize
 token = os.environ['API_TOKEN']
 
 # general imports
-from src.util.Logger import Logger
-from src.util.QueryFactory import QueryFactory
-from src.util.NetworkInterface import NetworkInterface as NI
-from src.util.TokenHandler import TokenHandler
-from src.util.QueryQueueDaemon import QueryQueueDaemon
+from smashggpy.util.Logger import Logger
+from smashggpy.util.QueryFactory import QueryFactory
+from smashggpy.util.NetworkInterface import NetworkInterface as NI
+from smashggpy.util.TokenHandler import TokenHandler
+from smashggpy.util.QueryQueueDaemon import QueryQueueDaemon
 
 # initialize
 initialize(token)

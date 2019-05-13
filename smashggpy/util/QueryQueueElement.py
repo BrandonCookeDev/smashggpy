@@ -13,4 +13,4 @@ class QueryQueueElement(object):
 		now = time.time()
 		return now - self.timestamp
 
-from src.util.Logger import Logger
+from smashggpy.util.Logger import Logger

@@ -1,4 +1,4 @@
-import src.queries.Schema as schema
+import smashggpy.queries.Schema as schema
 
 get_event_by_id = """
 query EventQuery($id: ID!){{

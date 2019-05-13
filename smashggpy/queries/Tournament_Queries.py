@@ -1,4 +1,4 @@
-import src.queries.Schema as schema
+import smashggpy.queries.Schema as schema
 
 get_tournament = """
 query TournamentQuery($id: ID!){{

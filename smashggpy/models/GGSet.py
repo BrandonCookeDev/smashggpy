@@ -115,4 +115,4 @@ class GGSet(object):
         return self.score2
 
 
-from src.models.Player import Player
+from smashggpy.models.Player import Player

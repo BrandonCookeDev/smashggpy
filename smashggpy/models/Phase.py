@@ -1,7 +1,7 @@
-import src.queries.Phase_Queries as queries
-from src.util.Logger import Logger
-from src.common.Common import flatten
-from src.util.NetworkInterface import NetworkInterface as NI
+import smashggpy.queries.Phase_Queries as queries
+from smashggpy.util.Logger import Logger
+from smashggpy.common.Common import flatten
+from smashggpy.util.NetworkInterface import NetworkInterface as NI
 
 class Phase(object):
 
@@ -81,4 +81,4 @@ class Phase(object):
         return self.group_count
 
 
-from src.models.PhaseGroup import PhaseGroup
+from smashggpy.models.PhaseGroup import PhaseGroup

@@ -1,6 +1,6 @@
 import json
 import requests
-from src.common.Common import flatten
+from smashggpy.common.Common import flatten
 
 class NetworkInterface(object):
 
@@ -72,7 +72,7 @@ class NetworkInterface(object):
 		return response.json()
 
 # Path imports
-from src.util.Logger import Logger
-from src.util.TokenHandler import TokenHandler
-from src.util.QueryFactory import QueryFactory
-from src.util.QueryQueue import QueryQueue
+from smashggpy.util.Logger import Logger
+from smashggpy.util.TokenHandler import TokenHandler
+from smashggpy.util.QueryFactory import QueryFactory
+from smashggpy.util.QueryQueue import QueryQueue

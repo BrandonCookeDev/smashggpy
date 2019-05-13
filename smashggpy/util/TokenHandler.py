@@ -1,6 +1,6 @@
 import re
 
-from src.util.Logger import Logger
+from smashggpy.util.Logger import Logger
 
 class TokenHandler(object):
 
@@ -26,4 +26,4 @@ class TokenHandler(object):
 			raise NotInitializedException()
 		return TokenHandler.__token
 
-from src.common.Exceptions import NotInitializedException, BadTokenException
+from smashggpy.common.Exceptions import NotInitializedException, BadTokenException

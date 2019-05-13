@@ -47,8 +47,8 @@ class QueryQueue(object):
 		# Logger.debug('getting length of Query Queue')
 		return len(self.queue)
 
-from src.util.Logger import Logger
-from src.util.ThreadFactory import ThreadFactory
-from src.util.QueryQueueElement import QueryQueueElement
-from src.common.Exceptions import NotInitializedException
-from src.util.NetworkInterface import NetworkInterface as NI
+from smashggpy.util.Logger import Logger
+from smashggpy.util.ThreadFactory import ThreadFactory
+from smashggpy.util.QueryQueueElement import QueryQueueElement
+from smashggpy.common.Exceptions import NotInitializedException
+from smashggpy.util.NetworkInterface import NetworkInterface as NI

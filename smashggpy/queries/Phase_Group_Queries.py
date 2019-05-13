@@ -1,4 +1,4 @@
-import src.queries.Schema as schema
+import smashggpy.queries.Schema as schema
 
 phase_group_by_id = """
 query PhaseGroupQueries($id: ID!){{
