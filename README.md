@@ -58,91 +58,127 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
 ----
 ## Docs
 
+### Initializer
+
+#### Methods
+* **initialize(api_key [, log_level])**
+    * initialize the SDK
+    * parameters
+        * api_key
+            * string
+            * the api key to access the smash.gg API
+        * *optional*: log_level
+            * string
+            * log level for the built-in logger
+            * allowed values:
+                * 'critical'
+                * 'error'
+                * 'warning'
+                * 'info'
+                * 'debug'
+
+### QueryQueueDaemon
+
+#### Methods
+* **kill_daemon()** 
+    * ends the parallel thread that is monitoring the QueryQueue
+    * **NOTE** call this if you need your program to terminate, otherwise ignore
+
 ### Tournament
 
 #### Properties
-* id
+* **id**
     * int 
     * id of the tournament object
-* name
+* **name**
     * string 
     * name of the tournament
-* slug
+* **slug**
     * string 
     * url slug of the tournament
-* start_time
+* **start_time**
     * int 
     * unix epoch of the tournament start time
-* end_time
+* **end_time**
     * int
     * unix epoch of the tournament end time
-* timezone
+* **timezone**
     * string 
     * timezone the tournament took place in
-* venue
+* **venue**
     * [Venue](#venue)
-* organizer
+* **organizer**
     * [Organizer](#organizer)
 
 #### Methods
 
 ##### Static
-* parse(data)
+* **get(tournament_slug)**
+    * get tournament data from smashgg for the corresponding tournament slug
+    * parameters
+        * tournament_slug
+            * string
+            * long-name slug for a tournament
+                * function-3-recursion-series
+                * tipped-off-12-presented-by-the-lab-gaming-center
+                * ceo-2016
+    * returns [Tournament](#tournament)
+* **parse(data)**
     * parse smash.gg api data into a Tournament object
     * parameters
         * data
             * json
             * http response data from a smash.gg api call
     * returns [Tournament](#tournament)
-* get_events()
+* **get_events()**
     * get all the events for a given tournament
     * returns [Event](#event)[]
-* get_phases()
+* **get_phases()**
     * get all the phases for a given tournament
     * returns [Phase](#phase)[]
-* get_phase_groups()
+* **get_phase_groups()**
     * get all the phase groups for a given tournament
     * returns [PhaseGroup](#phasegroup)[]
-* get_attendees()
+* **get_attendees()**
     * get all the attendees for a given tournament
     * returns [Attendee](#attendee)[]
-* get_entrants()
+* **get_entrants()**
     * get all the entrants for a given tournament
     * returns [Entrant](#entrant)[]  
-* get_sets()
+* **get_sets()**
     * get all of the sets played for a given tournament
     * returns [GGSet](#ggset)[]
-* get_incomplete_sets()
+* **get_incomplete_sets()**
     * get all of the incomplete sets for a given tournament
     * returns [GGSet](#ggset)[]
-* get_completed_sets()
+* **get_completed_sets()**
     * get all of the completed sets for a given tournament
     * returns [GGSet](#ggset)[]
 
 
 ##### Instance
-* get_id
+* **get_id()**
     * get the id property of the tournament
     * returns int
-* get_name
+* **get_name()**
     * get the name property of the tournament
     * returns string
-* get_slug
+* **get_slug()**
     * get the slug property of the tournament
     * returns string
-* get_start_time
+* **get_start_time()**
     * get the start_time property of the tournament
     * returns int
-* get_end_time
+* **get_end_time()**
     * get the end_time property of the tournament
     * returns int
-* get_timezone
+* **get_timezone()**
     * get the timezone property of the tournament 
     * returns string
-* get_venue
+* **get_venue()**
     * get the venue property of the tournament
     * returns [Venue](#venue)
-* get_organizer
+* **get_organizer()**
     * get the organizer property of the tournament
     * returns [Organizer](#organizer)
 
@@ -150,16 +186,16 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
 
 #### Properties
 
-* id
+* **id**
     * int
     * the numeric id of the event
-* name
+* **name**
     * string
     * the name of the event
-* slug
+* **slug**
     * string
     * the url slug of the event
-* state
+* **state**
     * string
     * the progress of the event
     * possible values:
@@ -170,145 +206,168 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
         * INVALID
         * CALLED
         * QUEUED
-* start_at
+* **start_at**
     * int
     * unix epoch of the start time of the event
-* num_entrants
+* **num_entrants**
     * int
     * number of entrants in the event
-* check_in_buffer
+* **check_in_buffer**
     * int
     * seconds of how long before the event start will the check-in end
-* check_in_duration
+* **check_in_duration**
     * int
     * seconds of how long the check-in will last
-* check_in_enabled
+* **check_in_enabled**
     * bool
     * t/f of whether this event uses check-in
-* is_online
+* **is_online**
     * bool
     * t/f of whether this event is online
-* team_name_allowed
+* **team_name_allowed**
     * bool
     * t/f of whether this event allows team names
-* team_management_deadline
+* **team_management_deadline**
     * int
     * unix epoch of when team management is no longer allowed
 
 #### Methods
 
 ##### Statics
-* parse(data) 
+* **get(tournament_slug, event_slug)**
+    * get an Event object for the corresponding tournament and event slugs
+    * parameters
+        * tournament_slug
+            * string
+            * long-name slug for a tournament
+                * function-3-recursion-series
+                * tipped-off-12-presented-by-the-lab-gaming-center
+                * ceo-2016
+        * event_slug
+            * string
+            * slug of the target event
+                * melee-singles
+                * dragon-ball-fighterz
+                * smash-bros-ultimate
+    * returns [Event](#event)
+* **parse(data)** 
     * parse smash.gg api data into an Event object
     * parameters
         * data
             * json
             * http response data from a smash.gg api call
     * returns [Event](#event)
-* get_phase()
+* **get_phase()**
     * get the phases of the event
     * returns [Phase](#phase)[]
-* get_phase_groups()
+* **get_phase_groups()**
     * get the phase groups of the event
     * returns [PhaseGroup](#phasegroup)[]
-* get_sets()
+* **get_sets()**
     * get all of the sets played for a given event
     * returns [GGSet](#ggset)[]
-* get_incomplete_sets()
+* **get_incomplete_sets()**
     * get all of the incomplete sets for a given event
     * returns [GGSet](#ggset)[]
-* get_completed_sets()
+* **get_completed_sets()**
     * get all of the completed sets for a given event
     * returns [GGSet](#ggset)[]
 
 ##### Instance
-* get_id()
+* **get_id()**
     * get the id property of the event
     * returns int
-* get_name()
+* **get_name()**
     * get the name property of the event
     * returns string
-* get_slug()
+* **get_slug()**
     * get the slug property of the event
     * returns string
-* get_state()
+* **get_state()**
     * get the state property of the event
     * returns string
-* get_start_at()
+* **get_start_at()**
     * get the start_at property of the event
     * returns int
-* get_num_entrants()
+* **get_num_entrants()**
     * get the num_entrants property of the event
     * returns int 
-* get_check_in_buffer()
+* **get_check_in_buffer()**
     * get the check_in_buffer property of the event
     * returns int
-* get_check_in_duration()
+* **get_check_in_duration()**
     * get the check_in_duration property of the event
     * returns int
-* get_check_in_enabled()
+* **get_check_in_enabled()**
     * get the check_in_enabled property of the event
     * returns bool
-* get_is_online()
+* **get_is_online()**
     * get the is_online property of the event
     * returns bool
-* get_team_name_allowed()
+* **get_team_name_allowed()**
     * get the team_name_allowed property of the event
     * returns bool
-* get_team_management_deadline()
+* **get_team_management_deadline()**
     * get the team_management_deadline property of the event
     * returns int
 
 ### Phase
 
 #### Properties
-* id
+* **id**
     * int
     * numeric id of the phase
-* name
+* **name**
     * string
     * name of the phase
-* num_seeds
+* **num_seeds**
     * int
     * number of seeds that are in the phase
-* group_count
+* **group_count**
     * int
     * number of phase groups that are in the phase
 
 #### Methods
 
 ##### Statics
-* parse(data)
+* **get(phase_id)**
+    * get data from smash.gg api and get a Phase object from it
+    * parameters
+        * phase_id
+            * int
+            * numeric id of the phase
+    * returns [Phase](#phase)
+* **parse(data)**
     * parse smash.gg api data into an Phase object
     * parameters
         * data
             * json
             * http response data from a smash.gg api call
     * returns [Phase](#phase)
-* get_phase_groups()
+* **get_phase_groups()**
     * get the phase groups for the given phase
     * returns [PhaseGroup](#phasegroup)[]
-* get_sets()
+* **get_sets()**
     * get all of the sets played for the given phase
     * returns [GGSet](#ggset)[]
-* get_incomplete_sets()
+* **get_incomplete_sets()**
     * get all of the incomplete sets for the given phase
     * returns [GGSet](#ggset)[]
-* get_completed_sets()
+* **get_completed_sets()**
     * get all of the completed sets for the given phase
     * returns [GGSet](#ggset)[]
 
 ##### Instance
-* get_id()
+* **get_id()**
     * get the id property of the Phase
     * returns int
-* get_name()
+* **get_name()**
     * get the name property of the Phase
     * returns string 
-* get_num_seeds()
+* **get_num_seeds()**
     * get the num_seeds property of the Phase
     * returns int
-* get_group_count()
+* **get_group_count()**
     * get the group_count property of the Phase
     * returns int
 
@@ -316,132 +375,138 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
 
 #### Properties
 
-* id
+* **id**
     * int
     * numeric id of the phase group
-* display_identifier
+* **display_identifier**
     * string
     * the name of the phase group
-* first_round_time
+* **first_round_time**
     * int
     * unix epoch of the time the first round of this phase group begins
-* state
+* **state**
     * int
     * progress of the phase group
-* phase_id
+* **phase_id**
     * int
     * numeric id of the phase this phase group belongs to
-* wave_id
+* **wave_id**
     * int
     * numeric id of the wave this phase group belongs to
-* tiebreak_order
+* **tiebreak_order**
     * json
     * the tiebreak order for this phase group
 
 #### Methods
 
 ##### Statics
-* parse(data)
+* **get(phase_group_id)**
+    * get data from smash.gg and get a PhaseGroup object from it
+    * parameters
+        * phase_group_id
+            * int
+            * numeric id of the phase group
+* **parse(data)**
     * parse smash.gg api data into a PhaseGroup object
     * parameters
         * data
             * json
             * http response data from a smash.gg api call
     * returns [PhaseGroup](#phasegroup)
-* get_sets()
+* **get_sets()**
     * get all of the sets played for the given phase group
     * returns [GGSet](#ggset)[]
-* get_incomplete_sets()
+* **get_incomplete_sets()**
     * get all of the incomplete sets for the given phase group
     * returns [GGSet](#ggset)[]
-* get_completed_sets()
+* **get_completed_sets()**
     * get all of the completed sets for the given phase group
     * returns [GGSet](#ggset)[]
 
 ##### Instance
-* get_id()
+* **get_id()**
     * get the id property of the phase group
     * returns int
-* get_display_identifier()
+* **get_display_identifier()**
     * get the display_identifier property of the phase group
     * returns string
-* get_first_round_time()
+* **get_first_round_time()**
     * get the first_round_time property of the phase group
     * returns int
-* get_state()
+* **get_state()**
     * get the state property of the phase group
     * returns int
-* get_phase_id()
+* **get_phase_id()**
     * get the phase_id property of the phase group
     * returns int
-* get_wave_id()
+* **get_wave_id()**
     * get the wave_id property of the phase group
     * returns int
-* get_tiebreak_order()
+* **get_tiebreak_order()**
     * get the tiebreak_order property of the phase group
     * returns json
     
 ### GGSet
 
 #### Properties
-* id
+* **id**
     * int
     * numeric id of the set
-* event_id
+* **event_id**
     * int
     * numeric id of the event this set belongs to
-* phase_group_id
+* **phase_group_id**
     * int
     * numeric id of the phase group this set belongs to
-* display_score
+* **display_score**
     * string
     * display string for this set. 
         * Format: Smashtag1 Score1 - Score2 Smashtag2
-* full_round_text
+* **full_round_text**
     * string
     * full name of the round this set takes place in
-* round
+* **round**
     * int
     * numeric identifier for the round this set takes place in
-* started_at
+* **started_at**
     * int
     * unix epoch of the time this set started at
-* completed_at
+* **completed_at**
     * int 
     * unix epoch of the time this set ended at
-* winner_id
+* **winner_id**
     * int
     * id number of the of [Entrant](#entrant) who won the set
-* total_games
+* **total_games**
     * int
     * total number of games played in this set
-* state
+* **state**
     * int
     * progress of the set
-* player1
+* **player1**
     * [Player](#player)
     * 1st player in the set
-* player2
+* **player2**
     * [Player](#player)
     * 2nd player in the set
-* score1
+* **score1**
     * int
     * score of player 1 in the set
-* score2
+* **score2**
     * int
     * score of player 2 in the set
 
 #### Methods
 
 ##### Statics
-* parse(data)
+* **parse(data)**
     * parse smash.gg api data into a GGSet object
     * parameters
         * data
             * json
             * http response data from a smash.gg api call
     * returns [GGSet](#ggset)
-* parse_display_score(display_score)
+* **parse_display_score(display_score)**
     * parse a GGSet's display score property
     * parameters
         * data
@@ -462,69 +527,69 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
             * score of player 2
 
 ##### Instance
-* get_id()
+* **get_id()**
     * get the id property of the event
     * returns int
-* get_event_id()
+* **get_event_id()**
     * get the event_id property of the event
     * returns int
-* get_phase_group_id()
+* **get_phase_group_id()**
     * get the phase_group_id property of the event
     * returns int
-* get_display_score()
+* **get_display_score()**
     * get the display_score property of the event
     * returns string
-* get_full_round_text()
+* **get_full_round_text()**
     * get the full_round_text property of the event
     * returns string
-* get_round()
+* **get_round()**
     * get the round property of the event
     * returns int
-* get_started_at()
+* **get_started_at()**
     * get the started_at property of the event
     * returns int
-* get_completed_at()
+* **get_completed_at()**
     * get the completed_at property of the event
     * returns int
-* get_winner_id()
+* **get_winner_id()**
     * get the winner_id property of the event
     * returns int
-* get_total_games()
+* **get_total_games()**
     * get the total_games property of the event
     * returns int
-* get_state()
+* **get_state()**
     * get the state property of the event
     * returns int
-* get_player1()
+* **get_player1()**
     * get the player1 property of the event
     * returns [Player](#player)
-* get_player2()
+* **get_player2()**
     * get the player2 property of the event
     * returns [Player](#player)
-* get_score1()
+* **get_score1()**
     * get the score1 property of the event
     * returns int
-* get_score2()
+* **get_score2()**
     * get the score2 property of the event
     * returns int
 
 ### Player
 
 #### Properties
-* tag
+* **tag**
     * string
     * smashtag/identifier for this Player
-* entrant_id
+* **entrant_id**
     * int
     * unique entrant id number for this Player
-* attendee_ids
+* **attendee_ids**
     * int[]
     * array of attendee ids for the attendees who make up this Player
 
 #### Methods
 
 ##### Statics
-* parse(tag, data)
+* **parse(tag, data)**
     * parse smash.gg api data into a Player object 
     * parameters
         * tag
@@ -536,39 +601,39 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
     * returns [Player](#player)
 
 ##### Instance
-* get_tag()
+* **get_tag()**
     * get the tag property of this player
     * returns string
-* get_entrant_id()
+* **get_entrant_id()**
     * get the entrant_id property of this player
     * returns int
-* get_attendee_ids()
+* **get_attendee_ids()**
     * get the attendee_ids property of this player
     * returns int[]
 
 ### Entrant
 
 #### Properties
-* id
+* **id**
     * int
     * id number of the entrant
-* name
+* **name**
     * string
     * name of the entrant
-* event_id
+* **event_id**
     * int
     * id number of the event this entrant belongs to
-* skill
+* **skill**
     * int
     * skill number of the entrant
-* attendee_data
+* **attendee_data**
     * [Attendee](#attendee)[]
     * array of attendee data attached to this entrant
 
 #### Methods
 
 ##### Statics
-* parse(data)
+* **parse(data)**
     * parse smash.gg api data into an Entrant object
     * parameters
         * data
@@ -577,63 +642,63 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
     * returns [Entrant](#entrant)
 
 ##### Instance
-* get_id()
+* **get_id()**
     * get the id property of the Entrant
     * returns
-* get_name()
+* **get_name()**
     * get the name property of the Entrant
     * returns
-* get_event_id()
+* **get_event_id()**
     * get the event_id property of the Entrant
     * returns
-* get_skill()
+* **get_skill()**
     * get the skill property of the Entrant
     * returns
-* get_attendee_data()
+* **get_attendee_data()**
     * get the attendee_data property of the Entrant
     * returns
     
 ### Attendee
 
 #### Properties
-* id
+* **id**
     * int
     * numeric id of the attendee
-* gamer_tag
+* **gamer_tag**
     * string
     * smashtag of the attendee
-* prefix
+* **prefix**
     * string
     * sponsor tag of the attendee (like PG or RCS)
-* created_at
+* **created_at**
     * int
     * unix epoch of the time this attendee object was created
-* claimed
+* **claimed**
     * bool
     * t/f for if the attendee is claimed or not
-* verified
+* **verified**
     * bool
     * t/f for if the attendee is verified as actually being in the tournament
-* player_id
+* **player_id**
     * int
     * id number of the corresponding [User](#user) object
-* phone_number
+* **phone_number**
     * string
     * phone number of the attendee
-* connected_accounts
+* **connected_accounts**
     * json
     * object showing all accounts connected to this attendee
-* contact_info
+* **contact_info**
     * json
     * contact info of the attendee
-* event_ids
+* **event_ids**
     * int[]
     * id number of all the events this attendee entered
 
 #### Methods
 
 ##### Statics
-* parse(data)
+* **parse(data)**
     * parse smash.gg api data into a Attendee object
     * parameters
         * data
@@ -642,93 +707,93 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
     * returns [Attendee](#attendee)    
 
 ##### Instance
-* get_id
+* **get_id()**
     * get the id property of the Attendee
     * returns
-* get_gamer_tag
+* **get_gamer_tag()**
     * get the gamer_tag property of the Attendee
     * returns
-* get_prefix
+* **get_prefix()**
     * get the prefix property of the Attendee
     * returns
-* get_created_at
+* **get_created_at()**
     * get the created_at property of the Attendee
     * returns
-* get_claimed
+* **get_claimed()**
     * get the claimed property of the Attendee
     * returns
-* get_verified
+* **get_verified()**
     * get the verified property of the Attendee
     * returns
-* get_player_id
+* **get_player_id()**
     * get the player_id property of the Attendee
     * returns
-* get_phone_number
+* **get_phone_number()**
     * get the phone_number property of the Attendee
     * returns
-* get_connected_accounts
+* **get_connected_accounts()**
     * get the connected_accounts property of the Attendee
     * returns
-* get_contact_info
+* **get_contact_info()**
     * get the contact_info property of the Attendee
     * returns
-* get_event_ids
+* **get_event_ids()**
     * get the event_ids property of the Attendee
     * returns
     
 ### Stream
 
 #### Properties
-* id
+* **id**
     * int
     * numeric id of the stream
-* event_id
+* **event_id**
     * int
     * numeric id of the event this stream is a part of
-* tournament_id
+* **tournament_id**
     * int
     * numeric id of the tournament this stream is a part of
-* stream_name
+* **stream_name**
     * string
     * name of the stream
-* num_setups
+* **num_setups**
     * int
     * number of setups on the stream
-* stream_source
+* **stream_source**
     * string
     * web source of the stream, like Twitch
-* stream_type
+* **stream_type**
     * string
     * the type of the current stream 
-* stream_type_id
+* **stream_type_id**
     * int
     * the numeric type of the current stream
-* is_online
+* **is_online**
     * bool
     * t/f for if the current stream is online
-* enabled
+* **enabled**
     * bool
     * t/f for if the current stream is enabled
-* follower_count
+* **follower_count**
     * int
     * the number of followers the stream has
-* removes_tasks
+* **removes_tasks**
     * bool
     * t/f for if the current stream removes tasks
-* stream_status
+* **stream_status**
     * string
     * the status of the current stream
-* stream_game
+* **stream_game**
     * string
     * the game the current stream is live streaming
-* stream_logo
+* **stream_logo**
     * string
     * the url to the logo image of the stream
 
 #### Methods
 
 ##### Statics
-* parse(data)
+* **parse(data)**
     * parse smash.gg api data into an Stream object
     * parameters
         * data
@@ -737,49 +802,49 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
     * returns [Stream](#stream)
 
 ##### Instance
-* get_id
+* **get_id()**
     * get the id property of the stream
     * returns 
-* get_event_id
+* **get_event_id()**
     * get the event_id property of the stream
     * returns 
-* get_tournament_id
+* **get_tournament_id()**
     * get the tournament_id property of the stream
     * returns 
-* get_stream_name
+* **get_stream_name()**
     * get the stream_name property of the stream
     * returns 
-* get_num_setups
+* **get_num_setups()**
     * get the num_setups property of the stream
     * returns 
-* get_stream_source
+* **get_stream_source()**
     * get the stream_source property of the stream
     * returns 
-* get_stream_type
+* **get_stream_type()**
     * get the stream_type property of the stream
     * returns 
-* get_stream_type_id
+* **get_stream_type_id()**
     * get the stream_type_id property of the stream
     * returns 
-* get_is_online
+* **get_is_online()**
     * get the is_online property of the stream
     * returns 
-* get_enabled
+* **get_enabled()**
     * get the enabled property of the stream
     * returns 
-* get_follower_count
+* **get_follower_count()**
     * get the follower_count property of the stream
     * returns 
-* get_removes_tasks
+* **get_removes_tasks()**
     * get the removes_tasks property of the stream
     * returns 
-* get_stream_status
+* **get_stream_status()**
     * get the stream_status property of the stream
     * returns 
-* get_stream_game
+* **get_stream_game()**
     * get the stream_game property of the stream
     * returns 
-* get_stream_logo
+* **get_stream_logo()**
     * get the stream_logo property of the stream
     * returns 
 
@@ -787,15 +852,15 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
 
 #### Properties
 
-* stream
+* **stream**
     * [Stream](#stream)
     * stream this queue is associated with
-* sets
+* **sets**
     * [GGSet](#ggset)[]
     * sets in the queue
 
 #### Methods
-* parse(data)
+* **parse(data)**
     * parse smash.gg api data into an StreamQueue object
     * parameters
         * data
@@ -804,10 +869,10 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
     * returns [StreamQueue](#streamqueue)
 
 ##### Instance
-* get_stream()
+* **get_stream()**
     * get the StreamQueue's stream property
     * [Stream](#stream)
-* get_sets()
+* **get_sets()**
     * get the StreamQueue's sets property
     * [GGSet](#ggset)[]
 
