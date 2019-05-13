@@ -7,6 +7,18 @@ manages outstanding queries to handle GraphQL's Rate Limiting feature.
 * Author
     * Brandon Cooke (brandoncookedev@gmail.com)
 
+- [Getting Started](#getting-started)
+- [Docs](#docs)
+  - [Tournament](#tournament)
+  - [Event](#event)
+  - [Phase](#phase)
+  - [PhaseGroup](#phasegroup)
+  - [GGSet](#ggset)
+  - [Player](#player)
+  - [Entrant](#entrant)
+  - [Attendee](#attendee)
+  - [Stream](#stream)
+
 ## Getting Started
 
 ```python
@@ -39,7 +51,7 @@ Losers Round 3: Greenmario 1 - 2 Cynax
 Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
 ....
 ```
-    
+----
 ## Docs
 
 ### Tournament
@@ -663,12 +675,109 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
 ### Stream
 
 #### Properties
+* id
+    * int
+    * numeric id of the stream
+* event_id
+    * int
+    * numeric id of the event this stream is a part of
+* tournament_id
+    * int
+    * numeric id of the tournament this stream is a part of
+* stream_name
+    * string
+    * name of the stream
+* num_setups
+    * int
+    * number of setups on the stream
+* stream_source
+    * string
+    * web source of the stream, like Twitch
+* stream_type
+    * string
+    * the type of the current stream 
+* stream_type_id
+    * int
+    * the numeric type of the current stream
+* is_online
+    * bool
+    * t/f for if the current stream is online
+* enabled
+    * bool
+    * t/f for if the current stream is enabled
+* follower_count
+    * int
+    * the number of followers the stream has
+* removes_tasks
+    * bool
+    * t/f for if the current stream removes tasks
+* stream_status
+    * string
+    * the status of the current stream
+* stream_game
+    * string
+    * the game the current stream is live streaming
+* stream_logo
+    * string
+    * the url to the logo image of the stream
 
 #### Methods
 
 ##### Statics
+* parse(data)
+    * parse smash.gg api data into an Stream object
+    * parameters
+        * data
+            * json
+            * http response data from a smash.gg api call
+    * returns [Stream](#stream)
 
 ##### Instance
+* get_id
+    * get the id property of the stream
+    * returns 
+* get_event_id
+    * get the event_id property of the stream
+    * returns 
+* get_tournament_id
+    * get the tournament_id property of the stream
+    * returns 
+* get_stream_name
+    * get the stream_name property of the stream
+    * returns 
+* get_num_setups
+    * get the num_setups property of the stream
+    * returns 
+* get_stream_source
+    * get the stream_source property of the stream
+    * returns 
+* get_stream_type
+    * get the stream_type property of the stream
+    * returns 
+* get_stream_type_id
+    * get the stream_type_id property of the stream
+    * returns 
+* get_is_online
+    * get the is_online property of the stream
+    * returns 
+* get_enabled
+    * get the enabled property of the stream
+    * returns 
+* get_follower_count
+    * get the follower_count property of the stream
+    * returns 
+* get_removes_tasks
+    * get the removes_tasks property of the stream
+    * returns 
+* get_stream_status
+    * get the stream_status property of the stream
+    * returns 
+* get_stream_game
+    * get the stream_game property of the stream
+    * returns 
+* get_stream_logo
+    * get the stream_logo property of the stream
+    * returns 
 
 ### StreamQueue
 
@@ -696,6 +805,7 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
     * [Stream](#stream)
 * get_sets()
     * get the StreamQueue's sets property
+    * [GGSet](#ggset)[]
 
 ## How to run
 
