@@ -1,6 +1,8 @@
 src/util/__pycache__/
 __pycache__/
 .idea/
+dist/
+smashgg.py.egg-info/
 
 .env
 token.txt
