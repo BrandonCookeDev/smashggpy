@@ -8,5 +8,5 @@ class QueryFactory(object):
 		return Query(query, variables)
 
 
-from src.util.Query import Query
-from src.util.Logger import Logger
+from smashggpy.util.Query import Query
+from smashggpy.util.Logger import Logger

@@ -1,9 +1,9 @@
-import src.queries.Tournament_Queries as queries
-from src.util.Logger import Logger
-from src.common.Common import flatten
-from src.util.NetworkInterface import NetworkInterface as NI
-from src.models.Venue import Venue
-from src.models.Organizer import Organizer
+import smashggpy.queries.Tournament_Queries as queries
+from smashggpy.util.Logger import Logger
+from smashggpy.common.Common import flatten
+from smashggpy.util.NetworkInterface import NetworkInterface as NI
+from smashggpy.models.Venue import Venue
+from smashggpy.models.Organizer import Organizer
 
 class Tournament(object):
 
@@ -128,6 +128,6 @@ class Tournament(object):
         return self.organizer
 
 
-from src.models.Event import Event
-from src.models.Phase import Phase
-from src.models.PhaseGroup import PhaseGroup
+from smashggpy.models.Event import Event
+from smashggpy.models.Phase import Phase
+from smashggpy.models.PhaseGroup import PhaseGroup

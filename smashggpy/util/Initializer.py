@@ -11,8 +11,8 @@ def initialize(api_token: str, log_level: str='info'):
 	# initialize query queue daemon in background
 	QueryQueueDaemon.run_daemon()
 
-from src.util.Logger import Logger
-from src.util.TokenHandler import TokenHandler
-from src.util.QueryQueue import QueryQueue
-from src.util.ThreadFactory import ThreadFactory
-from src.util.QueryQueueDaemon import QueryQueueDaemon
+from smashggpy.util.Logger import Logger
+from smashggpy.util.TokenHandler import TokenHandler
+from smashggpy.util.QueryQueue import QueryQueue
+from smashggpy.util.ThreadFactory import ThreadFactory
+from smashggpy.util.QueryQueueDaemon import QueryQueueDaemon

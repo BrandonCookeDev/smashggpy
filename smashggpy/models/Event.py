@@ -1,8 +1,8 @@
-import src.queries.Event_Queries as queries
-from src.util.Logger import Logger
-from src.common.Common import flatten
-from src.util.NetworkInterface import NetworkInterface as NI
-from src.util.ThreadFactory import ThreadFactory
+import smashggpy.queries.Event_Queries as queries
+from smashggpy.util.Logger import Logger
+from smashggpy.common.Common import flatten
+from smashggpy.util.NetworkInterface import NetworkInterface as NI
+from smashggpy.util.ThreadFactory import ThreadFactory
 
 
 class Event(object):
@@ -139,5 +139,5 @@ class Event(object):
         return self.team_management_deadline
 
 
-from src.models.Phase import Phase
-from src.models.PhaseGroup import PhaseGroup
+from smashggpy.models.Phase import Phase
+from smashggpy.models.PhaseGroup import PhaseGroup

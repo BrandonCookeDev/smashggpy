@@ -1,5 +1,5 @@
 import time
-from src.util.ThreadFactory import ThreadFactory
+from smashggpy.util.ThreadFactory import ThreadFactory
 
 class QueryQueueDaemon(object):
 	'''
@@ -77,8 +77,8 @@ class QueryQueueDaemon(object):
 					queue.pop()
 						
 
-from src.util.Logger import Logger
-from src.util.QueryQueue import QueryQueue
-from src.util.ThreadFactory import ThreadFactory
-from src.util.NetworkInterface import NetworkInterface as NI
-from src.util.QueryQueueElement import QueryQueueElement
+from smashggpy.util.Logger import Logger
+from smashggpy.util.QueryQueue import QueryQueue
+from smashggpy.util.ThreadFactory import ThreadFactory
+from smashggpy.util.NetworkInterface import NetworkInterface as NI
+from smashggpy.util.QueryQueueElement import QueryQueueElement

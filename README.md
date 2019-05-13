@@ -22,10 +22,12 @@ manages outstanding queries to handle GraphQL's Rate Limiting feature.
 ## Getting Started
 
 ```python
-from smashggpy import Initializer, Logger, Event
+from smashggpy.models.Event import Event
+from smashggpy.util import Initializer
+from smashggpy.util.QueryQueueDaemon import QueryQueueDaemon
+
 if __name__ == '__main__':
-    Initializer.initialize('API_KEY')
-    
+    Initializer.initialize('API_KEY', 'info')
     to12_melee = Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
     sets = to12_melee.get_sets()
     for ggset in sets:
@@ -36,6 +38,8 @@ if __name__ == '__main__':
             ggset.score2,
             ggset.player2)
         )
+
+    QueryQueueDaemon.kill_daemon()
 ```
     
 This results in the following:

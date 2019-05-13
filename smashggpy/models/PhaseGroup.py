@@ -1,7 +1,7 @@
-import src.queries.Phase_Group_Queries as queries
-from src.common.Common import flatten
-from src.util.Logger import Logger
-from src.util.NetworkInterface import NetworkInterface as NI
+import smashggpy.queries.Phase_Group_Queries as queries
+from smashggpy.common.Common import flatten
+from smashggpy.util.Logger import Logger
+from smashggpy.util.NetworkInterface import NetworkInterface as NI
 
 class PhaseGroup(object):
 
@@ -92,6 +92,6 @@ class PhaseGroup(object):
         return self.tiebreak_order
 
 
-from src.models.Entrant import Entrant
-from src.models.Attendee import Attendee
-from src.models.GGSet import GGSet
+from smashggpy.models.Entrant import Entrant
+from smashggpy.models.Attendee import Attendee
+from smashggpy.models.GGSet import GGSet

@@ -35,4 +35,4 @@ class Entrant(object):
         return self.attendee_data
 
 
-from src.models.Attendee import Attendee
+from smashggpy.models.Attendee import Attendee
