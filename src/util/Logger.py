@@ -19,7 +19,7 @@ class Logger(object):
 	def initialize(level: str):
 		level = Logger.translate_log_level(level)
 
-		Logger.__instance = logging.getLogger('smashgg.py')
+		Logger.__instance = logging.getLogger('smashggpy')
 		Logger.__instance.setLevel(level)
 
 		console_handler = logging.StreamHandler()
