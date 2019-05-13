@@ -4,6 +4,7 @@ __pycache__/
 dist/
 build/
 smashgg.py.egg-info/
+smashggpy.egg-info/
 
 .env
 token.txt

@@ -1,6 +1,6 @@
-# smashgg.py
+# smashggpy
 
-**smashgg.py** is an SDK that wraps around the public smash.gg GraphQL API. 
+**smashggpy** is an SDK that wraps around the public smash.gg GraphQL API. 
 It implements a series of easy to use objects, and features a background thread which
 manages outstanding queries to handle GraphQL's Rate Limiting feature.
 
@@ -22,7 +22,7 @@ manages outstanding queries to handle GraphQL's Rate Limiting feature.
 ## Getting Started
 
 ```python
-from smashgg.py import Initializer, Logger, Event
+from smashggpy import Initializer, Logger, Event
 if __name__ == '__main__':
     Initializer.initialize('API_KEY')
     

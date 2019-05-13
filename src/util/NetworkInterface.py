@@ -9,7 +9,7 @@ class NetworkInterface(object):
 	@staticmethod
 	def get_headers():
 		return {
-			'X-Source': 'smashgg.py',
+			'X-Source': 'smashggpy',
 			'Content-Type': 'application/json',
 			'Authorization': 'Bearer {}'.format(TokenHandler.get_token())
 		}

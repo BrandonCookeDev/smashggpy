@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="smashgg.py",
-    version="0.0.9",
+    name="smashggpy",
+    version="0.0.10",
     author="Brandon Cooke",
     author_email="brandoncookedev@gmail.com",
     description="Python SDK for smash.gg's public api",
@@ -17,5 +17,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-    ],
+    ]
 )
