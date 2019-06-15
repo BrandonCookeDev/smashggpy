@@ -7,8 +7,12 @@ GOOD_TOKEN='68991e2848052ef278e3d52656f66ff4'
 
 from smashggpy.util.TokenHandler import TokenHandler
 from smashggpy.common.Exceptions import BadTokenException
+from smashggpy.util.Logger import Logger
 
 class TestTokenHandler(unittest.TestCase):
+
+	def setUp(self):
+		Logger.init('info')
 
 	def test_token_1(self):
 		with self.assertRaises(BadTokenException):
