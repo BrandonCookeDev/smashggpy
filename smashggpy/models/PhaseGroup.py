@@ -16,12 +16,18 @@ class PhaseGroup(object):
 
     @staticmethod
     def get(id: int):
+        assert (id is not None), "PhaseGroup.get cannot have None for id parameter"
         data = NI.query(queries.phase_group_by_id, {'id': id})
-        base_data = data['data']['phaseGroup']
-        return PhaseGroup.parse(base_data)
+
+        try:
+            base_data = data['data']['phaseGroup']
+            return PhaseGroup.parse(base_data)
+        except AttributeError as e:
+            raise Exception("No phase group data pulled back for id {}".format(id))
 
     @staticmethod
     def parse(data):
+        assert (data is not None), "PhaseGroup.parse cannot have None for data parameter"
         return PhaseGroup(
             data['id'],
             data['displayIdentifier'],
@@ -33,6 +39,7 @@ class PhaseGroup(object):
         )
 
     def get_attendees(self):
+        assert (self.id is not None), 'phase group id cannot be None when calling get_attendees'
         Logger.info('Getting Attendees for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         data = NI.paginated_query(queries.phase_group_attendees, {'id': self.id})
         participants = flatten([entrant_data['entrant']['participants'] for entrant_data in data])
@@ -40,18 +47,21 @@ class PhaseGroup(object):
         return attendees
 
     def get_entrants(self):
+        assert (self.id is not None), 'phase group id cannot be None when calling get_entrants'
         Logger.info('Getting Entrants for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         data = NI.paginated_query(queries.phase_group_entrants, {'id': self.id})
         entrants = [Entrant.parse(entrant_data['entrant']) for entrant_data in data]
         return entrants
 
     def get_sets(self):
+        assert (self.id is not None), 'phase group id cannot be None when calling get_sets'
         Logger.info('Getting Sets for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         data = NI.paginated_query(queries.phase_group_sets, {'id': self.id})
         sets = [GGSet.parse(set_data) for set_data in data]
         return sets
 
     def get_incomplete_sets(self):
+        assert (self.id is not None), 'phase group id cannot be None when calling get_incomplete_sets'
         Logger.info('Getting Incomplete Sets for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         sets = self.get_sets()
         incomplete_sets = []
@@ -61,6 +71,7 @@ class PhaseGroup(object):
         return incomplete_sets
 
     def get_completed_sets(self):
+        assert (self.id is not None), 'phase group id cannot be None when calling get_completed_sets'
         Logger.info('Getting Completed Sets for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         sets = self.get_sets()
         incomplete_sets = []

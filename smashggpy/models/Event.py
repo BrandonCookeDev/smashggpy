@@ -25,19 +25,31 @@ class Event(object):
 
     @staticmethod
     def get(tournament_slug: str, event_slug: str):
+        assert (tournament_slug is not None), "Event.get cannot have None for tournament_slug parameter"
+        assert (event_slug is not None), "Event.get cannot have None for event_slug parameter"
         slug = "tournament/{0}/event/{1}".format(tournament_slug, event_slug)
         data = NI.query(queries.get_event_by_slugs, {"slug": slug})
-        base_data = data['data']['event']
-        return Event.parse(base_data)
+
+        try:
+            base_data = data['data']['event']
+            return Event.parse(base_data)
+        except AttributeError as e:
+            raise Exception("No event data came back for tournament {} and event {}".format(tournament_slug, event_slug))
 
     @staticmethod
     def get_by_id(id: int):
+        assert (id is not None), "Event.get_by_id cannot have None for id parameter"
         data = NI.query(queries.get_event_by_id, {'id': id})
-        base_data = data['data']['event']
-        return Event.parse(base_data)
+
+        try:
+            base_data = data['data']['event']
+            return Event.parse(base_data)
+        except AttributeError as e:
+            raise Exception("No event data came back for event with id {}".format(id))
 
     @staticmethod
     def parse(data):
+        assert (data is not None), "Event.parse cannot have None for data parameter"
         return Event(
             data['id'],
             data['name'],
@@ -54,16 +66,26 @@ class Event(object):
         )
 
     def get_phases(self):
+        assert (self.id is not None), "event id cannot be None if calling get_phases"
         Logger.info('Getting Phases for Event: {0}:{1}'.format(self.id, self.name))
         data = NI.query(queries.get_event_phases, {'id': self.id})
-        phases_data = data['data']['event']['phases']
-        return [Phase.parse(phase_data) for phase_data in phases_data]
+
+        try:
+            phases_data = data['data']['event']['phases']
+            return [Phase.parse(phase_data) for phase_data in phases_data]
+        except AttributeError as e:
+            raise Exception("No phase data pulled back for event {} {}".format(self.id, self.name))
 
     def get_phase_groups(self):
+        assert (self.id is not None), "event id cannot be None if calling get_phase_groups"
         Logger.info('Getting Phase Groups for Event: {0}:{1}'.format(self.id, self.name))
         data = NI.query(queries.get_event_phase_groups, {'id': self.id})
-        phase_groups_data = data['data']['event']['phaseGroups']
-        return [PhaseGroup.parse(phase_group_data) for phase_group_data in phase_groups_data]
+
+        try:
+            phase_groups_data = data['data']['event']['phaseGroups']
+            return [PhaseGroup.parse(phase_group_data) for phase_group_data in phase_groups_data]
+        except AttributeError as e:
+            raise Exception("No phase group data pulled back for event {} {}".format(self.id, self.name))
 
     def get_attendees(self):
         Logger.info('Getting Attendees for Event: {0}:{1}'.format(self.id, self.name))

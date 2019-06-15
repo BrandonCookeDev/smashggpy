@@ -27,4 +27,4 @@ class TestTokenHandler(unittest.TestCase):
 		self.assertEqual(TokenHandler.get_token(), GOOD_TOKEN)
 
 if __name__ == '__main__':
-    unittest.main()
+	unittest.main()
