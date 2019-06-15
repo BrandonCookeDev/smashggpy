@@ -11,6 +11,10 @@ def initialize(api_token: str, log_level: str='info'):
 	# initialize query queue daemon in background
 	QueryQueueDaemon.run_daemon()
 
+def uninitialize():
+	TokenHandler.uninit()
+	QueryQueueDaemon.kill_daemon()
+
 from smashggpy.util.Logger import Logger
 from smashggpy.util.TokenHandler import TokenHandler
 from smashggpy.util.QueryQueue import QueryQueue
