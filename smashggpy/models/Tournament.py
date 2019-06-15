@@ -1,9 +1,15 @@
 import smashggpy.queries.Tournament_Queries as queries
+
 from smashggpy.util.Logger import Logger
 from smashggpy.common.Common import flatten
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
 from smashggpy.models.Venue import Venue
 from smashggpy.models.Organizer import Organizer
+from smashggpy.common.Exceptions import NoTournamentDataException
+from smashggpy.common.Exceptions import NoEventDataException
+from smashggpy.common.Exceptions import NoPhaseDataException
+from smashggpy.common.Exceptions import NoPhaseGroupDataException
+
 
 class Tournament(object):
 
@@ -26,10 +32,13 @@ class Tournament(object):
             raise Exception('Error occurred in pulling tournament {}, {}'.format(slug, data['errors']))
 
         try:
-            base_data = data['data']['tournament']
-            return Tournament.parse(base_data)
+            base_data = data['data']
+            print(base_data)
+            if 'tournament' not in base_data: print('hello')
+            tournament_data = base_data['tournament']
+            return Tournament.parse(tournament_data)
         except AttributeError as e:
-            raise Exception('No data returned for tournament {}'.format(slug))
+            raise NoTournamentDataException(slug)
 
 
     @staticmethod
@@ -41,7 +50,7 @@ class Tournament(object):
             base_data = data['data']['tournament']
             return Tournament.parse(base_data)
         except AttributeError as e:
-            raise Exception('No data returned for tournament id {}'.format(id))
+            raise NoTournamentDataException(id)
 
     @staticmethod
     def parse(data):
@@ -65,7 +74,7 @@ class Tournament(object):
             base_data = data['data']['tournament']['events']
             return [Event.parse(event_data) for event_data in base_data]
         except AttributeError as e:
-            raise Exception('No event data retrieved for tournament {}'.format(self.slug))
+            raise NoEventDataException(self.slug)
 
     def get_phases(self):
         assert (self.id is not None), "tournament id cannot be None if calling get_phases"
@@ -79,10 +88,10 @@ class Tournament(object):
                     for event_phase in event['phases']:
                         phases.append(Phase.parse(event_phase))
                 except AttributeError as inner_e:
-                    raise Exception("No phase data pulled back for tournament {}".format(self.slug))
+                    NoPhaseDataException(self.slug)
             return phases
         except AttributeError as e:
-            raise Exception("No event data pulled back for tournament {}".format(self.slug))
+            raise NoEventDataException(self.slug)
 
     def get_phase_groups(self):
         assert (self.id is not None), "tournament id cannot be None if calling get_phase_groups"
@@ -96,10 +105,10 @@ class Tournament(object):
                     for event_phase_groups in event['phaseGroups']:
                         phase_groups.append(PhaseGroup.parse(event_phase_groups))
                 except AttributeError as inner_e:
-                    raise Exception("No phase group data pulled back for tournament {}".format(self.slug))
+                    NoPhaseGroupDataException(self.slug)
             return phase_groups
         except AttributeError as e:
-            raise Exception("No event data pulled back for tournament {}".format(self.slug))
+            raise NoEventDataException(self.slug)
 
     def get_attendees(self):
         Logger.info('Getting Attendees for Tournament: {0}:{1}'.format(self.id, self.name))
