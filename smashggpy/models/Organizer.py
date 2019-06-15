@@ -1,7 +1,7 @@
 
 class Organizer(object):
 
-    def __init__(self, id, email, phone, twitter, info):
+    def __init__(self, id, email, phone, twitter, info=None):
         self.id = id
         self.email = email
         self.phone = phone
@@ -15,7 +15,7 @@ class Organizer(object):
             data['contactEmail'],
             data['contactPhone'],
             data['contactTwitter'],
-            data['contactInfo']
+            # data['contactInfo']
         )
 
     # GETTERS

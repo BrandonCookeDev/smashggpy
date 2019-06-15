@@ -13,12 +13,18 @@ class Phase(object):
 
     @staticmethod
     def get(id: int):
+        assert (id is not None), "Phase.get cannot have None for id parameter"
         data = NI.query(queries.phase_by_id, {'id': id})
-        base_data = data['data']['phase']
-        return Phase.parse(base_data)
+
+        try:
+            base_data = data['data']['phase']
+            return Phase.parse(base_data)
+        except AttributeError as e:
+            raise Exception("No phase data pulled back for id {}".format(id))
 
     @staticmethod
     def parse(data):
+        assert (data is not None), "Phase.parse cannot have None for data parameter"
         return Phase(
             data['id'],
             data['name'],
@@ -27,6 +33,7 @@ class Phase(object):
         )
 
     def get_phase_groups(self):
+        assert (self.id is not None), "phase id cannot be None when calling get_phase_groups"
         Logger.info('Getting Phase Groups for Phase: {0}:{1}'.format(self.id, self.name))
         data = NI.paginated_query(queries.phase_phase_groups, {'id': self.id})
         return [PhaseGroup.parse(phase_group_data) for phase_group_data in data]

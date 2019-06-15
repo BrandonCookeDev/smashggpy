@@ -15,7 +15,6 @@ tournament_schema = """
     timezone
     startAt
     endAt
-    contactInfo
     contactEmail
     contactTwitter
     contactPhone

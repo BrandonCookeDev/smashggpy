@@ -30,9 +30,9 @@ Logger.get_instance().debug('using token: {}'.format(token))
 # send query and get data back
 
 #to12_top8_phase = Phase.get(172834)
-to12_melee = Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
-log.info(to12_melee)
-
+#to12_melee = Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
+#log.info(to12_melee)
+"""
 sets = to12_melee.get_sets()
 for ggset in sets:
 	print("{0}: {1} {2} - {3} {4}".format(
@@ -42,7 +42,20 @@ for ggset in sets:
 		ggset.score2,
 		ggset.player2)
 	)
+"""
 
+event = Tournament.get('raceway-fridays-13')
+entrants = event.get_entrants()
+for player in entrants:
+	if len(player.attendee_data) > 0:
+		print("{0} | {1}: {2} / {3}".format(
+			player.attendee_data[0].prefix,
+			player.attendee_data[0].gamer_tag,
+			player.attendee_data[0].player_id,
+			player.attendee_data[0].id)
+		)
+
+QueryQueueDaemon.kill_daemon()
 
 
 """
