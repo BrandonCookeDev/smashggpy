@@ -12,6 +12,15 @@ class Venue(object):
         self.latitude = latitude
         self.longitude = longitude
 
+    def __eq__(self, other):
+        if other is None: return False
+        if type(other) != type(self): return False
+        return hash(self) == hash(other)
+
+    def __hash__(self):
+        return hash((self.name, self.address, self.city, self.state, self.postal_code,
+                    self.country_code, self.region, self.latitude, self.longitude))
+
     @staticmethod
     def parse(data):
         return Venue(

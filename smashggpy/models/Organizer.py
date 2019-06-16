@@ -8,6 +8,14 @@ class Organizer(object):
         self.twitter = twitter
         self.info = info
 
+    def __eq__(self, other):
+        if other is None: return False
+        if type(other) != type(self): return False
+        return hash(self) == hash(other)
+
+    def __hash__(self):
+        return hash((self.id, self.email, self.phone, self.twitter, self.info))
+
     @staticmethod
     def parse(data):
         return Organizer(
