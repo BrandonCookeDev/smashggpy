@@ -11,6 +11,8 @@ from smashggpy.common.Exceptions import NoEventDataException
 from smashggpy.common.Exceptions import NoPhaseDataException
 from smashggpy.common.Exceptions import NoPhaseGroupDataException
 from smashggpy.models.Tournament import Tournament
+from smashggpy.models.Venue import Venue
+from smashggpy.models.Organizer import Organizer
 
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
 
@@ -44,6 +46,32 @@ GOOD_TOURNAMENT_DATA = {
         }
     }
 }
+
+GOOD_TOURNAMENT = Tournament(
+    id=GOOD_TOURNAMENT_DATA['data']['tournament']['id'],
+    name=GOOD_TOURNAMENT_DATA['data']['tournament']['name'],
+    slug=GOOD_TOURNAMENT_DATA['data']['tournament']['slug'],
+    start_time=GOOD_TOURNAMENT_DATA['data']['tournament']['startAt'],
+    end_time=GOOD_TOURNAMENT_DATA['data']['tournament']['endAt'],
+    timezone=GOOD_TOURNAMENT_DATA['data']['tournament']['timezone'],
+    venue=Venue(
+        name=GOOD_TOURNAMENT_DATA['data']['tournament']['venueName'],
+        address=GOOD_TOURNAMENT_DATA['data']['tournament']['venueAddress'],
+        city=GOOD_TOURNAMENT_DATA['data']['tournament']['city'],
+        state=GOOD_TOURNAMENT_DATA['data']['tournament']['addrState'],
+        postal_code=GOOD_TOURNAMENT_DATA['data']['tournament']['postalCode'],
+        country_code=GOOD_TOURNAMENT_DATA['data']['tournament']['countryCode'],
+        region=GOOD_TOURNAMENT_DATA['data']['tournament']['region'],
+        latitude=GOOD_TOURNAMENT_DATA['data']['tournament']['lat'],
+        longitude=GOOD_TOURNAMENT_DATA['data']['tournament']['lng']
+    ),
+    organizer=Organizer(
+        id=GOOD_TOURNAMENT_DATA['data']['tournament']['ownerId'],
+        email=GOOD_TOURNAMENT_DATA['data']['tournament']['contactEmail'],
+        phone=GOOD_TOURNAMENT_DATA['data']['tournament']['contactPhone'],
+        twitter=GOOD_TOURNAMENT_DATA['data']['tournament']['contactTwitter'],
+    )
+)
 
 class MockedTournamentNI(object):
 
@@ -95,7 +123,18 @@ class TestTournament(unittest.TestCase):
         self.assertRaises(AssertionError, self.bad_tournament.get_phase_groups)
 
     def test_should_parse_tournament_data_correctly(self):
-        expected = Tournament()
-        actual = Tournament.parse(GOOD_TOURNAMENT_DATA)
+        expected = GOOD_TOURNAMENT
+        actual = Tournament.parse(GOOD_TOURNAMENT_DATA['data']['tournament'])
         self.assertEqual(expected, actual)
+
+    def test_should_get_tournament_correctly(self):
+        expected = GOOD_TOURNAMENT
+        actual = Tournament.get(GOOD_TOURNAMENT.slug)
+        self.assertEqual(expected, actual)
+
+    def test_should_get_tournament_correctly_by_id(self):
+        expected = GOOD_TOURNAMENT
+        actual = Tournament.get_by_id(GOOD_TOURNAMENT.id)
+        self.assertEqual(expected, actual)
+
 

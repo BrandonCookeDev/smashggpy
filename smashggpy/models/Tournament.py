@@ -23,6 +23,18 @@ class Tournament(object):
         self.venue = venue
         self.organizer = organizer
 
+    def __eq__(self, other):
+        if other is None:
+            return False
+
+        if type(self) != type(other):
+            return False
+
+        return hash(self) == hash(other)
+
+    def __hash__(self):
+        return hash((self.id, self.name, self.slug, self.start_time, self.end_time, self.timezone, self.venue, self.organizer))
+
     @staticmethod
     def get(slug: str):
         assert (slug is not None), "Tournament.get must have a slug parameter"
