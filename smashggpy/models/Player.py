@@ -6,6 +6,13 @@ class Player(object):
         self.entrant_id = entrant_id
         self.attendee_ids = attendee_ids
 
+    def __eq__(self, other):
+        if other is None:
+            return False
+        if type(other) != type(self):
+            return False
+        return hash(other) == hash(self)
+
     @staticmethod
     def parse(tag, data):
         entrant_id = data['entrant']['id'] if data['entrant'] is not None else None

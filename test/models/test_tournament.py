@@ -5,6 +5,7 @@ import dotenv
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
+# Imports
 from smashggpy.util import Initializer
 from smashggpy.common import Common
 from smashggpy.common.Exceptions import NoTournamentDataException
@@ -15,38 +16,13 @@ from smashggpy.models.Tournament import Tournament
 from smashggpy.models.Venue import Venue
 from smashggpy.models.Organizer import Organizer
 
+# Mocking
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
 
-BASE_DIR = Path(os.path.dirname(os.path.realpath(__file__)))
-ROOT_DIR = BASE_DIR/'..'/'..'
+# Testing Infra
+from test.testing_common.common import run_dotenv
+from test.testing_common.data import GOOD_TOURNAMENT_DATA, NO_EVENT_DATA, NO_PHASE_GROUP_DATA, NO_PHASE_DATA
 
-GOOD_TOURNAMENT_DATA = {
-    "data": {
-        "tournament":{
-            "id": 6620,
-            "name": "Tipped Off 12 , Presented by The Lab Gaming Center!",
-            "slug": "tournament/tipped-off-12-presented-by-the-lab-gaming-center",
-            "city": "Atlanta",
-            "postalCode": "30339",
-            "addrState": "GA",
-            "countryCode": "US",
-            "region": "11",
-            "venueAddress": "2 Galleria Pkwy SE, Atlanta, GA 30339, USA",
-            "venueName": "The Cobb Galleria",
-            "gettingThere": None,
-            "lat": 33.8835141,
-            "lng": -84.4655017,
-            "timezone": "America/New_York",
-            "startAt": 1510401600,
-            "endAt": 1510549140,
-            "contactInfo": None,
-            "contactEmail": "thelabgaminginc@gmail.com",
-            "contactTwitter": "TheLabGamingCtr",
-            "contactPhone": "404-368-5274",
-            "ownerId": 11259
-        }
-    }
-}
 
 GOOD_TOURNAMENT = Tournament(
     id=GOOD_TOURNAMENT_DATA['data']['tournament']['id'],
@@ -74,38 +50,6 @@ GOOD_TOURNAMENT = Tournament(
     )
 )
 
-NO_EVENT_DATA = {
-    "data": {
-        "tournament": {
-            "events": None
-        }
-    }
-}
-
-NO_PHASE_DATA = {
-    "data": {
-        "tournament": {
-            "events": [
-                {
-                    "phases": None
-                }
-            ]
-        }
-    }
-}
-
-NO_PHASE_GROUP_DATA = {
-    "data": {
-        "tournament": {
-            "events": [
-                {
-                    "phaseGroups": None
-                }
-            ]
-        }
-    }
-}
-
 class TestTournament(unittest.TestCase):
 
     fake_slug = 'this-is-a-fake-slug'
@@ -114,7 +58,7 @@ class TestTournament(unittest.TestCase):
 
     # Setup Teardown
     def setUp(self):
-        dotenv.load_dotenv(dotenv_path=Path(ROOT_DIR, '.env'))
+        run_dotenv()
         Initializer.initialize(os.getenv('API_TOKEN'), 'info')
 
     def tearDown(self):
