@@ -120,6 +120,25 @@ class TestTournament(unittest.TestCase):
     def tearDown(self):
         Initializer.uninitialize()
 
+    # Equals
+    def test_should_not_find_equal_if_other_is_none(self):
+        self.assertNotEqual(GOOD_TOURNAMENT, None)
+
+    def test_should_not_find_equal_if_other_is_different_type(self):
+        self.assertNotEqual(GOOD_TOURNAMENT, 'this is a string')
+
+    def test_should_not_find_equal_if_other_is_different_tournament(self):
+        t1 = copy.deepcopy(GOOD_TOURNAMENT)
+        t2 = copy.deepcopy(GOOD_TOURNAMENT)
+        t2.name = 'not tipped off lol'
+        t2.id = 6621
+        self.assertNotEqual(t1, t2)
+
+    def test_should_find_equal_if_other_has_same_properties(self):
+        t1 = copy.deepcopy(GOOD_TOURNAMENT)
+        t2 = copy.deepcopy(GOOD_TOURNAMENT)
+        self.assertEqual(t1, t2)
+
     # Get
     def test_should_not_get_tournament_if_slug_is_empty(self):
         self.assertRaises(AssertionError, Tournament.get, None)

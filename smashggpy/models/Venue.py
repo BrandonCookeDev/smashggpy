@@ -13,8 +13,10 @@ class Venue(object):
         self.longitude = longitude
 
     def __eq__(self, other):
-        if other is None: return False
-        if type(other) != type(self): return False
+        if other is None:
+            return False
+        if type(other) != type(self):
+            return False
         return hash(self) == hash(other)
 
     def __hash__(self):
@@ -23,6 +25,16 @@ class Venue(object):
 
     @staticmethod
     def parse(data):
+        assert (data is not None), 'Venue.parse must not have a None data parameter'
+        assert ('venueName' in data), 'Venue.parse must have venueName property in data parameter'
+        assert ('venueAddress' in data), 'Venue.parse must have a venueAddress property in data parameter'
+        assert ('city' in data), 'Venue.parse must have a city property in data parameter'
+        assert ('addrState' in data), 'Venue.parse must have an addrState property in data parameter'
+        assert ('postalCode' in data), 'Venue.parse must have a postalCode property in data parameter'
+        assert ('countryCode' in data), 'Venue.parse must have a countryCode property in data parameter'
+        assert ('region' in data), 'Venue.parse must have a region property in data parameter'
+        assert ('lat' in data), 'Venue.parse must have a lat property in data parameter'
+        assert ('lng' in data), 'Venue.parse must have a lng property in data parameter'
         return Venue(
             data['venueName'],
             data['venueAddress'],
