@@ -23,6 +23,17 @@ class GGSet(object):
         self.score1 = score1
         self.score2 = score2
 
+    def __eq__(self, other):
+        if other is None:
+            return False
+        if type(other) != type(self):
+            return False
+        return hash(other) == hash(self)
+
+    def __hash__(self):
+        return hash((self.id, self.event_id, self.phase_group_id, self.display_score, self.full_round_text,
+                     self.round, self.started_at, self.completed_at, self.winner_id, self.total_games,
+                     self.state, self.player1, self.player1, self.score1, self.score2))
 
     @staticmethod
     def parse(data):

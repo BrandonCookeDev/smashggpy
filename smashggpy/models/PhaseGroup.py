@@ -14,6 +14,17 @@ class PhaseGroup(object):
         self.wave_id = wave_id
         self.tiebreak_order = tiebreak_order
 
+    def __eq__(self, other):
+        if other is None:
+            return False
+        if type(other) != type(self):
+            return False
+        return hash(other) == hash(self)
+
+    def __hash__(self):
+        return hash((self.id, self.display_identifier, self.first_round_time,
+                     self.state, self.phase_id, self.wave_id, self.tiebreak_order))
+
     @staticmethod
     def get(id: int):
         assert (id is not None), "PhaseGroup.get cannot have None for id parameter"

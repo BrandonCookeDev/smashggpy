@@ -16,6 +16,18 @@ class User(object):
         self.country = country
         self.gamer_tag_changed_at = gamer_tag_changed_at
 
+    def __eq__(self, other):
+        if other is None:
+            return False
+        if type(other) != type(self):
+            return False
+        return hash(other) == hash(self)
+
+    def __hash__(self):
+        return hash((self.id, self.gamer_tag, self.prefix, self.color, self.twitch_stream,
+                     self.twitter_handle, self.youtube, self.region, self.state, self.country,
+                     self.gamer_tag_changed_at))
+
     @staticmethod
     def parse(data):
         return User(

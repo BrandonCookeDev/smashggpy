@@ -23,6 +23,19 @@ class Event(object):
         self.team_name_allowed = team_name_allowed
         self.team_management_deadline = team_management_deadline
 
+    def __eq__(self, other):
+        if other is None:
+            return False
+        if type(other) != type(self):
+            return False
+        return hash(other) == hash(self)
+
+    def __hash__(self):
+        return hash((self.id, self.name, self.slug, self.state, self.start_at,
+                     self.num_entrants, self.check_in_buffer, self.check_in_duration,
+                     self.check_in_enabled, self.is_online, self.team_name_allowed,
+                     self.team_name_allowed))
+
     @staticmethod
     def get(tournament_slug: str, event_slug: str):
         assert (tournament_slug is not None), "Event.get cannot have None for tournament_slug parameter"
@@ -49,7 +62,20 @@ class Event(object):
 
     @staticmethod
     def parse(data):
-        assert (data is not None), "Event.parse cannot have None for data parameter"
+        assert (data is not None), 'Event.parse cannot have None for data parameter'
+        assert ('id' in data), 'Event.parse must have id property on data parameter'
+        assert ('name' in data), 'Event.parse must have name property on data parameter'
+        assert ('slug' in data), 'Event.parse must have slug property on data parameter'
+        assert ('state' in data), 'Event.parse must have state property on data parameter'
+        assert ('startAt' in data), 'Event.parse must have startAt property on data parameter'
+        assert ('numEntrants' in data), 'Event.parse must have numEntrants property on data parameter'
+        assert ('checkInBuffer' in data), 'Event.parse must have checkInBuffer property on data parameter'
+        assert ('checkInDuration' in data), 'Event.parse must have checkInDuration property on data parameter'
+        assert ('checkInEnabled' in data), 'Event.parse must have checkInEnabled property on data parameter'
+        assert ('isOnline' in data), 'Event.parse must have isOnline property on data parameter'
+        assert ('teamNameAllowed' in data), 'Event.parse must have teamNameAllowed property on data parameter'
+        assert ('teamManagementDeadline' in data), \
+            'Event.parse must have teamManagementDeadline property on data parameter'
         return Event(
             data['id'],
             data['name'],

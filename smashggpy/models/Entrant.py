@@ -8,6 +8,16 @@ class Entrant(object):
         self.skill = skill
         self.attendee_data = attendee_data
 
+    def __eq__(self, other):
+        if other is None:
+            return False
+        if type(other) != type(self):
+            return False
+        return hash(other) == hash(self)
+
+    def __hash__(self):
+        return hash((self.id, self.name, self.event_id, self.skill, self.attendee_data))
+
     @staticmethod
     def parse(data):
         return Entrant(

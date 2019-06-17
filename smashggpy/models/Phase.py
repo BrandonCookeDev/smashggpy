@@ -11,6 +11,16 @@ class Phase(object):
         self.num_seeds = num_seeds
         self.group_count = group_count
 
+    def __eq__(self, other):
+        if other is None:
+            return False
+        if type(other) != type(self):
+            return False
+        return hash(other) == hash(self)
+
+    def __hash__(self):
+        return hash((self.id, self.name, self.num_seeds, self.group_count))
+
     @staticmethod
     def get(id: int):
         assert (id is not None), "Phase.get cannot have None for id parameter"

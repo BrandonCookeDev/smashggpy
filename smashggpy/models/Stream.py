@@ -21,6 +21,19 @@ class Stream(object):
         self.stream_game = stream_game
         self.stream_logo = stream_logo
 
+    def __eq__(self, other):
+        if other is None:
+            return False
+        if type(other) != type(self):
+            return False
+        return hash(other) == hash(self)
+
+    def __hash__(self):
+        return hash((self.id, self.event_id, self.tournament_id, self.stream_name, self.num_setups,
+                     self.stream_source, self.stream_type, self.stream_type_id, self.is_online,
+                     self.enabled, self.follower_count, self.removes_tasks, self.stream_status,
+                     self.stream_game, self.stream_logo))
+
     @staticmethod
     def parse(data):
         return Stream(

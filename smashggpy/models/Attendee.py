@@ -16,6 +16,17 @@ class Attendee(object):
         self.contact_info = contact_info
         self.event_ids = event_ids
 
+    def __eq__(self, other):
+        if other is None:
+            return False
+        if type(other) != type(self):
+            return False
+        return hash(other) == hash(self)
+
+    def __hash__(self):
+        return hash((self.id, self.gamer_tag, self.prefix, self.created_at, self.claimed, self.verified,
+                     self.player_id, self.phone_number, self.connected_accounts, self.contact_info, self.event_ids))
+
     @staticmethod
     def parse(data):
         return Attendee(
