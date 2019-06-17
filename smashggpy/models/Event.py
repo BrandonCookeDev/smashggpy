@@ -3,6 +3,7 @@ from smashggpy.util.Logger import Logger
 from smashggpy.common.Common import flatten
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
 from smashggpy.util.ThreadFactory import ThreadFactory
+from smashggpy.common.Exceptions import NoEventDataException, NoPhaseGroupDataException, NoPhaseDataException
 
 
 class Event(object):
@@ -45,9 +46,12 @@ class Event(object):
 
         try:
             base_data = data['data']['event']
+            if base_data is None:
+                raise NoEventDataException('{}:{}'.format(tournament_slug, event_slug))
+
             return Event.parse(base_data)
         except AttributeError as e:
-            raise Exception("No event data came back for tournament {} and event {}".format(tournament_slug, event_slug))
+            raise NoEventDataException('{}:{}'.format(tournament_slug, event_slug))
 
     @staticmethod
     def get_by_id(id: int):
@@ -56,9 +60,12 @@ class Event(object):
 
         try:
             base_data = data['data']['event']
+            if base_data is None:
+                raise NoEventDataException(id)
+
             return Event.parse(base_data)
         except AttributeError as e:
-            raise Exception("No event data came back for event with id {}".format(id))
+            raise NoEventDataException(id)
 
     @staticmethod
     def parse(data):

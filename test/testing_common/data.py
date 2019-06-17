@@ -28,8 +28,13 @@ GOOD_TOURNAMENT_DATA = {
     }
 }
 
+TOURNAMENT_NO_TOURNAMENT_DATA = {
+    "data": {
+        "tournament": None
+    }
+}
 
-NO_EVENT_DATA = {
+TOURNAMENT_NO_EVENT_DATA = {
     "data": {
         "tournament": {
             "events": None
@@ -37,7 +42,7 @@ NO_EVENT_DATA = {
     }
 }
 
-NO_PHASE_DATA = {
+TOURNAMENT_NO_PHASE_DATA = {
     "data": {
         "tournament": {
             "events": [
@@ -49,7 +54,7 @@ NO_PHASE_DATA = {
     }
 }
 
-NO_PHASE_GROUP_DATA = {
+TOURNAMENT_NO_PHASE_GROUP_DATA = {
     "data": {
         "tournament": {
             "events": [
@@ -97,6 +102,12 @@ GOOD_EVENT_DATA_2 = {
             "teamNameAllowed": False,
             "teamManagementDeadline": None
         }
+    }
+}
+
+EVENT_NO_EVENT_DATA = {
+    "data": {
+        "event": None
     }
 }
 

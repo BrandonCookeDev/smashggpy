@@ -8,6 +8,7 @@ from unittest.mock import MagicMock, Mock, patch
 
 from smashggpy.util import Initializer
 from smashggpy.common import Common
+from smashggpy.util.NetworkInterface import NetworkInterface as NI
 from smashggpy.common.Exceptions import NoTournamentDataException
 from smashggpy.common.Exceptions import NoEventDataException
 from smashggpy.common.Exceptions import NoPhaseDataException
@@ -15,8 +16,8 @@ from smashggpy.common.Exceptions import NoPhaseGroupDataException
 
 from smashggpy.models.Event import Event
 
-from test.testing_common.common import run_dotenv
-from test.testing_common.data import GOOD_EVENT_DATA_1, GOOD_EVENT_DATA_2
+from test.testing_common.common import run_dotenv, get_event_from_event_slug, get_tournament_from_event_slug
+from test.testing_common.data import GOOD_EVENT_DATA_1, GOOD_EVENT_DATA_2, EVENT_NO_EVENT_DATA
 
 GOOD_EVENT_1 = Event(
     id=GOOD_EVENT_DATA_1['data']['event']['id'],
@@ -143,15 +144,51 @@ class TestEvent(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     # Get
+    def test_should_not_get_if_tournament_slug_is_none(self):
+        self.assertRaises(AssertionError, Event.get, None, 'melee-singles')
 
+    def test_should_not_get_if_event_slug_is_none(self):
+        self.assertRaises(AssertionError, Event.get, 'ceo-2016', None)
+
+    @patch.object(NI, 'query')
+    def test_should_get_event_successfully(self, ni_query):
+        ni_query.return_value = GOOD_EVENT_DATA_1
+
+        expected = GOOD_EVENT_1
+        slug = GOOD_EVENT_DATA_1['data']['event']['slug']
+        tournament = get_tournament_from_event_slug(slug)
+        event = get_event_from_event_slug(slug)
+        actual = Event.get(tournament, event)
+        self.assertEqual(expected, actual)
+
+    @patch.object(NI, 'query')
+    def test_should_fail_get_event_if_no_event_data(self, ni_query):
+        ni_query.return_value = EVENT_NO_EVENT_DATA
+
+        slug = GOOD_EVENT_DATA_1['data']['event']['slug']
+        tournament = get_tournament_from_event_slug(slug)
+        event = get_event_from_event_slug(slug)
+        self.assertRaises(NoEventDataException, Event.get, tournament, event)
 
     # Get by Id
+    def test_should_not_get_by_id_if_tournament_id_is_none(self):
+        self.assertRaises(AssertionError, Event.get_by_id, None)
 
+    @patch.object(NI, 'query')
+    def test_should_get_by_id_successfully(self, ni_query):
+        ni_query.return_value = GOOD_EVENT_DATA_1
+
+        expected = GOOD_EVENT_1
+        actual = Event.get_by_id(GOOD_EVENT_1.id)
+        self.assertEqual(expected, actual)
+
+    @patch.object(NI, 'query')
+    def test_should_fail_get_by_id_if_not_event_data_comes_back(self, ni_query):
+        ni_query.return_value = EVENT_NO_EVENT_DATA
+        self.assertRaises(NoEventDataException, Event.get_by_id, GOOD_EVENT_1.id)
 
     # Get Phases
 
-
     # Get Phase Groups
-
 
     # Get Sets

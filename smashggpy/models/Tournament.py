@@ -46,8 +46,6 @@ class Tournament(object):
 
         try:
             base_data = data['data']
-            print(base_data)
-
             if base_data['tournament'] is None:
                 raise NoTournamentDataException(slug)
 
@@ -56,7 +54,6 @@ class Tournament(object):
         except AttributeError as e:
             raise NoTournamentDataException(slug)
 
-
     @staticmethod
     def get_by_id(id: int):
         assert (id is not None), "Tournament.get_by_id must have an id parameter"
@@ -64,6 +61,9 @@ class Tournament(object):
 
         try:
             base_data = data['data']['tournament']
+            if base_data is None:
+                raise NoTournamentDataException(id)
+
             return Tournament.parse(base_data)
         except AttributeError as e:
             raise NoTournamentDataException(id)
