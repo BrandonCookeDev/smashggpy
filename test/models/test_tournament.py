@@ -1,4 +1,5 @@
 import os
+import copy
 import unittest
 import dotenv
 from pathlib import Path
@@ -73,68 +74,105 @@ GOOD_TOURNAMENT = Tournament(
     )
 )
 
-class MockedTournamentNI(object):
-
-    __mocked = None
-
-    @staticmethod
-    def setUp():
-        __mocked = NI()
-        __mocked.query = MagicMock(return_value=GOOD_TOURNAMENT_DATA)
-
-    @staticmethod
-    def tearDown():
-        __mocked = None
-
 class TestTournament(unittest.TestCase):
 
     fake_slug = 'this-is-a-fake-slug'
     bad_tournament = Tournament(None,None,None,None,None,None,None,None)
     real_slug = 'to12'
 
+    # Setup Teardown
     def setUp(self):
         dotenv.load_dotenv(dotenv_path=Path(ROOT_DIR, '.env'))
         Initializer.initialize(os.getenv('API_TOKEN'), 'info')
-        MockedTournamentNI.setUp()
 
     def tearDown(self):
         Initializer.uninitialize()
-        MockedTournamentNI.tearDown()
 
+    # Get
     def test_should_not_get_tournament_if_slug_is_empty(self):
         self.assertRaises(AssertionError, Tournament.get, None)
 
     def test_should_catch_no_tournament_data(self):
         self.assertRaises(NoTournamentDataException, Tournament.get, self.fake_slug)
 
-    def test_should_not_parse_if_data_is_none(self):
-        self.assertRaises(AssertionError, Tournament.parse, None)
+    @patch.object(NI, 'query')
+    def test_should_get_tournament_correctly(self, ni_query):
+        ni_query.return_value = GOOD_TOURNAMENT_DATA
+        expected = GOOD_TOURNAMENT
+        actual = Tournament.get(GOOD_TOURNAMENT.slug)
+        self.assertEqual(expected, actual)
+
+    # Get by Id
+    def test_should_not_get_tournament_by_id_if_id_is_none(self):
+        self.assertRaises(AssertionError, Tournament.get_by_id, None)
 
     def test_should_not_get_tournament_by_id_if_id_is_none(self):
         self.assertRaises(AssertionError, Tournament.get_by_id, None)
 
-    def test_should_not_get_events_if_tournament_has_no_id(self):
-        self.assertRaises(AssertionError, self.bad_tournament.get_events)
+    @patch.object(NI, 'query')
+    def test_should_get_tournament_correctly_by_id(self, ni_query):
+        ni_query.return_value = GOOD_TOURNAMENT_DATA
+        expected = GOOD_TOURNAMENT
+        actual = Tournament.get_by_id(GOOD_TOURNAMENT.id)
+        self.assertEqual(expected, actual)
 
-    def test_should_not_get_phases_if_tournament_has_no_id(self):
-        self.assertRaises(AssertionError, self.bad_tournament.get_phases)
+    # Parse
+    def test_should_not_parse_if_data_is_none(self):
+        self.assertRaises(AssertionError, Tournament.parse, None)
 
-    def test_should_not_get_phase_groups_if_tournament_has_no_id(self):
-        self.assertRaises(AssertionError, self.bad_tournament.get_phase_groups)
+    def test_should_not_parse_if_missing_id(self):
+        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)
+        del copied['data']['tournament']['id']
+        self.assertRaises(AssertionError, Tournament.parse, copied)
+
+    def test_should_not_parse_if_missing_name(self):
+        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)
+        del copied['data']['tournament']['name']
+        e = self.assertRaises(AssertionError, Tournament.parse, copied)
+
+    def test_should_not_parse_if_missing_slug(self):
+        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)
+        del copied['data']['tournament']['slug']
+        e = self.assertRaises(AssertionError, Tournament.parse, copied)
+
+    def test_should_not_parse_if_missing_startAt(self):
+        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)
+        del copied['data']['tournament']['startAt']
+        e = self.assertRaises(AssertionError, Tournament.parse, copied)
+
+    def test_should_not_parse_if_missing_endAt(self):
+        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)
+        del copied['data']['tournament']['endAt']
+        e = self.assertRaises(AssertionError, Tournament.parse, copied)
+
+    def test_should_not_parse_if_missing_timezone(self):
+        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)
+        del copied['data']['tournament']['timezone']
+        e = self.assertRaises(AssertionError, Tournament.parse, copied)
 
     def test_should_parse_tournament_data_correctly(self):
         expected = GOOD_TOURNAMENT
         actual = Tournament.parse(GOOD_TOURNAMENT_DATA['data']['tournament'])
         self.assertEqual(expected, actual)
 
-    def test_should_get_tournament_correctly(self):
-        expected = GOOD_TOURNAMENT
-        actual = Tournament.get(GOOD_TOURNAMENT.slug)
-        self.assertEqual(expected, actual)
+    # Get Events
+    def test_should_not_get_events_if_tournament_has_no_id(self):
+        self.assertRaises(AssertionError, self.bad_tournament.get_events)
 
-    def test_should_get_tournament_correctly_by_id(self):
-        expected = GOOD_TOURNAMENT
-        actual = Tournament.get_by_id(GOOD_TOURNAMENT.id)
-        self.assertEqual(expected, actual)
+    # Get Phases
+    def test_should_not_get_phases_if_tournament_has_no_id(self):
+        self.assertRaises(AssertionError, self.bad_tournament.get_phases)
 
+    # Get Phase Groups
+    def test_should_not_get_phase_groups_if_tournament_has_no_id(self):
+        self.assertRaises(AssertionError, self.bad_tournament.get_phase_groups)
 
+    # Get Sets
+    def test_should_not_get_sets_if_tournament_has_no_id(self):
+        self.assertRaises(AssertionError, self.bad_tournament.get_sets)
+
+    def test_should_not_get_incomplete_sets_if_tournament_has_no_id(self):
+        self.assertRaises(AssertionError, self.bad_tournament.get_incomplete_sets)
+
+    def test_should_not_get_completed_sets_if_tournament_has_no_id(self):
+        self.assertRaises(AssertionError, self.bad_tournament.get_completed_sets)
