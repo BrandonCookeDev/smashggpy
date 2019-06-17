@@ -74,6 +74,38 @@ GOOD_TOURNAMENT = Tournament(
     )
 )
 
+NO_EVENT_DATA = {
+    "data": {
+        "tournament": {
+            "events": None
+        }
+    }
+}
+
+NO_PHASE_DATA = {
+    "data": {
+        "tournament": {
+            "events": [
+                {
+                    "phases": None
+                }
+            ]
+        }
+    }
+}
+
+NO_PHASE_GROUP_DATA = {
+    "data": {
+        "tournament": {
+            "events": [
+                {
+                    "phaseGroups": None
+                }
+            ]
+        }
+    }
+}
+
 class TestTournament(unittest.TestCase):
 
     fake_slug = 'this-is-a-fake-slug'
@@ -159,13 +191,46 @@ class TestTournament(unittest.TestCase):
     def test_should_not_get_events_if_tournament_has_no_id(self):
         self.assertRaises(AssertionError, self.bad_tournament.get_events)
 
+    @patch.object(NI, 'query')
+    def test_should_fail_get_events_if_no_event_data(self, ni_query):
+        ni_query.return_value = NO_EVENT_DATA
+        self.assertRaises(NoEventDataException, GOOD_TOURNAMENT.get_events)
+
     # Get Phases
     def test_should_not_get_phases_if_tournament_has_no_id(self):
         self.assertRaises(AssertionError, self.bad_tournament.get_phases)
 
+    @patch.object(NI, 'query')
+    def test_should_fail_get_phases_if_no_event_data(self, ni_query):
+        ni_query.return_value = NO_EVENT_DATA
+        self.assertRaises(NoEventDataException, GOOD_TOURNAMENT.get_phases)
+
+    @patch.object(NI, 'query')
+    def test_should_fail_get_phases_if_no_phase_data(self, ni_query):
+        ni_query.return_value = NO_PHASE_DATA
+        self.assertRaises(NoPhaseDataException, GOOD_TOURNAMENT.get_phases)
+
     # Get Phase Groups
     def test_should_not_get_phase_groups_if_tournament_has_no_id(self):
         self.assertRaises(AssertionError, self.bad_tournament.get_phase_groups)
+
+    @patch.object(NI, 'query')
+    def test_should_fail_get_phases_it_no_event_data(self, ni_query):
+        ni_query.return_value = NO_EVENT_DATA
+        self.assertRaises(NoEventDataException, GOOD_TOURNAMENT.get_phase_groups)
+
+    @patch.object(NI, 'query')
+    def test_should_fail_get_phases_if_no_phase_data(self, ni_query):
+        ni_query.return_value = NO_PHASE_GROUP_DATA
+        self.assertRaises(NoPhaseGroupDataException, GOOD_TOURNAMENT.get_phase_groups)
+
+    # Get Attendees
+    def test_should_not_get_attendees_if_tournament_has_no_id(self):
+        self.assertRaises(AssertionError, self.bad_tournament.get_attendees)
+
+    # Get Entrants
+    def test_should_not_get_entrants_if_tournament_has_no_id(self):
+        self.assertRaises(AssertionError, self.bad_tournament.get_entrants)
 
     # Get Sets
     def test_should_not_get_sets_if_tournament_has_no_id(self):
@@ -176,3 +241,4 @@ class TestTournament(unittest.TestCase):
 
     def test_should_not_get_completed_sets_if_tournament_has_no_id(self):
         self.assertRaises(AssertionError, self.bad_tournament.get_completed_sets)
+

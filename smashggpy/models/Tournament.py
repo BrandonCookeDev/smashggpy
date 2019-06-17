@@ -94,6 +94,9 @@ class Tournament(object):
 
         try:
             base_data = data['data']['tournament']['events']
+            if base_data is None:
+                raise NoEventDataException(self.slug)
+
             return [Event.parse(event_data) for event_data in base_data]
         except AttributeError as e:
             raise NoEventDataException(self.slug)
@@ -103,14 +106,22 @@ class Tournament(object):
         data = NI.query(queries.get_tournament_phases, {'id': self.id})
 
         try:
-            base_events = data['data']['tournament']['events']
             phases = []
+            base_events = data['data']['tournament']['events']
+            if base_events is None:
+                raise NoEventDataException(self.slug)
+
             for event in base_events:
                 try:
-                    for event_phase in event['phases']:
+                    phase_data = event['phases']
+                    if phase_data is None:
+                        raise NoPhaseDataException(self.slug)
+
+                    for event_phase in phase_data:
                         phases.append(Phase.parse(event_phase))
                 except AttributeError as inner_e:
                     NoPhaseDataException(self.slug)
+
             return phases
         except AttributeError as e:
             raise NoEventDataException(self.slug)
@@ -120,14 +131,22 @@ class Tournament(object):
         data = NI.query(queries.get_tournament_phase_groups, {'id': self.id})
 
         try:
-            base_events = data['data']['tournament']['events']
             phase_groups = []
+            base_events = data['data']['tournament']['events']
+            if base_events is None:
+                raise NoEventDataException(self.slug)
+
             for event in base_events:
                 try:
-                    for event_phase_groups in event['phaseGroups']:
+                    group_data = event['phaseGroups']
+                    if group_data is None:
+                        raise NoPhaseGroupDataException(self.slug)
+
+                    for event_phase_groups in group_data:
                         phase_groups.append(PhaseGroup.parse(event_phase_groups))
                 except AttributeError as inner_e:
                     NoPhaseGroupDataException(self.slug)
+
             return phase_groups
         except AttributeError as e:
             raise NoEventDataException(self.slug)
