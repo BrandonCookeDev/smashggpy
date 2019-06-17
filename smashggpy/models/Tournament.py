@@ -46,7 +46,10 @@ class Tournament(object):
         try:
             base_data = data['data']
             print(base_data)
-            if 'tournament' not in base_data: print('hello')
+
+            if base_data['tournament'] is None:
+                raise NoTournamentDataException(slug)
+
             tournament_data = base_data['tournament']
             return Tournament.parse(tournament_data)
         except AttributeError as e:
@@ -56,7 +59,7 @@ class Tournament(object):
     @staticmethod
     def get_by_id(id: int):
         assert (id is not None), "Tournament.get_by_id must have an id parameter"
-        data = NI.query(queries.get_tournament_by_id, {'id': id})
+        data = NI.query(queries.get_tournament, {'id': id})
 
         try:
             base_data = data['data']['tournament']
@@ -66,7 +69,14 @@ class Tournament(object):
 
     @staticmethod
     def parse(data):
-        assert (data is not None), "Tournament.parse must have a data parameter"
+        assert (data is not None), 'Tournament.parse must have a data parameter'
+        assert ('id' in data), 'Tournament.parse must have id in data parameter'
+        assert ('name' in data), 'Tournament.parse must have id in data parameter'
+        assert ('slug' in data), 'Tournament.parse must have id in data parameter'
+        assert ('startAt' in data), 'Tournament.parse must have id in data parameter'
+        assert ('endAt' in data), 'Tournament.parse must have id in data parameter'
+        assert ('timezone' in data), 'Tournament.parse must have id in data parameter'
+
         return Tournament(
             data['id'],
             data['name'],
@@ -123,12 +133,14 @@ class Tournament(object):
             raise NoEventDataException(self.slug)
 
     def get_attendees(self):
+        assert (self.id is not None), "tournament id cannot be None if calling get_attendees"
         Logger.info('Getting Attendees for Tournament: {0}:{1}'.format(self.id, self.name))
         phase_groups = self.get_phase_groups()
         attendees = flatten([phase_group.get_attendees() for phase_group in phase_groups])
         return attendees
 
     def get_entrants(self):
+        assert (self.id is not None), "tournament id cannot be None if calling get_entrants"
         Logger.info('Getting Entrants for Tournament: {0}:{1}'.format(self.id, self.name))
         Logger.warning('Aggregate queries ')
         phase_groups = self.get_phase_groups()
@@ -136,12 +148,14 @@ class Tournament(object):
         return entrants
 
     def get_sets(self):
+        assert (self.id is not None), "tournament id cannot be None if calling get_sets"
         Logger.info('Getting Sets for Tournament: {0}:{1}'.format(self.id, self.name))
         phase_groups = self.get_phase_groups()
         sets = flatten([phase_group.get_sets() for phase_group in phase_groups])
         return sets
 
     def get_incomplete_sets(self):
+        assert (self.id is not None), "tournament id cannot be None if calling get_incomplete_sets"
         Logger.info('Getting Incomplete Sets for Tournament: {0}:{1}'.format(self.id, self.name))
         sets = self.get_sets()
         incomplete_sets = []
@@ -151,6 +165,7 @@ class Tournament(object):
         return incomplete_sets
 
     def get_completed_sets(self):
+        assert (self.id is not None), "tournament id cannot be None if calling get_completed_sets"
         Logger.info('Getting Completed Sets for Tournament: {0}:{1}'.format(self.id, self.name))
         sets = self.get_sets()
         complete_sets = []
