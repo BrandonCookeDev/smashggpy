@@ -1,24 +1,24 @@
 tournament_schema = """
-    id
-    name
-    slug
-    city
-    postalCode
-    addrState
-    countryCode
-    region
-    venueAddress
-    venueName
-    gettingThere
-    lat
-    lng
-    timezone
-    startAt
-    endAt
-    contactEmail
-    contactTwitter
-    contactPhone
-    ownerId
+id
+name
+slug
+city
+postalCode
+addrState
+countryCode
+region
+venueAddress
+venueName
+gettingThere
+lat
+lng
+timezone
+startAt
+endAt
+contactEmail
+contactTwitter
+contactPhone
+ownerId
 """
 
 event_schema = """

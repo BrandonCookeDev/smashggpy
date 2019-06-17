@@ -33,7 +33,8 @@ class Tournament(object):
         return hash(self) == hash(other)
 
     def __hash__(self):
-        return hash((self.id, self.name, self.slug, self.start_time, self.end_time, self.timezone, self.venue, self.organizer))
+        return hash((self.id, self.name, self.slug, self.start_time,
+                     self.end_time, self.timezone, self.venue, self.organizer))
 
     @staticmethod
     def get(slug: str):

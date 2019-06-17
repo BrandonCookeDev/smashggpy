@@ -9,8 +9,10 @@ class Organizer(object):
         self.info = info
 
     def __eq__(self, other):
-        if other is None: return False
-        if type(other) != type(self): return False
+        if other is None:
+            return False
+        if type(other) != type(self):
+            return False
         return hash(self) == hash(other)
 
     def __hash__(self):
@@ -18,6 +20,12 @@ class Organizer(object):
 
     @staticmethod
     def parse(data):
+        assert (data is not None), 'Organizer.parse must not have a None data parameter'
+        assert ('ownerId' in data), 'Organizer.parse must have an ownerId property in data parameter'
+        assert ('contactEmail' in data), 'Organizer.parse must have a contactEmail property in data parameter'
+        assert ('contactPhone' in data), 'Organizer.parse must have a contactInfo property in data parameter'
+        assert ('contactTwitter' in data), 'Organizer.parse must have a contactTwitter property in data parameter'
+        # assert ('contactInfo' in data), 'Organizer.parse must have a contactInfo property in data parameter
         return Organizer(
             data['ownerId'],
             data['contactEmail'],

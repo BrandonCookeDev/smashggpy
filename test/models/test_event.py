@@ -15,6 +15,10 @@ from smashggpy.models.Tournament import Tournament
 from smashggpy.models.Venue import Venue
 from smashggpy.models.Organizer import Organizer
 
+GOOD_EVENT_DATA = {
+
+}
+
 class TestEvent(unittest.TestCase):
 
     def setUp(self):
