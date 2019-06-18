@@ -30,6 +30,19 @@ class User(object):
 
     @staticmethod
     def parse(data):
+        assert (data is not None), 'User.parse must not have a none data parameter'
+        assert ('id' in data), 'User.parse must have a id property in data parameter'
+        assert ('gamerTag' in data), 'User.parse must have a gamerTag property in data parameter'
+        assert ('prefix' in data), 'User.parse must have a prefix property in data parameter'
+        assert ('color' in data), 'User.parse must have a color property in data parameter'
+        assert ('twitchStream' in data), 'User.parse must have a twitchStream property in data parameter'
+        assert ('twitterHandle' in data), 'User.parse must have a twitterHandle property in data parameter'
+        assert ('youtube' in data), 'User.parse must have a youtube property in data parameter'
+        assert ('region' in data), 'User.parse must have a region property in data parameter'
+        assert ('state' in data), 'User.parse must have a state property in data parameter'
+        assert ('country' in data), 'User.parse must have a country property in data parameter'
+        assert ('gamerTagChangedAt' in data), 'User.parse must have a gamerTagChangedAt property in data parameter'
+
         return User(
             data['id'],
             data['gamerTag'],

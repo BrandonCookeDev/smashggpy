@@ -28,3 +28,11 @@ class NoPhaseGroupDataException(Exception):
 		self.message = 'No phase group data pulled back for tournament {}'.format(slug)
 
 
+class DataPullException(Exception):
+	def __init__(self, identifier: str, msg: str):
+		self.message = 'An error occurred when pulling data for {}: {}'.format(identifier, msg)
+
+
+class DataMalformedException(Exception):
+	def __init__(self, data: dict):
+		self.message = 'Data came back malformed: {}'.format(data)

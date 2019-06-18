@@ -37,7 +37,24 @@ class GGSet(object):
 
     @staticmethod
     def parse(data):
+        assert (data is not None), 'GGSet.parse cannot have a none data parameter'
+        assert ('id' in data), 'GGSet.parse must have an id property in data parameter'
+        assert ('eventId' in data), 'GGset.parse must have a eventId property in data parameter'
+        assert ('phaseGroupId' in data), 'GGset.parse must have a phaseGroupId property in data parameter'
+        assert ('displayScore' in data), 'GGset.parse must have a displayScore property in data parameter'
+        assert ('fullRoundText' in data), 'GGset.parse must have a fullRoundText property in data parameter'
+        assert ('round' in data), 'GGset.parse must have a round property in data parameter'
+        assert ('startedAt' in data), 'GGset.parse must have a startedAt property in data parameter'
+        assert ('completedAt' in data), 'GGset.parse must have a completedAt property in data parameter'
+        assert ('winnerId' in data), 'GGset.parse must have a winnerId property in data parameter'
+        assert ('totalGames' in data), 'GGset.parse must have a totalGames property in data parameter'
+        assert ('state' in data), 'GGset.parse must have a state property in data parameter'
+
         display_score_parsed = GGSet.parse_display_score(data['displayScore'])
+        assert ('p1_tag' in data), 'GGSet.parse must resolve p1_tag property in display score'
+        assert ('p2_tag' in data), 'GGSet.parse must resolve p2_tag property in display score'
+        assert ('p1_score' in data), 'GGSet.parse must resolve p1_score property in display score'
+        assert ('p2_score' in data), 'GGSet.parse must resolve p2_score property in display score'
 
         return GGSet(
             data['id'],

@@ -1,9 +1,10 @@
 import smashggpy.queries.Event_Queries as queries
 from smashggpy.util.Logger import Logger
-from smashggpy.common.Common import flatten
+from smashggpy.common.Common import flatten, validate_data
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
 from smashggpy.util.ThreadFactory import ThreadFactory
-from smashggpy.common.Exceptions import NoEventDataException, NoPhaseGroupDataException, NoPhaseDataException
+from smashggpy.common.Exceptions import \
+    DataPullException, NoEventDataException, NoPhaseGroupDataException, NoPhaseDataException
 
 
 class Event(object):
@@ -23,6 +24,7 @@ class Event(object):
         self.is_online = is_online
         self.team_name_allowed = team_name_allowed
         self.team_management_deadline = team_management_deadline
+        self.identifier = '{}:{}'.format(self.id, self.name)
 
     def __eq__(self, other):
         if other is None:
@@ -43,13 +45,14 @@ class Event(object):
         assert (event_slug is not None), "Event.get cannot have None for event_slug parameter"
         slug = "tournament/{0}/event/{1}".format(tournament_slug, event_slug)
         data = NI.query(queries.get_event_by_slugs, {"slug": slug})
+        validate_data(data)
 
         try:
-            base_data = data['data']['event']
-            if base_data is None:
+            event_data = data['data']['event']
+            if event_data is None:
                 raise NoEventDataException('{}:{}'.format(tournament_slug, event_slug))
 
-            return Event.parse(base_data)
+            return Event.parse(event_data)
         except AttributeError as e:
             raise NoEventDataException('{}:{}'.format(tournament_slug, event_slug))
 
@@ -57,13 +60,14 @@ class Event(object):
     def get_by_id(id: int):
         assert (id is not None), "Event.get_by_id cannot have None for id parameter"
         data = NI.query(queries.get_event_by_id, {'id': id})
+        validate_data(data)
 
         try:
-            base_data = data['data']['event']
-            if base_data is None:
+            event_data = data['data']['event']
+            if event_data is None:
                 raise NoEventDataException(id)
 
-            return Event.parse(base_data)
+            return Event.parse(event_data)
         except AttributeError as e:
             raise NoEventDataException(id)
 
@@ -102,9 +106,17 @@ class Event(object):
         assert (self.id is not None), "event id cannot be None if calling get_phases"
         Logger.info('Getting Phases for Event: {0}:{1}'.format(self.id, self.name))
         data = NI.query(queries.get_event_phases, {'id': self.id})
+        validate_data(data)
 
         try:
-            phases_data = data['data']['event']['phases']
+            event_data = data['data']['event']
+            if event_data is None:
+                raise NoEventDataException(self.identifier)
+
+            phases_data = event_data['phases']
+            if phases_data is None:
+                raise NoPhaseDataException(self.identifier)
+
             return [Phase.parse(phase_data) for phase_data in phases_data]
         except AttributeError as e:
             raise Exception("No phase data pulled back for event {} {}".format(self.id, self.name))
@@ -113,12 +125,20 @@ class Event(object):
         assert (self.id is not None), "event id cannot be None if calling get_phase_groups"
         Logger.info('Getting Phase Groups for Event: {0}:{1}'.format(self.id, self.name))
         data = NI.query(queries.get_event_phase_groups, {'id': self.id})
+        validate_data(data)
 
         try:
-            phase_groups_data = data['data']['event']['phaseGroups']
+            event_data = data['data']['event']
+            if event_data is None:
+                raise NoEventDataException(self.identifier)
+
+            phase_groups_data = event_data['phaseGroups']
+            if phase_groups_data is None:
+                raise NoPhaseGroupDataException(self.identifier)
+
             return [PhaseGroup.parse(phase_group_data) for phase_group_data in phase_groups_data]
         except AttributeError as e:
-            raise Exception("No phase group data pulled back for event {} {}".format(self.id, self.name))
+            raise Exception("No phase group data pulled back for event {}".format(self.identifier))
 
     def get_attendees(self):
         Logger.info('Getting Attendees for Event: {0}:{1}'.format(self.id, self.name))

@@ -20,6 +20,13 @@ class Entrant(object):
 
     @staticmethod
     def parse(data):
+        assert (data is not None), 'Entrant.parse must not have a none data parameter'
+        assert ('id' in data), 'Entrant.parse must have a id property in data parameter'
+        assert ('name' in data), 'Entrant.parse must have a name property in data parameter'
+        assert ('eventId' in data), 'Entrant.parse must have a eventId property in data parameter'
+        assert ('skill' in data), 'Entrant.parse must have a skill property in data parameter'
+        assert ('participants' in data), 'Entrant.parse must have a participants property in data parameter'
+
         return Entrant(
             data['id'],
             data['name'],

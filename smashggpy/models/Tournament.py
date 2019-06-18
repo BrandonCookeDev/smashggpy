@@ -1,14 +1,13 @@
 import smashggpy.queries.Tournament_Queries as queries
 
 from smashggpy.util.Logger import Logger
-from smashggpy.common.Common import flatten
+from smashggpy.common.Common import flatten, validate_data
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
 from smashggpy.models.Venue import Venue
 from smashggpy.models.Organizer import Organizer
-from smashggpy.common.Exceptions import NoTournamentDataException
-from smashggpy.common.Exceptions import NoEventDataException
-from smashggpy.common.Exceptions import NoPhaseDataException
-from smashggpy.common.Exceptions import NoPhaseGroupDataException
+from smashggpy.common.Exceptions import \
+    DataPullException, NoTournamentDataException, NoEventDataException, \
+    NoPhaseDataException, NoPhaseGroupDataException
 
 
 class Tournament(object):
@@ -40,16 +39,13 @@ class Tournament(object):
     def get(slug: str):
         assert (slug is not None), "Tournament.get must have a slug parameter"
         data = NI.query(queries.get_tournament_by_slug, {'slug': slug})
-
-        if 'errors' in data:
-            raise Exception('Error occurred in pulling tournament {}, {}'.format(slug, data['errors']))
+        validate_data(data)
 
         try:
-            base_data = data['data']
-            if base_data['tournament'] is None:
+            tournament_data = data['data']['tournament']
+            if tournament_data is None:
                 raise NoTournamentDataException(slug)
 
-            tournament_data = base_data['tournament']
             return Tournament.parse(tournament_data)
         except AttributeError as e:
             raise NoTournamentDataException(slug)
@@ -58,13 +54,14 @@ class Tournament(object):
     def get_by_id(id: int):
         assert (id is not None), "Tournament.get_by_id must have an id parameter"
         data = NI.query(queries.get_tournament, {'id': id})
+        validate_data(data)
 
         try:
-            base_data = data['data']['tournament']
-            if base_data is None:
+            tournament_data = data['data']['tournament']
+            if tournament_data is None:
                 raise NoTournamentDataException(id)
 
-            return Tournament.parse(base_data)
+            return Tournament.parse(tournament_data)
         except AttributeError as e:
             raise NoTournamentDataException(id)
 
@@ -92,65 +89,63 @@ class Tournament(object):
     def get_events(self):
         assert (self.id is not None), "tournament id cannot be None if calling get_events"
         data = NI.query(queries.get_tournament_events, {'id': self.id})
+        validate_data(data)
 
-        try:
-            base_data = data['data']['tournament']['events']
-            if base_data is None:
-                raise NoEventDataException(self.slug)
+        tournament_data = data['data']['tournament']
+        if tournament_data is None:
+            raise NoTournamentDataException(self.slug)
 
-            return [Event.parse(event_data) for event_data in base_data]
-        except AttributeError as e:
+        base_data = tournament_data['events']
+        if base_data is None:
             raise NoEventDataException(self.slug)
+
+        return [Event.parse(event_data) for event_data in base_data]
 
     def get_phases(self):
         assert (self.id is not None), "tournament id cannot be None if calling get_phases"
+
+        phases = []
         data = NI.query(queries.get_tournament_phases, {'id': self.id})
+        validate_data(data)
 
-        try:
-            phases = []
-            base_events = data['data']['tournament']['events']
-            if base_events is None:
-                raise NoEventDataException(self.slug)
+        tournament_data = data['data']['tournament']
+        if tournament_data is None:
+            raise NoTournamentDataException(self.slug)
 
-            for event in base_events:
-                try:
-                    phase_data = event['phases']
-                    if phase_data is None:
-                        raise NoPhaseDataException(self.slug)
-
-                    for event_phase in phase_data:
-                        phases.append(Phase.parse(event_phase))
-                except AttributeError as inner_e:
-                    NoPhaseDataException(self.slug)
-
-            return phases
-        except AttributeError as e:
+        event_data = tournament_data['events']
+        if event_data is None:
             raise NoEventDataException(self.slug)
+
+        phase_data = [event['phases'] for event in event_data]
+        for phase in phase_data:
+            if phase is None:
+                raise NoPhaseDataException(self.slug)
+            [phases.append(Phase.parse(event_phase)) for event_phase in phase]
+
+        return phases
 
     def get_phase_groups(self):
         assert (self.id is not None), "tournament id cannot be None if calling get_phase_groups"
+
+        phase_groups = []
         data = NI.query(queries.get_tournament_phase_groups, {'id': self.id})
+        validate_data(data)
 
-        try:
-            phase_groups = []
-            base_events = data['data']['tournament']['events']
-            if base_events is None:
-                raise NoEventDataException(self.slug)
+        tournament_data = data['data']['tournament']
+        if tournament_data is None:
+            raise NoTournamentDataException(self.slug)
 
-            for event in base_events:
-                try:
-                    group_data = event['phaseGroups']
-                    if group_data is None:
-                        raise NoPhaseGroupDataException(self.slug)
-
-                    for event_phase_groups in group_data:
-                        phase_groups.append(PhaseGroup.parse(event_phase_groups))
-                except AttributeError as inner_e:
-                    NoPhaseGroupDataException(self.slug)
-
-            return phase_groups
-        except AttributeError as e:
+        event_data = tournament_data['events']
+        if event_data is None:
             raise NoEventDataException(self.slug)
+
+        phase_groups_data = [event['phaseGroups'] for event in event_data]
+        for phase_group in phase_groups_data:
+            if phase_group is None:
+                raise NoPhaseGroupDataException(self.slug)
+            [phase_groups.append(PhaseGroup.parse(phase_group_data)) for phase_group_data in phase_group]
+
+        return phase_groups
 
     def get_attendees(self):
         assert (self.id is not None), "tournament id cannot be None if calling get_attendees"

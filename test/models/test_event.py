@@ -17,7 +17,7 @@ from smashggpy.common.Exceptions import NoPhaseGroupDataException
 from smashggpy.models.Event import Event
 
 from test.testing_common.common import run_dotenv, get_event_from_event_slug, get_tournament_from_event_slug
-from test.testing_common.data import GOOD_EVENT_DATA_1, GOOD_EVENT_DATA_2, EVENT_NO_EVENT_DATA
+from test.testing_common.data import GOOD_EVENT_DATA_1, GOOD_EVENT_DATA_2, EVENT_NO_EVENT_DATA, EVENT_NO_PHASE_DATA
 
 GOOD_EVENT_1 = Event(
     id=GOOD_EVENT_DATA_1['data']['event']['id'],
@@ -47,6 +47,21 @@ GOOD_EVENT_2 = Event(
     is_online=GOOD_EVENT_DATA_2['data']['event']['isOnline'],
     team_name_allowed=GOOD_EVENT_DATA_2['data']['event']['teamNameAllowed'],
     team_management_deadline=GOOD_EVENT_DATA_2['data']['event']['teamManagementDeadline']
+)
+
+BAD_EVENT = Event(
+    id=None,
+    name=None,
+    slug=None,
+    state=None,
+    start_at=None,
+    num_entrants=None,
+    check_in_buffer=None,
+    check_in_duration=None,
+    check_in_enabled=None,
+    is_online=None,
+    team_name_allowed=None,
+    team_management_deadline=None
 )
 
 
@@ -188,6 +203,18 @@ class TestEvent(unittest.TestCase):
         self.assertRaises(NoEventDataException, Event.get_by_id, GOOD_EVENT_1.id)
 
     # Get Phases
+    def test_should_not_get_phases_if_event_has_no_id(self):
+        self.assertRaises(AssertionError, BAD_EVENT.get_phases)
+
+    @patch.object(NI, 'query')
+    def test_should_not_get_phases_if_no_event_data_comes_back(self, ni_query):
+        ni_query.return_value = EVENT_NO_EVENT_DATA
+        self.assertRaises(NoEventDataException, GOOD_EVENT_1.get_phases)
+
+    @patch.object(NI, 'query')
+    def test_should_not_get_phases_if_no_phase_data_comes_back(self, ni_query):
+        ni_query.return_value = EVENT_NO_PHASE_DATA
+        self.assertRaises(NoPhaseDataException, GOOD_EVENT_1.get_phases)
 
     # Get Phase Groups
 
