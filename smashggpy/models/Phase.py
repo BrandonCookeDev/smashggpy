@@ -1,6 +1,6 @@
 import smashggpy.queries.Phase_Queries as queries
 from smashggpy.util.Logger import Logger
-from smashggpy.common.Common import flatten
+from smashggpy.common.Common import flatten, validate_data
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
 
 class Phase(object):
@@ -25,6 +25,7 @@ class Phase(object):
     def get(id: int):
         assert (id is not None), "Phase.get cannot have None for id parameter"
         data = NI.query(queries.phase_by_id, {'id': id})
+        validate_data(data)
 
         try:
             base_data = data['data']['phase']
@@ -46,6 +47,7 @@ class Phase(object):
         assert (self.id is not None), "phase id cannot be None when calling get_phase_groups"
         Logger.info('Getting Phase Groups for Phase: {0}:{1}'.format(self.id, self.name))
         data = NI.paginated_query(queries.phase_phase_groups, {'id': self.id})
+        validate_data(data)
         return [PhaseGroup.parse(phase_group_data) for phase_group_data in data]
 
     def get_attendees(self):

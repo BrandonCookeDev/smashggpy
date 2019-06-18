@@ -36,6 +36,23 @@ class Stream(object):
 
     @staticmethod
     def parse(data):
+        assert (data is not None), 'Stream.parse must not have a none data parameter'
+        assert ('id' in data), 'Stream.parse must have a id property in data parameter'
+        assert ('eventId' in data), 'Stream.parse must have a eventId property in data parameter'
+        assert ('tournamentId' in data), 'Stream.parse must have a tournamentId property in data parameter'
+        assert ('streamName' in data), 'Stream.parse must have a streamName property in data parameter'
+        assert ('numSetups' in data), 'Stream.parse must have a numSetups property in data parameter'
+        assert ('streamSource' in data), 'Stream.parse must have a streamSource property in data parameter'
+        assert ('streamType' in data), 'Stream.parse must have a streamType property in data parameter'
+        assert ('streamTypeId' in data), 'Stream.parse must have a streamTypeId property in data parameter'
+        assert ('isOnline' in data), 'Stream.parse must have a isOnline property in data parameter'
+        assert ('enabled' in data), 'Stream.parse must have a enabled property in data parameter'
+        assert ('followerCount' in data), 'Stream.parse must have a followerCount property in data parameter'
+        assert ('removesTasks' in data), 'Stream.parse must have a removesTasks property in data parameter'
+        assert ('streamStatus' in data), 'Stream.parse must have a streamStatus property in data parameter'
+        assert ('streamGame' in data), 'Stream.parse must have a streamGame property in data parameter'
+        assert ('streamLogo' in data), 'Stream.parse must have a streamLogo property in data parameter'
+
         return Stream(
             data['id'],
             data['eventId'],

@@ -8,21 +8,24 @@ from unittest.mock import MagicMock, Mock, patch
 # Imports
 from smashggpy.util import Initializer
 from smashggpy.common import Common
-from smashggpy.common.Exceptions import NoTournamentDataException
-from smashggpy.common.Exceptions import NoEventDataException
-from smashggpy.common.Exceptions import NoPhaseDataException
-from smashggpy.common.Exceptions import NoPhaseGroupDataException
 from smashggpy.models.Tournament import Tournament
 from smashggpy.models.Venue import Venue
 from smashggpy.models.Organizer import Organizer
+from smashggpy.models.Event import Event
+from smashggpy.models.Phase import Phase
+from smashggpy.models.PhaseGroup import PhaseGroup
+
+from smashggpy.common.Exceptions import NoTournamentDataException, NoEventDataException, NoPhaseDataException, \
+    NoPhaseGroupDataException, DataPullException
 
 # Mocking
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
 
 # Testing Infra
 from test.testing_common.common import run_dotenv
-from test.testing_common.data import GOOD_TOURNAMENT_DATA, TOURNAMENT_NO_EVENT_DATA, \
-    TOURNAMENT_NO_PHASE_GROUP_DATA, TOURNAMENT_NO_PHASE_DATA, TOURNAMENT_NO_TOURNAMENT_DATA
+from test.testing_common.data import ERRORS, GOOD_TOURNAMENT_DATA, TOURNAMENT_NO_EVENT_DATA, \
+    TOURNAMENT_NO_PHASE_GROUP_DATA, TOURNAMENT_NO_PHASE_DATA, TOURNAMENT_NO_TOURNAMENT_DATA, \
+    TOURNAMENT_PHASE_DATA, TOURNAMENT_EVENT_DATA, TOURNAMENT_PHASE_GROUP_DATA
 
 
 GOOD_TOURNAMENT = Tournament(
@@ -103,6 +106,11 @@ class TestTournament(unittest.TestCase):
         ni_query.return_value = TOURNAMENT_NO_TOURNAMENT_DATA
         self.assertRaises(NoTournamentDataException, Tournament.get, GOOD_TOURNAMENT.slug)
 
+    @patch.object(NI, 'query')
+    def test_should_handle_errors_in_get_return_data(self, ni_query):
+        ni_query.return_value = ERRORS
+        self.assertRaises(DataPullException, Tournament.get, GOOD_TOURNAMENT.slug)
+
     # Get by Id
     def test_should_not_get_tournament_by_id_if_id_is_none(self):
         self.assertRaises(AssertionError, Tournament.get_by_id, None)
@@ -120,7 +128,12 @@ class TestTournament(unittest.TestCase):
     @patch.object(NI, 'query')
     def test_should_fail_get_tournament_by_id_if_no_tournament_data(self, ni_query):
         ni_query.return_value = TOURNAMENT_NO_TOURNAMENT_DATA
-        self.assertRaises(NoTournamentDataException, Tournament.get_by_id, GOOD_TOURNAMENT.slug)
+        self.assertRaises(NoTournamentDataException, Tournament.get_by_id, GOOD_TOURNAMENT.id)
+
+    @patch.object(NI, 'query')
+    def test_should_handle_errors_in_get_by_id_return_data(self, ni_query):
+        ni_query.return_value = ERRORS
+        self.assertRaises(DataPullException, Tournament.get_by_id, GOOD_TOURNAMENT.id)
 
     # Parse
     def test_should_not_parse_if_data_is_none(self):
@@ -166,13 +179,54 @@ class TestTournament(unittest.TestCase):
         self.assertRaises(AssertionError, self.bad_tournament.get_events)
 
     @patch.object(NI, 'query')
+    def test_should_get_events_successfully(self, ni_query):
+        ni_query.return_value = TOURNAMENT_EVENT_DATA
+        actual = GOOD_TOURNAMENT.get_events()
+        self.assertEqual(2, len(actual))
+        for obj in actual:
+            self.assertIsInstance(obj, Event)
+
+    @patch.object(NI, 'query')
+    def test_should_handle_errors_in_get_events(self, ni_query):
+        ni_query.return_value = ERRORS
+        self.assertRaises(DataPullException, GOOD_TOURNAMENT.get_phases)
+
+    @patch.object(NI, 'query')
+    def test_should_fail_get_events_if_no_tournament_data(self, ni_query):
+        ni_query.return_value = TOURNAMENT_NO_TOURNAMENT_DATA
+        self.assertRaises(NoTournamentDataException, GOOD_TOURNAMENT.get_events)
+
+    @patch.object(NI, 'query')
     def test_should_fail_get_events_if_no_event_data(self, ni_query):
         ni_query.return_value = TOURNAMENT_NO_EVENT_DATA
         self.assertRaises(NoEventDataException, GOOD_TOURNAMENT.get_events)
 
+    @patch.object(NI, 'query')
+    def test_should_handle_errors_in_the_return_data_for_events(self, ni_query):
+        ni_query.return_value = ERRORS
+        self.assertRaises(DataPullException, GOOD_TOURNAMENT.get_events)
+
     # Get Phases
     def test_should_not_get_phases_if_tournament_has_no_id(self):
         self.assertRaises(AssertionError, self.bad_tournament.get_phases)
+
+    @patch.object(NI, 'query')
+    def test_should_get_phases_successfully(self, ni_query):
+        ni_query.return_value = TOURNAMENT_PHASE_DATA
+        actual = GOOD_TOURNAMENT.get_phases()
+        self.assertEqual(4, len(actual))
+        for obj in actual:
+            self.assertIsInstance(obj, Phase)
+
+    @patch.object(NI, 'query')
+    def test_should_handle_errors_in_get_phases(self, ni_query):
+        ni_query.return_value = ERRORS
+        self.assertRaises(DataPullException, GOOD_TOURNAMENT.get_phases)
+
+    @patch.object(NI, 'query')
+    def test_should_fail_get_phases_if_no_tournament_data(self, ni_query):
+        ni_query.return_value = TOURNAMENT_NO_TOURNAMENT_DATA
+        self.assertRaises(NoTournamentDataException, GOOD_TOURNAMENT.get_phases)
 
     @patch.object(NI, 'query')
     def test_should_fail_get_phases_if_no_event_data(self, ni_query):
@@ -189,12 +243,30 @@ class TestTournament(unittest.TestCase):
         self.assertRaises(AssertionError, self.bad_tournament.get_phase_groups)
 
     @patch.object(NI, 'query')
-    def test_should_fail_get_phases_it_no_event_data(self, ni_query):
+    def test_should_succesfully_get_phase_groups(self, ni_query):
+        ni_query.return_value = TOURNAMENT_PHASE_GROUP_DATA
+        actual = GOOD_TOURNAMENT.get_phase_groups()
+        self.assertEqual(4, len(actual))
+        for obj in actual:
+            self.assertIsInstance(obj, PhaseGroup)
+
+    @patch.object(NI, 'query')
+    def test_should_handle_errors_in_get_phase_groups(self, ni_query):
+        ni_query.return_value = ERRORS
+        self.assertRaises(DataPullException, GOOD_TOURNAMENT.get_phases)
+
+    @patch.object(NI, 'query')
+    def test_should_fail_get_phase_groups_if_no_tournament_data(self, ni_query):
+        ni_query.return_value = TOURNAMENT_NO_TOURNAMENT_DATA
+        self.assertRaises(NoTournamentDataException, GOOD_TOURNAMENT.get_phase_groups)
+
+    @patch.object(NI, 'query')
+    def test_should_fail_get_phase_groups_if_no_event_data(self, ni_query):
         ni_query.return_value = TOURNAMENT_NO_EVENT_DATA
         self.assertRaises(NoEventDataException, GOOD_TOURNAMENT.get_phase_groups)
 
     @patch.object(NI, 'query')
-    def test_should_fail_get_phases_if_no_phase_data(self, ni_query):
+    def test_should_fail_get_phase_groups_if_no_phase_group_data(self, ni_query):
         ni_query.return_value = TOURNAMENT_NO_PHASE_GROUP_DATA
         self.assertRaises(NoPhaseGroupDataException, GOOD_TOURNAMENT.get_phase_groups)
 

@@ -29,6 +29,19 @@ class Attendee(object):
 
     @staticmethod
     def parse(data):
+        assert (data is not None), 'Attendee.parse must not have a none data parameter'
+        assert ('id' in data), 'Attendee.parse must have a id property in data parameter'
+        assert ('gamerTag' in data), 'Attendee.parse must have a gamerTag property in data parameter'
+        assert ('prefix' in data), 'Attendee.parse must have a prefix property in data parameter'
+        assert ('createdAt' in data), 'Attendee.parse must have a createdAt property in data parameter'
+        assert ('claimed' in data), 'Attendee.parse must have a claimed property in data parameter'
+        assert ('verified' in data), 'Attendee.parse must have a verified property in data parameter'
+        assert ('playerId' in data), 'Attendee.parse must have a playerId property in data parameter'
+        assert ('phoneNumber' in data), 'Attendee.parse must have a phoneNumber property in data parameter'
+        assert ('connectedAccounts' in data), 'Attendee.parse must have a connectedAccounts property in data parameter'
+        assert ('contactInfo' in data), 'Attendee.parse must have a contactInfo property in data parameter'
+        assert ('events' in data), 'Attendee.parse must have a events property in data parameter'
+
         return Attendee(
             data['id'],
             data['gamerTag'],
