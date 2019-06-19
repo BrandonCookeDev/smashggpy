@@ -7,7 +7,7 @@ from smashggpy.models.Venue import Venue
 from smashggpy.models.Organizer import Organizer
 from smashggpy.common.Exceptions import \
     DataPullException, NoTournamentDataException, NoEventDataException, \
-    NoPhaseDataException, NoPhaseGroupDataException
+    NoPhaseDataException, NoPhaseGroupDataException, DataMalformedException
 
 
 class Tournament(object):
@@ -68,6 +68,12 @@ class Tournament(object):
     @staticmethod
     def parse(data):
         assert (data is not None), 'Tournament.parse must have a data parameter'
+        if 'data' in data and 'tournament' in data['data']:
+            raise DataMalformedException(data,
+                                         'data is malformed for Tournament.parse. '
+                                         'Please give only what is contained in the '
+                                         '"tournament" property')
+
         assert ('id' in data), 'Tournament.parse must have id in data parameter'
         assert ('name' in data), 'Tournament.parse must have id in data parameter'
         assert ('slug' in data), 'Tournament.parse must have id in data parameter'

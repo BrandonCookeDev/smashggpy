@@ -12,12 +12,13 @@ from smashggpy.util.NetworkInterface import NetworkInterface as NI
 from smashggpy.common.Exceptions import NoTournamentDataException
 from smashggpy.common.Exceptions import NoEventDataException
 from smashggpy.common.Exceptions import NoPhaseDataException
-from smashggpy.common.Exceptions import NoPhaseGroupDataException
+from smashggpy.common.Exceptions import NoPhaseGroupDataException, DataMalformedException
 
 from smashggpy.models.Event import Event
 
 from test.testing_common.common import run_dotenv, get_event_from_event_slug, get_tournament_from_event_slug
-from test.testing_common.data import GOOD_EVENT_DATA_1, GOOD_EVENT_DATA_2, EVENT_NO_EVENT_DATA, EVENT_NO_PHASE_DATA
+from test.testing_common.data import GOOD_EVENT_DATA_1, GOOD_EVENT_DATA_2, \
+    EVENT_NO_EVENT_DATA, EVENT_NO_PHASE_DATA, EVENT_NO_PHASE_GROUP_DATA
 
 GOOD_EVENT_1 = Event(
     id=GOOD_EVENT_DATA_1['data']['event']['id'],
@@ -93,64 +94,67 @@ class TestEvent(unittest.TestCase):
     def test_should_not_parse_if_data_parameter_is_none(self):
         self.assertRaises(AssertionError, Event.parse, None)
 
+    def test_should_fail_parse_if_entire_data_object_is_given(self):
+        self.assertRaises(DataMalformedException, Event.parse, GOOD_EVENT_DATA_1)
+
     def test_should_not_parse_if_data_parameter_has_no_id(self):
-        copied = deepcopy(GOOD_EVENT_DATA_1)
-        del copied['data']['event']['id']
+        copied = deepcopy(GOOD_EVENT_DATA_1)['data']['event']
+        del copied['id']
         self.assertRaises(AssertionError, Event.parse, copied)
 
     def test_should_not_parse_if_data_parameter_has_no_name(self):
-        copied = deepcopy(GOOD_EVENT_DATA_1)
-        del copied['data']['event']['name']
+        copied = deepcopy(GOOD_EVENT_DATA_1)['data']['event']
+        del copied['name']
         self.assertRaises(AssertionError, Event.parse, copied)
 
     def test_should_not_parse_if_data_parameter_has_no_slug(self):
-        copied = deepcopy(GOOD_EVENT_DATA_1)
-        del copied['data']['event']['slug']
+        copied = deepcopy(GOOD_EVENT_DATA_1)['data']['event']
+        del copied['slug']
         self.assertRaises(AssertionError, Event.parse, copied)
 
     def test_should_not_parse_if_data_parameter_has_no_state(self):
-        copied = deepcopy(GOOD_EVENT_DATA_1)
-        del copied['data']['event']['state']
+        copied = deepcopy(GOOD_EVENT_DATA_1)['data']['event']
+        del copied['state']
         self.assertRaises(AssertionError, Event.parse, copied)
 
     def test_should_not_parse_if_data_parameter_has_no_start_at(self):
-        copied = deepcopy(GOOD_EVENT_DATA_1)
-        del copied['data']['event']['startAt']
+        copied = deepcopy(GOOD_EVENT_DATA_1)['data']['event']
+        del copied['startAt']
         self.assertRaises(AssertionError, Event.parse, copied)
 
     def test_should_not_parse_if_data_parameter_has_no_num_entrants(self):
-        copied = deepcopy(GOOD_EVENT_DATA_1)
-        del copied['data']['event']['numEntrants']
+        copied = deepcopy(GOOD_EVENT_DATA_1)['data']['event']
+        del copied['numEntrants']
         self.assertRaises(AssertionError, Event.parse, copied)
 
     def test_should_not_parse_if_data_parameter_has_no_check_in_buffer(self):
-        copied = deepcopy(GOOD_EVENT_DATA_1)
-        del copied['data']['event']['checkInBuffer']
+        copied = deepcopy(GOOD_EVENT_DATA_1)['data']['event']
+        del copied['checkInBuffer']
         self.assertRaises(AssertionError, Event.parse, copied)
 
     def test_should_not_parse_if_data_parameter_has_no_check_in_duration(self):
-        copied = deepcopy(GOOD_EVENT_DATA_1)
-        del copied['data']['event']['checkInDuration']
+        copied = deepcopy(GOOD_EVENT_DATA_1)['data']['event']
+        del copied['checkInDuration']
         self.assertRaises(AssertionError, Event.parse, copied)
 
     def test_should_not_parse_if_data_parameter_has_no_check_in_enabled(self):
-        copied = deepcopy(GOOD_EVENT_DATA_1)
-        del copied['data']['event']['checkInEnabled']
+        copied = deepcopy(GOOD_EVENT_DATA_1)['data']['event']
+        del copied['checkInEnabled']
         self.assertRaises(AssertionError, Event.parse, copied)
 
     def test_should_not_parse_if_data_parameter_has_no_is_online(self):
-        copied = deepcopy(GOOD_EVENT_DATA_1)
-        del copied['data']['event']['isOnline']
+        copied = deepcopy(GOOD_EVENT_DATA_1)['data']['event']
+        del copied['isOnline']
         self.assertRaises(AssertionError, Event.parse, copied)
 
     def test_should_not_parse_if_data_parameter_has_no_team_name_allowed(self):
-        copied = deepcopy(GOOD_EVENT_DATA_1)
-        del copied['data']['event']['teamNameAllowed']
+        copied = deepcopy(GOOD_EVENT_DATA_1)['data']['event']
+        del copied['teamNameAllowed']
         self.assertRaises(AssertionError, Event.parse, copied)
 
     def test_should_not_parse_if_data_parameter_has_no_team_management_deadline(self):
-        copied = deepcopy(GOOD_EVENT_DATA_1)
-        del copied['data']['event']['teamManagementDeadline']
+        copied = deepcopy(GOOD_EVENT_DATA_1)['data']['event']
+        del copied['teamManagementDeadline']
         self.assertRaises(AssertionError, Event.parse, copied)
 
     def test_should_correctly_parse_event_from_data(self):
@@ -217,5 +221,33 @@ class TestEvent(unittest.TestCase):
         self.assertRaises(NoPhaseDataException, GOOD_EVENT_1.get_phases)
 
     # Get Phase Groups
+    def test_should_not_get_phase_groups_if_event_has_no_id(self):
+        self.assertRaises(AssertionError, BAD_EVENT.get_phase_groups)
+
+    @patch.object(NI, 'query')
+    def test_should_fail_getting_phase_groups_if_no_event_data_comes_back(self, ni_query):
+        ni_query.return_value = EVENT_NO_EVENT_DATA
+        self.assertRaises(NoEventDataException, GOOD_EVENT_1.get_phase_groups)
+
+    @patch.object(NI, 'query')
+    def test_should_fail_getting_phase_groups_if_no_phase_group_data_comes_back(self, ni_query):
+        ni_query.return_value = EVENT_NO_PHASE_GROUP_DATA
+        self.assertRaises(NoPhaseGroupDataException, GOOD_EVENT_1.get_phase_groups)
+
+    # Get Attendees
+    def test_should_not_get_attendees_if_event_has_no_id(self):
+        self.assertRaises(AssertionError, BAD_EVENT.get_attendees)
+
+    # Get Entrants
+    def test_should_not_get_entrants_if_event_has_no_id(self):
+        self.assertRaises(AssertionError, BAD_EVENT.get_attendees)
 
     # Get Sets
+    def test_should_not_get_sets_if_event_has_no_id(self):
+        self.assertRaises(AssertionError, BAD_EVENT.get_attendees)
+
+    def test_should_not_get_completed_sets_if_event_has_no_id(self):
+        self.assertRaises(AssertionError, BAD_EVENT.get_completed_sets)
+
+    def test_should_not_get_incomplete_sets_if_event_has_no_id(self):
+        self.assertRaises(AssertionError, BAD_EVENT.get_incomplete_sets)

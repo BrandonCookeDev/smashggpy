@@ -16,7 +16,7 @@ from smashggpy.models.Phase import Phase
 from smashggpy.models.PhaseGroup import PhaseGroup
 
 from smashggpy.common.Exceptions import NoTournamentDataException, NoEventDataException, NoPhaseDataException, \
-    NoPhaseGroupDataException, DataPullException
+    NoPhaseGroupDataException, DataPullException, DataMalformedException
 
 # Mocking
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
@@ -139,34 +139,37 @@ class TestTournament(unittest.TestCase):
     def test_should_not_parse_if_data_is_none(self):
         self.assertRaises(AssertionError, Tournament.parse, None)
 
+    def test_should_fail_parse_if_given_the_entire_data_object(self):
+        self.assertRaises(DataMalformedException, Tournament.parse, GOOD_TOURNAMENT_DATA)
+
     def test_should_not_parse_if_missing_id(self):
-        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)
-        del copied['data']['tournament']['id']
+        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)['data']['tournament']
+        del copied['id']
         self.assertRaises(AssertionError, Tournament.parse, copied)
 
     def test_should_not_parse_if_missing_name(self):
-        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)
-        del copied['data']['tournament']['name']
+        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)['data']['tournament']
+        del copied['name']
         e = self.assertRaises(AssertionError, Tournament.parse, copied)
 
     def test_should_not_parse_if_missing_slug(self):
-        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)
-        del copied['data']['tournament']['slug']
+        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)['data']['tournament']
+        del copied['slug']
         e = self.assertRaises(AssertionError, Tournament.parse, copied)
 
     def test_should_not_parse_if_missing_startAt(self):
-        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)
-        del copied['data']['tournament']['startAt']
+        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)['data']['tournament']
+        del copied['startAt']
         e = self.assertRaises(AssertionError, Tournament.parse, copied)
 
     def test_should_not_parse_if_missing_endAt(self):
-        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)
-        del copied['data']['tournament']['endAt']
+        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)['data']['tournament']
+        del copied['endAt']
         e = self.assertRaises(AssertionError, Tournament.parse, copied)
 
     def test_should_not_parse_if_missing_timezone(self):
-        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)
-        del copied['data']['tournament']['timezone']
+        copied = copy.deepcopy(GOOD_TOURNAMENT_DATA)['data']['tournament']
+        del copied['timezone']
         e = self.assertRaises(AssertionError, Tournament.parse, copied)
 
     def test_should_parse_tournament_data_correctly(self):

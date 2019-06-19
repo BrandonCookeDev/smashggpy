@@ -2,6 +2,7 @@ import smashggpy.queries.Phase_Group_Queries as queries
 from smashggpy.common.Common import flatten, validate_data
 from smashggpy.util.Logger import Logger
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
+from smashggpy.common.Exceptions import DataMalformedException
 
 class PhaseGroup(object):
 
@@ -23,7 +24,8 @@ class PhaseGroup(object):
 
     def __hash__(self):
         return hash((self.id, self.display_identifier, self.first_round_time,
-                     self.state, self.phase_id, self.wave_id, self.tiebreak_order))
+                     self.state, self.phase_id, self.wave_id,
+                     frozenset(self.tiebreak_order) if self.tiebreak_order is not None else None))
 
     @staticmethod
     def get(id: int):
@@ -40,6 +42,21 @@ class PhaseGroup(object):
     @staticmethod
     def parse(data):
         assert (data is not None), "PhaseGroup.parse cannot have None for data parameter"
+        if 'data' in data and 'phaseGroup' in data['data']:
+            raise DataMalformedException(data,
+                                         'data is malformed for PhaseGroup.parse. '
+                                         'Please give only what is contained in the '
+                                         '"phaseGroup" property')
+        assert ('id' in data), 'PhaseGroup.parse cannot must have a id property in data parameter'
+        assert ('displayIdentifier' in data), \
+            'PhaseGroup.parse cannot must have a displayIdentifier property in data parameter'
+        assert ('firstRoundTime' in data), \
+            'PhaseGroup.parse cannot must have a firstRoundTime property in data parameter'
+        assert ('state' in data), 'PhaseGroup.parse cannot must have a state property in data parameter'
+        assert ('phaseId' in data), 'PhaseGroup.parse cannot must have a phaseId property in data parameter'
+        assert ('waveId' in data), 'PhaseGroup.parse cannot must have a waveId property in data parameter'
+        assert ('tiebreakOrder' in data), 'PhaseGroup.parse cannot must have a tiebreakOrder property in data parameter'
+
         return PhaseGroup(
             data['id'],
             data['displayIdentifier'],

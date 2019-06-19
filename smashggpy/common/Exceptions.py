@@ -34,5 +34,8 @@ class DataPullException(Exception):
 
 
 class DataMalformedException(Exception):
-	def __init__(self, data: dict):
-		self.message = 'Data came back malformed: {}'.format(data)
+	def __init__(self, data: dict, msg: str=None):
+		if msg is None:
+			self.message = 'Data came back malformed: {}'.format(data)
+		else:
+			self.message = '{}: {}'.format(msg, data)
