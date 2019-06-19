@@ -2,6 +2,7 @@ import smashggpy.queries.Phase_Queries as queries
 from smashggpy.util.Logger import Logger
 from smashggpy.common.Common import flatten, validate_data
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
+from smashggpy.common.Exceptions import DataMalformedException
 
 class Phase(object):
 
@@ -35,7 +36,18 @@ class Phase(object):
 
     @staticmethod
     def parse(data):
-        assert (data is not None), "Phase.parse cannot have None for data parameter"
+        assert (data is not None), 'Phase.parse cannot have None for data parameter'
+        if 'data' in data and 'phase' in data['data']:
+            raise DataMalformedException(data,
+                                         'data is malformed for Phase.parse. '
+                                         'Please give only what is contained in the '
+                                         '"phase" property')
+
+        assert ('id' in data), 'Phase.parse cannot have a None id property in data parameter'
+        assert ('name' in data), 'Phase.parse cannot have a None name property in data parameter'
+        assert ('numSeeds' in data), 'Phase.parse cannot have a None numSeeds property in data parameter'
+        assert ('groupCount' in data), 'Phase.parse cannot have a None groupCount property in data parameter'
+
         return Phase(
             data['id'],
             data['name'],

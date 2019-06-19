@@ -4,7 +4,7 @@ from smashggpy.common.Common import flatten, validate_data
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
 from smashggpy.util.ThreadFactory import ThreadFactory
 from smashggpy.common.Exceptions import \
-    DataPullException, NoEventDataException, NoPhaseGroupDataException, NoPhaseDataException
+    DataPullException, NoEventDataException, NoPhaseGroupDataException, NoPhaseDataException, DataMalformedException
 
 
 class Event(object):
@@ -41,8 +41,8 @@ class Event(object):
 
     @staticmethod
     def get(tournament_slug: str, event_slug: str):
-        assert (tournament_slug is not None), "Event.get cannot have None for tournament_slug parameter"
-        assert (event_slug is not None), "Event.get cannot have None for event_slug parameter"
+        assert (tournament_slug is not None), 'Event.get cannot have None for tournament_slug parameter'
+        assert (event_slug is not None), 'Event.get cannot have None for event_slug parameter'
         slug = "tournament/{0}/event/{1}".format(tournament_slug, event_slug)
         data = NI.query(queries.get_event_by_slugs, {"slug": slug})
         validate_data(data)
@@ -74,6 +74,12 @@ class Event(object):
     @staticmethod
     def parse(data):
         assert (data is not None), 'Event.parse cannot have None for data parameter'
+        if 'data' in data and 'event' in data['data']:
+            raise DataMalformedException(data,
+                                         'data is malformed for Event.parse. '
+                                         'Please give only what is contained in the '
+                                         '"event" property')
+
         assert ('id' in data), 'Event.parse must have id property on data parameter'
         assert ('name' in data), 'Event.parse must have name property on data parameter'
         assert ('slug' in data), 'Event.parse must have slug property on data parameter'
@@ -103,7 +109,7 @@ class Event(object):
         )
 
     def get_phases(self):
-        assert (self.id is not None), "event id cannot be None if calling get_phases"
+        assert (self.id is not None), 'event id cannot be None if calling get_phases'
         Logger.info('Getting Phases for Event: {0}:{1}'.format(self.id, self.name))
         data = NI.query(queries.get_event_phases, {'id': self.id})
         validate_data(data)
@@ -122,7 +128,7 @@ class Event(object):
             raise Exception("No phase data pulled back for event {} {}".format(self.id, self.name))
 
     def get_phase_groups(self):
-        assert (self.id is not None), "event id cannot be None if calling get_phase_groups"
+        assert (self.id is not None), 'event id cannot be None if calling get_phase_groups'
         Logger.info('Getting Phase Groups for Event: {0}:{1}'.format(self.id, self.name))
         data = NI.query(queries.get_event_phase_groups, {'id': self.id})
         validate_data(data)
@@ -141,24 +147,28 @@ class Event(object):
             raise Exception("No phase group data pulled back for event {}".format(self.identifier))
 
     def get_attendees(self):
+        assert (self.id is not None), 'event id cannot be None if calling get_attendees'
         Logger.info('Getting Attendees for Event: {0}:{1}'.format(self.id, self.name))
         phase_groups = self.get_phase_groups()
         attendees = flatten([phase_group.get_attendees() for phase_group in phase_groups])
         return attendees
 
     def get_entrants(self):
+        assert (self.id is not None), 'event id cannot be None if calling get_entrants'
         Logger.info('Getting Entrants for Event: {0}:{1}'.format(self.id, self.name))
         phase_groups = self.get_phase_groups()
         entrants = flatten([phase_group.get_entrants() for phase_group in phase_groups])
         return entrants
 
     def get_sets(self):
+        assert (self.id is not None), 'event id cannot be None if calling get_sets'
         Logger.info('Getting Sets for Event: {0}:{1}'.format(self.id, self.name))
         phase_groups = self.get_phase_groups()
         sets = flatten([phase_group.get_sets() for phase_group in phase_groups])
         return sets
 
     def get_incomplete_sets(self):
+        assert (self.id is not None), 'event id cannot be None if calling get_incomplete_sets'
         Logger.info('Getting Incomplete Sets for Event: {0}:{1}'.format(self.id, self.name))
         sets = self.get_sets()
         incomplete_sets = []
@@ -168,6 +178,7 @@ class Event(object):
         return incomplete_sets
 
     def get_completed_sets(self):
+        assert (self.id is not None), 'event id cannot be None if calling get_completed_sets'
         Logger.info('Getting Completed Sets for Event: {0}:{1}'.format(self.id, self.name))
         sets = self.get_sets()
         complete_sets = []
