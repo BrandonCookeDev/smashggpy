@@ -392,6 +392,16 @@ EVENT_NO_PHASE_GROUP_DATA = {
     }
 }
 
+EVENT_ATTENDEE_DATA = {
+    "data": {
+        "event": {
+            "phaseGroups": {
+
+            }
+        }
+    }
+}
+
 # Phase
 GOOD_PHASE_DATA_1 = {
     "data": {
@@ -402,6 +412,26 @@ GOOD_PHASE_DATA_1 = {
 GOOD_PHASE_DATA_2 = {
     "data": {
         "phase": PHASE_2
+    }
+}
+
+PHASE_NO_PHASE_DATA = {
+    "data": {
+        "phase": None
+    }
+}
+
+PHASE_NO_EVENT_DATA = {
+    "data": {
+        "event": None
+    }
+}
+
+PHASE_NO_PHASE_GROUP_DATA = {
+    "data": {
+        "phase": {
+            "phaseGroups": None
+        }
     }
 }
 

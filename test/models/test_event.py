@@ -238,6 +238,10 @@ class TestEvent(unittest.TestCase):
     def test_should_not_get_attendees_if_event_has_no_id(self):
         self.assertRaises(AssertionError, BAD_EVENT.get_attendees)
 
+    @patch.object(NI, 'query')
+    def test_should_get_list_of_attendees(self, ni_query):
+        pass
+
     # Get Entrants
     def test_should_not_get_entrants_if_event_has_no_id(self):
         self.assertRaises(AssertionError, BAD_EVENT.get_attendees)

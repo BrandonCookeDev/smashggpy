@@ -2,7 +2,7 @@ import smashggpy.queries.Phase_Queries as queries
 from smashggpy.util.Logger import Logger
 from smashggpy.common.Common import flatten, validate_data
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
-from smashggpy.common.Exceptions import DataMalformedException
+from smashggpy.common.Exceptions import DataMalformedException, NoPhaseDataException, NoPhaseGroupDataException
 
 class Phase(object):
 
@@ -60,6 +60,12 @@ class Phase(object):
         Logger.info('Getting Phase Groups for Phase: {0}:{1}'.format(self.id, self.name))
         data = NI.paginated_query(queries.phase_phase_groups, {'id': self.id})
         validate_data(data)
+
+        if 'phase' not in data['data'] or data['data']['phase'] is None:
+            raise NoPhaseDataException()
+        elif 'phaseGroup' not in data['data']['phase'] or data['data']['phase']['phaseGroup'] is None:
+            raise NoPhaseGroupDataException()
+
         return [PhaseGroup.parse(phase_group_data) for phase_group_data in data]
 
     def get_attendees(self):

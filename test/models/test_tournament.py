@@ -1,7 +1,6 @@
 import os
 import copy
 import unittest
-import dotenv
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
