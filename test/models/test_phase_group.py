@@ -5,28 +5,14 @@ from unittest.mock import patch
 from smashggpy.models.PhaseGroup import PhaseGroup
 from smashggpy.common.Exceptions import \
     DataMalformedException, NoPhaseGroupDataException, NoPhaseDataException
+from smashggpy.util.NetworkInterface import NetworkInterface as NI
 
 from test.testing_common.common import run_dotenv
-from test.testing_common.data import GOOD_PHASE_GROUP_DATA_1, GOOD_PHASE_GROUP_DATA_2
+from test.testing_common.data import GOOD_PHASE_GROUP_DATA_1, GOOD_PHASE_GROUP_DATA_2, \
+    GOOD_PHASE_GROUP_1, GOOD_PHASE_GROUP_2, PHASE_GROUP_NO_PHASE_GROUP_DATA
 
-GOOD_PHASE_GROUP_1 = PhaseGroup(
-    id=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['id'],
-    display_identifier=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['displayIdentifier'],
-    first_round_time=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['firstRoundTime'],
-    state=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['state'],
-    phase_id=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['phaseId'],
-    wave_id=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['waveId'],
-    tiebreak_order=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['tiebreakOrder']
-)
-
-GOOD_PHASE_GROUP_2 = PhaseGroup(
-    id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['id'],
-    display_identifier=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['displayIdentifier'],
-    first_round_time=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['firstRoundTime'],
-    state=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['state'],
-    phase_id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['phaseId'],
-    wave_id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['waveId'],
-    tiebreak_order=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['tiebreakOrder']
+BAD_PHASE_GROUP = PhaseGroup(
+    None,None,None,None,None,None,None
 )
 
 class TestPhaseGroup(TestCase):
@@ -51,6 +37,20 @@ class TestPhaseGroup(TestCase):
         e1 = deepcopy(GOOD_PHASE_GROUP_1)
         e2 = deepcopy(GOOD_PHASE_GROUP_1)
         self.assertEqual(e1, e2)
+
+    # Validate Data
+    def test_should_fail_data_validation_if_whole_raw_is_input(self):
+        self.assertRaises(DataMalformedException, PhaseGroup.validate_data, GOOD_PHASE_GROUP_DATA_1)
+
+    def test_should_fail_data_validation_if_missing_phase_group_property(self):
+        bad_data = {"not_phase_group_lol": 0}
+        self.assertRaises(NoPhaseGroupDataException, PhaseGroup.validate_data, bad_data)
+
+    def test_should_fail_data_validation_if_phase_group_property_is_none(self):
+        self.assertRaises(NoPhaseGroupDataException, PhaseGroup.validate_data, PHASE_GROUP_NO_PHASE_GROUP_DATA['data'])
+
+    def test_should_pass_data_validation_on_legal_data(self):
+        PhaseGroup.validate_data(GOOD_PHASE_GROUP_DATA_1['data'])
 
     # Parse
     def test_should_not_parse_phase_group_if_data_parameter_is_null(self):
@@ -100,3 +100,11 @@ class TestPhaseGroup(TestCase):
         self.assertEqual(expected, actual)
 
     # Get
+    def test_should_not_get_if_no_id_is_given(self):
+        self.assertRaises(AssertionError, PhaseGroup.get, None)
+
+    @patch.object(NI, 'query')
+    def test_should_fail_getting_phase_group_if_no_phase_group_data(self, ni_query):
+        ni_query.return_value = PHASE_GROUP_NO_PHASE_GROUP_DATA
+        self.assertRaises(NoPhaseGroupDataException, PhaseGroup.get, 9999)
+

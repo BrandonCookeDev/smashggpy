@@ -26,7 +26,6 @@ from test.testing_common.data import ERRORS, GOOD_TOURNAMENT_DATA, TOURNAMENT_NO
     TOURNAMENT_PHASE_DATA, TOURNAMENT_EVENT_DATA, TOURNAMENT_PHASE_GROUP_DATA, GOOD_TOURNAMENT
 
 
-
 class TestTournament(unittest.TestCase):
 
     fake_slug = 'this-is-a-fake-slug'

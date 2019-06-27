@@ -4,6 +4,11 @@ from smashggpy.models.Event import Event
 from smashggpy.models.Tournament import Tournament
 from smashggpy.models.Organizer import Organizer
 from smashggpy.models.Venue import Venue
+from smashggpy.models.Attendee import Attendee
+from smashggpy.models.Entrant import Entrant
+from smashggpy.models.GGSet import GGSet
+from smashggpy.models.Player import Player
+from smashggpy.models.User import User
 
 TOURNAMENT_1 = {
     "id": 6620,
@@ -461,6 +466,12 @@ GOOD_PHASE_GROUP_DATA_1 = {
 GOOD_PHASE_GROUP_DATA_2 = {
     "data": {
         "phaseGroup": PHASE_GROUP_2
+    }
+}
+
+PHASE_GROUP_NO_PHASE_GROUP_DATA = {
+    "data":{
+        "phaseGroup": None
     }
 }
 

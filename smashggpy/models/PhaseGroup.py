@@ -29,7 +29,16 @@ class PhaseGroup(object):
 
     @staticmethod
     def validate_data(input, id: int=0):
-        if 'phaseGroups' not in input or input['phaseGroups'] is None:
+        if 'data' in input:
+            raise DataMalformedException(input,
+                                         'data is malformed for PhaseGroup.parse. '
+                                         'Please give only what is contained in the '
+                                         '"phaseGroup" property')
+        if 'phaseGroup' not in input and 'phaseGroups' not in input:
+            raise NoPhaseGroupDataException(id)
+        elif 'phaseGroup' in input and input['phaseGroup'] is None:
+            raise NoPhaseGroupDataException(id)
+        elif 'phaseGroups' in input and input['phaseGroups'] is None:
             raise NoPhaseGroupDataException(id)
 
     @staticmethod
@@ -37,12 +46,10 @@ class PhaseGroup(object):
         assert (id is not None), "PhaseGroup.get cannot have None for id parameter"
         data = NI.query(queries.phase_group_by_id, {'id': id})
         validate_data(data)
+        PhaseGroup.validate_data(data['data'])
 
-        try:
-            base_data = data['data']['phaseGroup']
-            return PhaseGroup.parse(base_data)
-        except AttributeError as e:
-            raise Exception("No phase group data pulled back for id {}".format(id))
+        base_data = data['data']['phaseGroup']
+        return PhaseGroup.parse(base_data)
 
     @staticmethod
     def parse(data):
