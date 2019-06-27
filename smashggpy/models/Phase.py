@@ -34,15 +34,10 @@ class Phase(object):
         assert (id is not None), "Phase.get cannot have None for id parameter"
         data = NI.query(queries.phase_by_id, {'id': id})
         validate_data(data)
+        Phase.validate_data(data['data'])
 
-        if 'phase' not in data['data'] or data['data']['phase'] is None:
-            raise NoPhaseDataException(id)
-
-        try:
-            base_data = data['data']['phase']
-            return Phase.parse(base_data)
-        except AttributeError as e:
-            raise Exception("No phase data pulled back for id {}".format(id))
+        base_data = data['data']['phase']
+        return Phase.parse(base_data)
 
     @staticmethod
     def parse(data):

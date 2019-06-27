@@ -476,6 +476,87 @@ PHASE_GROUP_NO_PHASE_GROUP_DATA = {
 }
 
 
+# Attendee
+
+ATTENDEE_DATA = {
+    "data": {
+        "participant": ATTENDEE
+    }
+}
+
+ATTENDEE_PAGINATED_DATA = {
+    "data": {
+        "phaseGroup": {
+            "paginatedSeeds": {
+                "pageInfo": {
+                     "totalPages": 1
+                },
+                "nodes": [ATTENDEE]
+            }
+        }
+    }
+}
+
+ATTENDEE_NO_ATTENDEE_DATA = {
+    "data": {
+        "participant": None
+    }
+}
+
+ATTENDEE_PAGINATED_NO_ATTENDEE_DATA = {
+    "data": {
+        "phaseGroup": {
+            "paginatedSeeds": {
+                "pageInfo": {
+                     "totalPages": 1
+                },
+                "nodes": None
+            }
+        }
+    }
+}
+
+
+# Entrant
+
+ENTRANT_DATA = {
+    "data": {
+        "entrant": ENTRANT
+    }
+}
+
+ENTRANT_PAGINATED_DATA = {
+    "data": {
+        "phaseGroup": {
+            "paginatedSeeds": {
+                "pageInfo": {
+                     "totalPages": 1
+                },
+                "nodes": [ENTRANT]
+            }
+        }
+    }
+}
+
+ENTRANT_NO_ENTRANT_DATA = {
+    "data": {
+        "entrant": None
+    }
+}
+
+ENTRANT_PAGINATED_NO_ENTRANT_DATA = {
+    "data": {
+        "phaseGroup": {
+            "paginatedSeeds": {
+                "pageInfo": {
+                    "totalPages": 1
+                },
+                "nodes": None
+            }
+        }
+    }
+}
+
 #######
 
 
@@ -569,4 +650,26 @@ GOOD_PHASE_GROUP_2 = PhaseGroup(
     phase_id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['phaseId'],
     wave_id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['waveId'],
     tiebreak_order=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['tiebreakOrder']
+)
+
+GOOD_ATTENDEE = Attendee(
+    id=ATTENDEE['id'],
+    gamer_tag=ATTENDEE['gamerTag'],
+    prefix=ATTENDEE['prefix'],
+    created_at=ATTENDEE['createdAt'],
+    claimed=ATTENDEE['claimed'],
+    verified=ATTENDEE['verified'],
+    player_id=ATTENDEE['playerId'],
+    phone_number=ATTENDEE['phoneNumber'],
+    connected_accounts=ATTENDEE['connectedAccounts'],
+    contact_info=ATTENDEE['contactInfo'],
+    event_ids=ATTENDEE['events']
+)
+
+GOOD_ENTRANT = Entrant(
+    id=ENTRANT['id'],
+    name=ENTRANT['name'],
+    event_id=ENTRANT['eventId'],
+    skill=ENTRANT['skill'],
+    attendee_data=ENTRANT['participants']
 )

@@ -1,3 +1,5 @@
+from smashggpy.common.Exceptions import DataMalformedException, NoAttendeeDataException
+
 
 class Attendee(object):
 
@@ -26,6 +28,21 @@ class Attendee(object):
     def __hash__(self):
         return hash((self.id, self.gamer_tag, self.prefix, self.created_at, self.claimed, self.verified,
                      self.player_id, self.phone_number, self.connected_accounts, self.contact_info, self.event_ids))
+
+    @staticmethod
+    def validate_data(input: dict, id: int=0) -> None:
+        if 'data' in input:
+            raise DataMalformedException(input)
+        if 'phaseGroup' in input:
+            input = input['phaseGroup']
+
+        if 'participant' not in input and 'paginatedSeeds' not in input:
+            raise NoAttendeeDataException(id)
+
+        if 'participant' in input and input['participant'] is None:
+            raise NoAttendeeDataException(id)
+        elif 'paginatedSeeds' in input and input['paginatedSeeds']['nodes'] is None:
+            raise NoAttendeeDataException(id)
 
     @staticmethod
     def parse(data):

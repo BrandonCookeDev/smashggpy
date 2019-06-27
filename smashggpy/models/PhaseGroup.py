@@ -85,6 +85,7 @@ class PhaseGroup(object):
         Logger.info('Getting Attendees for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         data = NI.paginated_query(queries.phase_group_attendees, {'id': self.id})
         validate_data(data)
+
         participants = flatten([entrant_data['entrant']['participants'] for entrant_data in data])
         attendees = [Attendee.parse(participant_data) for participant_data in participants]
         return attendees
