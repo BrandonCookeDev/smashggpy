@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="smashggpy",
-    version="0.0.25",
+    version="0.0.26",
     author="Brandon Cooke",
     author_email="brandoncookedev@gmail.com",
     description="Python SDK for smash.gg's public api",

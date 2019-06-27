@@ -54,6 +54,7 @@ def write_version_to_setup_py(version: str):
     content = read_setup_py()
     replaced = VERSION_REGEX.sub('version="{}"'.format(version), content)
     lines = replaced.split('\n')
+    lines = [line + '\n' for line in lines]
     with open(SETUP_PATH, "w") as f:
         f.writelines(lines)
 
@@ -61,9 +62,9 @@ def write_version_to_setup_py(version: str):
 if __name__ == "__main__":
     print('beginning deployment')
 
-    major = sys.argv[1] if len(sys.argv) > 1 else None
-    minor = sys.argv[2] if len(sys.argv) > 2 else None
-    patch = sys.argv[3] if len(sys.argv) > 3 else None
+    major = sys.argv[1] if len(sys.argv) > 1 else 0
+    minor = sys.argv[2] if len(sys.argv) > 2 else 0
+    patch = sys.argv[3] if len(sys.argv) > 3 else 1
     print(major, minor, patch)
 
     version = get_version_from_setup()
@@ -78,4 +79,4 @@ if __name__ == "__main__":
 
     write_version_to_setup_py(new_version)
     call(DEPLOY_SCRIPT_PATH, shell=True)
-    print('deployment complete!')
+    print('deployment complete! Version: {}'.format(new_version))
