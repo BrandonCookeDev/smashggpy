@@ -11,6 +11,7 @@ SETUP_PATH = abspath(Path(__file__, '..', '..', 'setup.py'))
 DEPLOY_SCRIPT_PATH = abspath(Path(__file__, '..', 'deploy.sh'))
 VERSION_REGEX = re.compile("(version=\"([0-9]+.[0-9]+.[0-9]+)\")")
 MAJOR_MINOR_PATCH_REGEX = re.compile("([0-9]+).([0-9]+).([0-9]+)")
+GIT_STATUS_COMMAND = 'cd {} && git status'.format(ROOT_FOLDER)
 GIT_COMMIT_COMMAND = 'cd ' + ROOT_FOLDER + ' && git add . && git commit -m "{0}" && git push'
 
 def read_setup_py() -> str:
@@ -73,7 +74,8 @@ def process_with_deployment():
 
 
 def do_git_commit():
-    do_commit_response = input('Would you like to commit to the git repository? [y] ')
+    call(GIT_STATUS_COMMAND, shell=True)
+    do_commit_response = input('Would you like to commit to the git repository? (all the above will be included) [y] ')
     if do_commit_response != 'y':
         print('Not committing. Input was: {}'.format(do_commit_response))
         sys.exit(0)
