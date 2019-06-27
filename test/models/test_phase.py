@@ -6,12 +6,16 @@ from unittest.mock import patch
 from smashggpy.models.Phase import Phase
 from smashggpy.common.Exceptions import \
     DataMalformedException, NoPhaseGroupDataException, NoPhaseDataException
+
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
 from smashggpy.util.Initializer import initialize, uninitialize
 
 from test.testing_common.common import run_dotenv
 from test.testing_common.data import GOOD_PHASE_DATA_1, GOOD_PHASE_DATA_2, \
     PHASE_NO_PHASE_DATA, PHASE_NO_PHASE_GROUP_DATA
+
+from test.testing_common.common import run_dotenv
+from test.testing_common.data import GOOD_PHASE_DATA_1, GOOD_PHASE_DATA_2
 
 GOOD_PHASE_1 = Phase(
     id=GOOD_PHASE_DATA_1['data']['phase']['id'],
@@ -28,7 +32,6 @@ GOOD_PHASE_2 = Phase(
 )
 
 BAD_PHASE = Phase(None,None,None,None)
-
 
 class TestPhase(TestCase):
 

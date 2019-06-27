@@ -61,6 +61,7 @@ class Phase(object):
         data = NI.paginated_query(queries.phase_phase_groups, {'id': self.id})
         validate_data(data)
 
+
         if 'phase' not in data['data'] or data['data']['phase'] is None:
             raise NoPhaseDataException()
         elif 'phaseGroup' not in data['data']['phase'] or data['data']['phase']['phaseGroup'] is None:

@@ -402,6 +402,7 @@ EVENT_ATTENDEE_DATA = {
     }
 }
 
+
 # Phase
 GOOD_PHASE_DATA_1 = {
     "data": {
