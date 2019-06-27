@@ -40,6 +40,13 @@ class Event(object):
                      self.team_name_allowed))
 
     @staticmethod
+    def validate_data(input: dict, id: int=0):
+        if 'data' in input:
+            raise DataMalformedException(input)
+        if 'event' not in input or input['event'] is None:
+            raise NoEventDataException(id)
+
+    @staticmethod
     def get(tournament_slug: str, event_slug: str):
         assert (tournament_slug is not None), 'Event.get cannot have None for tournament_slug parameter'
         assert (event_slug is not None), 'Event.get cannot have None for event_slug parameter'

@@ -47,6 +47,19 @@ class TestPhase(TestCase):
         e2 = deepcopy(GOOD_PHASE_1)
         self.assertEqual(e1, e2)
 
+    # Validate Data
+    def test_should_fail_validation_if_whole_raw_is_provided(self):
+        self.assertRaises(DataMalformedException, Phase.validate_data, GOOD_PHASE_DATA_1)
+
+    def test_should_fail_validation_if_phase_property_is_missing(self):
+        self.assertRaises(NoPhaseDataException, Phase.validate_data, {"not_phase_lol": 0})
+
+    def test_should_fail_validation_if_phase_property_is_none(self):
+        self.assertRaises(NoPhaseDataException, Phase.validate_data, PHASE_NO_PHASE_DATA['data'])
+
+    def test_should_pass_data_validation_if_legal(self):
+        Phase.validate_data(GOOD_PHASE_DATA_1['data'])
+
     # Parse
     def test_should_not_parse_phase_if_no_data_parameter(self):
         self.assertRaises(AssertionError, Phase.parse, None)

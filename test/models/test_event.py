@@ -60,6 +60,19 @@ class TestEvent(unittest.TestCase):
         e2 = deepcopy(GOOD_EVENT_1)
         self.assertEqual(e1, e2)
 
+    # Validate Data
+    def test_should_fail_validation_if_whole_raw_is_provided(self):
+        self.assertRaises(DataMalformedException, Event.validate_data, GOOD_EVENT_DATA_1)
+
+    def test_should_fail_validation_if_event_property_is_missing_from_input(self):
+        self.assertRaises(NoEventDataException, Event.validate_data, {"not_an_event_lol": 0})
+
+    def test_should_fail_validation_if_event_property_is_none(self):
+        self.assertRaises(NoEventDataException, Event.validate_data, EVENT_NO_EVENT_DATA['data'])
+
+    def test_should_pass_data_validation_test(self):
+        Event.validate_data(GOOD_EVENT_DATA_1['data'])
+
     # Parse
     def test_should_not_parse_if_data_parameter_is_none(self):
         self.assertRaises(AssertionError, Event.parse, None)

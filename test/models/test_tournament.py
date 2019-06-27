@@ -59,6 +59,19 @@ class TestTournament(unittest.TestCase):
         t2 = copy.deepcopy(GOOD_TOURNAMENT)
         self.assertEqual(t1, t2)
 
+    # Validate Data
+    def test_should_fail_validation_if_whole_raw_is_provided(self):
+        self.assertRaises(DataMalformedException, Tournament.validate_data, GOOD_TOURNAMENT_DATA)
+
+    def test_should_fail_validation_if_tournament_property_is_missing_from_input(self):
+        self.assertRaises(NoTournamentDataException, Tournament.validate_data, {"not_a_tournament_lol": 0})
+
+    def test_should_fail_validation_if_event_property_is_none(self):
+        self.assertRaises(NoTournamentDataException, Tournament.validate_data, TOURNAMENT_NO_TOURNAMENT_DATA['data'])
+
+    def test_should_pass_data_validation_test(self):
+        Tournament.validate_data(GOOD_TOURNAMENT_DATA['data'])
+
     # Get
     def test_should_not_get_tournament_if_slug_is_empty(self):
         self.assertRaises(AssertionError, Tournament.get, None)

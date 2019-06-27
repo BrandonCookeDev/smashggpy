@@ -36,6 +36,13 @@ class Tournament(object):
                      self.end_time, self.timezone, self.venue, self.organizer))
 
     @staticmethod
+    def validate_data(input: dict, slug: str = None):
+        if 'data' in input:
+            raise DataMalformedException(input)
+        if 'tournament' not in input or input['tournament'] is None:
+            raise NoTournamentDataException(slug)
+
+    @staticmethod
     def get(slug: str):
         assert (slug is not None), "Tournament.get must have a slug parameter"
         data = NI.query(queries.get_tournament_by_slug, {'slug': slug})

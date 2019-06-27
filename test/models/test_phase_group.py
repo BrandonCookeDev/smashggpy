@@ -108,3 +108,15 @@ class TestPhaseGroup(TestCase):
         ni_query.return_value = PHASE_GROUP_NO_PHASE_GROUP_DATA
         self.assertRaises(NoPhaseGroupDataException, PhaseGroup.get, 9999)
 
+    @patch.object(NI, 'query')
+    def test_should_fail_getting_phase_group_if_no_data_comes_back(self, ni_query):
+        ni_query.return_value = {}
+        self.assertRaises(DataMalformedException, PhaseGroup.get, 9999)
+
+    @patch.object(NI, 'query')
+    def test_should_successfully_get_phase_group(self, ni_query):
+        ni_query.return_value = GOOD_PHASE_GROUP_DATA_1
+        expected = GOOD_PHASE_GROUP_1
+        actual = PhaseGroup.get(GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['id'])
+        self.assertEqual(expected,actual)
+

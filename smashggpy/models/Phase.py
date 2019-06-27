@@ -24,6 +24,8 @@ class Phase(object):
 
     @staticmethod
     def validate_data(input, id: int=0):
+        if 'data' in input:
+            raise DataMalformedException(input)
         if 'phase' not in input or input['phase'] is None:
             raise NoPhaseDataException(id)
 
