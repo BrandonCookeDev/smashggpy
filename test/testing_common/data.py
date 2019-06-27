@@ -436,6 +436,14 @@ PHASE_NO_PHASE_GROUP_DATA = {
     }
 }
 
+GOOD_PHASE_PHASE_GROUP_DATA = {
+    "data": {
+        "phase": {
+            "phaseGroups": [PHASE_GROUP_1, PHASE_GROUP_2]
+        }
+    }
+}
+
 # Phase Groups
 GOOD_PHASE_GROUP_DATA_1 = {
     "data": {

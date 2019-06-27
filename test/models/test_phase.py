@@ -4,6 +4,7 @@ from unittest import TestCase
 from unittest.mock import patch
 
 from smashggpy.models.Phase import Phase
+from smashggpy.models.PhaseGroup import PhaseGroup
 from smashggpy.common.Exceptions import \
     DataMalformedException, NoPhaseGroupDataException, NoPhaseDataException
 
@@ -12,7 +13,8 @@ from smashggpy.util.Initializer import initialize, uninitialize
 
 from test.testing_common.common import run_dotenv
 from test.testing_common.data import GOOD_PHASE_DATA_1, GOOD_PHASE_DATA_2, \
-    PHASE_NO_PHASE_DATA, PHASE_NO_PHASE_GROUP_DATA
+    PHASE_NO_PHASE_DATA, PHASE_NO_PHASE_GROUP_DATA, GOOD_PHASE_PHASE_GROUP_DATA, \
+    GOOD_PHASE_GROUP_DATA_1, GOOD_PHASE_GROUP_DATA_2
 
 from test.testing_common.common import run_dotenv
 from test.testing_common.data import GOOD_PHASE_DATA_1, GOOD_PHASE_DATA_2
@@ -29,6 +31,26 @@ GOOD_PHASE_2 = Phase(
     name=GOOD_PHASE_DATA_2['data']['phase']['name'],
     num_seeds=GOOD_PHASE_DATA_2['data']['phase']['numSeeds'],
     group_count=GOOD_PHASE_DATA_2['data']['phase']['groupCount']
+)
+
+GOOD_PHASE_GROUP_1 = PhaseGroup(
+    id=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['id'],
+    display_identifier=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['displayIdentifier'],
+    first_round_time=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['firstRoundTime'],
+    state=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['state'],
+    phase_id=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['phaseId'],
+    wave_id=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['waveId'],
+    tiebreak_order=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['tiebreakOrder']
+)
+
+GOOD_PHASE_GROUP_2 = PhaseGroup(
+    id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['id'],
+    display_identifier=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['displayIdentifier'],
+    first_round_time=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['firstRoundTime'],
+    state=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['state'],
+    phase_id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['phaseId'],
+    wave_id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['waveId'],
+    tiebreak_order=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['tiebreakOrder']
 )
 
 BAD_PHASE = Phase(None,None,None,None)
@@ -109,13 +131,27 @@ class TestPhase(TestCase):
     def test_should_fail_get_phase_groups_if_phase_has_no_id(self):
         self.assertRaises(AssertionError, BAD_PHASE.get_phase_groups)
 
-    @patch.object(NI, 'query')
-    def test_should_not_get_phase_groups_if_no_phase_data_comes_back(self, ni_query):
-        ni_query.return_value = PHASE_NO_PHASE_DATA
+    @patch.object(NI, 'paginated_query')
+    def test_should_not_get_phase_groups_if_no_phase_data_comes_back_for_one_phase(self, ni_query):
+        ni_query.return_value = [GOOD_PHASE_PHASE_GROUP_DATA, PHASE_NO_PHASE_DATA]
         self.assertRaises(NoPhaseDataException, GOOD_PHASE_1.get_phase_groups)
 
-    @patch.object(NI, 'query')
-    def test_should_not_get_phase_groups_if_no_phase_group_data_comes_back(self, ni_query):
-        ni_query.return_value = PHASE_NO_PHASE_GROUP_DATA
+    @patch.object(NI, 'paginated_query')
+    def test_should_not_get_phase_groups_if_no_phase_group_data_comes_back_for_one_phase_group(self, ni_query):
+        ni_query.return_value = [GOOD_PHASE_PHASE_GROUP_DATA, PHASE_NO_PHASE_GROUP_DATA]
         self.assertRaises(NoPhaseGroupDataException, GOOD_PHASE_1.get_phase_groups)
+
+    @patch.object(NI, 'paginated_query')
+    def test_should_correctly_get_phase_groups_from_phase(self, ni_query):
+        ni_query.return_value = [GOOD_PHASE_PHASE_GROUP_DATA]
+        expected = [GOOD_PHASE_GROUP_1, GOOD_PHASE_GROUP_2]
+        actual = GOOD_PHASE_1.get_phase_groups()
+        self.assertEqual(len(expected), len(actual))
+        for pg in expected:
+            fail = True
+            for pg_actual in actual:
+                if pg_actual.get_id() == pg.get_id():
+                    fail = False
+                    self.assertEqual(pg, pg_actual)
+            if fail is True: self.fail("missing expected phase group with id: " + str(pg.get_id()))
 

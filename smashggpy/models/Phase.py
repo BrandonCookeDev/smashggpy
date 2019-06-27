@@ -23,10 +23,18 @@ class Phase(object):
         return hash((self.id, self.name, self.num_seeds, self.group_count))
 
     @staticmethod
+    def validate_data(input, id: int=0):
+        if 'phase' not in input or input['phase'] is None:
+            raise NoPhaseDataException(id)
+
+    @staticmethod
     def get(id: int):
         assert (id is not None), "Phase.get cannot have None for id parameter"
         data = NI.query(queries.phase_by_id, {'id': id})
         validate_data(data)
+
+        if 'phase' not in data['data'] or data['data']['phase'] is None:
+            raise NoPhaseDataException(id)
 
         try:
             base_data = data['data']['phase']
@@ -59,15 +67,16 @@ class Phase(object):
         assert (self.id is not None), "phase id cannot be None when calling get_phase_groups"
         Logger.info('Getting Phase Groups for Phase: {0}:{1}'.format(self.id, self.name))
         data = NI.paginated_query(queries.phase_phase_groups, {'id': self.id})
-        validate_data(data)
+        [validate_data(phase_data) for phase_data in data]
 
+        # Schema Validation
+        [Phase.validate_data(element['data'], self.id) for element in data]
+        phase_data = [phase_data['data']['phase'] for phase_data in data]
 
-        if 'phase' not in data['data'] or data['data']['phase'] is None:
-            raise NoPhaseDataException()
-        elif 'phaseGroup' not in data['data']['phase'] or data['data']['phase']['phaseGroup'] is None:
-            raise NoPhaseGroupDataException()
+        [PhaseGroup.validate_data(element, self.id) for element in phase_data]
+        phase_group_data = flatten([element['phaseGroups'] for element in phase_data])
 
-        return [PhaseGroup.parse(phase_group_data) for phase_group_data in data]
+        return [PhaseGroup.parse(phase_group) for phase_group in phase_group_data]
 
     def get_attendees(self):
         Logger.info('Getting Attendees for Phase: {0}:{1}'.format(self.id, self.name))

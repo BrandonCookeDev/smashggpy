@@ -25,7 +25,7 @@ class NetworkInterface(object):
 		return NetworkInterface.execute_query(query)
 
 	@staticmethod
-	def paginated_query(query_string: str, variables: dict):
+	def paginated_query(query_string: str, variables: dict) -> list:
 		Logger.debug('NetworkInterface.paginated_query: creating query object')
 		query = QueryFactory.create(query_string, variables)
 		Logger.debug('NetworkInterface.paginated_query: created query {}'.format(query))

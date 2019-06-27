@@ -2,7 +2,7 @@ import smashggpy.queries.Phase_Group_Queries as queries
 from smashggpy.common.Common import flatten, validate_data
 from smashggpy.util.Logger import Logger
 from smashggpy.util.NetworkInterface import NetworkInterface as NI
-from smashggpy.common.Exceptions import DataMalformedException
+from smashggpy.common.Exceptions import DataMalformedException, NoPhaseGroupDataException
 
 class PhaseGroup(object):
 
@@ -28,6 +28,11 @@ class PhaseGroup(object):
                      frozenset(self.tiebreak_order) if self.tiebreak_order is not None else None))
 
     @staticmethod
+    def validate_data(input, id: int=0):
+        if 'phaseGroups' not in input or input['phaseGroups'] is None:
+            raise NoPhaseGroupDataException(id)
+
+    @staticmethod
     def get(id: int):
         assert (id is not None), "PhaseGroup.get cannot have None for id parameter"
         data = NI.query(queries.phase_group_by_id, {'id': id})
@@ -42,12 +47,13 @@ class PhaseGroup(object):
     @staticmethod
     def parse(data):
         assert (data is not None), "PhaseGroup.parse cannot have None for data parameter"
-        if 'data' in data and 'phaseGroup' in data['data']:
+        if 'data' in data:
             raise DataMalformedException(data,
                                          'data is malformed for PhaseGroup.parse. '
                                          'Please give only what is contained in the '
                                          '"phaseGroup" property')
-        assert ('id' in data), 'PhaseGroup.parse cannot must have a id property in data parameter'
+
+        assert ('id' in data), 'PhaseGroup.parse must have a id property in data parameter'
         assert ('displayIdentifier' in data), \
             'PhaseGroup.parse cannot must have a displayIdentifier property in data parameter'
         assert ('firstRoundTime' in data), \
