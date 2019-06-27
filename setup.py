@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="smashggpy",
-    version="0.0.26",
+    version="0.0.27",
     author="Brandon Cooke",
     author_email="brandoncookedev@gmail.com",
     description="Python SDK for smash.gg's public api",
@@ -22,3 +22,4 @@ setuptools.setup(
     keywords='smashgg smash.gg smashgg.py smashggpy sdk wrapper api gql graphql',
     python_requires='~=3.7',
 )
+

@@ -100,7 +100,7 @@ if __name__ == "__main__":
     print('current version: {}'.format(version))
     print('new version after update: {}'.format(new_version))
 
-    # process_with_deployment()
+    process_with_deployment()
     do_git_commit()
 
     print('Completed!')
