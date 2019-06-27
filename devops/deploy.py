@@ -3,8 +3,10 @@ import sys
 
 from os.path import abspath
 from pathlib import Path
+from subprocess import call
 
 SETUP_PATH = abspath(Path(__file__, '..', '..', 'setup.py'))
+DEPLOY_SCRIPT_PATH = abspath(Path(__file__, '..', 'deploy.sh'))
 VERSION_REGEX = re.compile("(version=\"([0-9]+.[0-9]+.[0-9]+)\")")
 MAJOR_MINOR_PATCH_REGEX = re.compile("([0-9]+).([0-9]+).([0-9]+)")
 
@@ -75,3 +77,5 @@ if __name__ == "__main__":
         sys.exit(1)
 
     write_version_to_setup_py(new_version)
+    call(DEPLOY_SCRIPT_PATH, shell=True)
+    print('deployment complete!')
