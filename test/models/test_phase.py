@@ -17,41 +17,9 @@ from test.testing_common.data import GOOD_PHASE_DATA_1, GOOD_PHASE_DATA_2, \
     GOOD_PHASE_GROUP_DATA_1, GOOD_PHASE_GROUP_DATA_2
 
 from test.testing_common.common import run_dotenv
-from test.testing_common.data import GOOD_PHASE_DATA_1, GOOD_PHASE_DATA_2
+from test.testing_common.data import GOOD_PHASE_DATA_1, GOOD_PHASE_DATA_2, \
+    GOOD_PHASE_1, GOOD_PHASE_2, GOOD_PHASE_GROUP_1, GOOD_PHASE_GROUP_2
 
-GOOD_PHASE_1 = Phase(
-    id=GOOD_PHASE_DATA_1['data']['phase']['id'],
-    name=GOOD_PHASE_DATA_1['data']['phase']['name'],
-    num_seeds=GOOD_PHASE_DATA_1['data']['phase']['numSeeds'],
-    group_count=GOOD_PHASE_DATA_1['data']['phase']['groupCount']
-)
-
-GOOD_PHASE_2 = Phase(
-    id=GOOD_PHASE_DATA_2['data']['phase']['id'],
-    name=GOOD_PHASE_DATA_2['data']['phase']['name'],
-    num_seeds=GOOD_PHASE_DATA_2['data']['phase']['numSeeds'],
-    group_count=GOOD_PHASE_DATA_2['data']['phase']['groupCount']
-)
-
-GOOD_PHASE_GROUP_1 = PhaseGroup(
-    id=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['id'],
-    display_identifier=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['displayIdentifier'],
-    first_round_time=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['firstRoundTime'],
-    state=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['state'],
-    phase_id=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['phaseId'],
-    wave_id=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['waveId'],
-    tiebreak_order=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['tiebreakOrder']
-)
-
-GOOD_PHASE_GROUP_2 = PhaseGroup(
-    id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['id'],
-    display_identifier=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['displayIdentifier'],
-    first_round_time=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['firstRoundTime'],
-    state=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['state'],
-    phase_id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['phaseId'],
-    wave_id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['waveId'],
-    tiebreak_order=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['tiebreakOrder']
-)
 
 BAD_PHASE = Phase(None,None,None,None)
 

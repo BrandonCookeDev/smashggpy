@@ -18,37 +18,7 @@ from smashggpy.models.Event import Event
 
 from test.testing_common.common import run_dotenv, get_event_from_event_slug, get_tournament_from_event_slug
 from test.testing_common.data import GOOD_EVENT_DATA_1, GOOD_EVENT_DATA_2, \
-    EVENT_NO_EVENT_DATA, EVENT_NO_PHASE_DATA, EVENT_NO_PHASE_GROUP_DATA
-
-GOOD_EVENT_1 = Event(
-    id=GOOD_EVENT_DATA_1['data']['event']['id'],
-    name=GOOD_EVENT_DATA_1['data']['event']['name'],
-    slug=GOOD_EVENT_DATA_1['data']['event']['slug'],
-    state=GOOD_EVENT_DATA_1['data']['event']['state'],
-    start_at=GOOD_EVENT_DATA_1['data']['event']['startAt'],
-    num_entrants=GOOD_EVENT_DATA_1['data']['event']['numEntrants'],
-    check_in_buffer=GOOD_EVENT_DATA_1['data']['event']['checkInBuffer'],
-    check_in_duration=GOOD_EVENT_DATA_1['data']['event']['checkInDuration'],
-    check_in_enabled=GOOD_EVENT_DATA_1['data']['event']['checkInEnabled'],
-    is_online=GOOD_EVENT_DATA_1['data']['event']['isOnline'],
-    team_name_allowed=GOOD_EVENT_DATA_1['data']['event']['teamNameAllowed'],
-    team_management_deadline=GOOD_EVENT_DATA_1['data']['event']['teamManagementDeadline']
-)
-
-GOOD_EVENT_2 = Event(
-    id=GOOD_EVENT_DATA_2['data']['event']['id'],
-    name=GOOD_EVENT_DATA_2['data']['event']['name'],
-    slug=GOOD_EVENT_DATA_2['data']['event']['slug'],
-    state=GOOD_EVENT_DATA_2['data']['event']['state'],
-    start_at=GOOD_EVENT_DATA_2['data']['event']['startAt'],
-    num_entrants=GOOD_EVENT_DATA_2['data']['event']['numEntrants'],
-    check_in_buffer=GOOD_EVENT_DATA_2['data']['event']['checkInBuffer'],
-    check_in_duration=GOOD_EVENT_DATA_2['data']['event']['checkInDuration'],
-    check_in_enabled=GOOD_EVENT_DATA_2['data']['event']['checkInEnabled'],
-    is_online=GOOD_EVENT_DATA_2['data']['event']['isOnline'],
-    team_name_allowed=GOOD_EVENT_DATA_2['data']['event']['teamNameAllowed'],
-    team_management_deadline=GOOD_EVENT_DATA_2['data']['event']['teamManagementDeadline']
-)
+    EVENT_NO_EVENT_DATA, EVENT_NO_PHASE_DATA, EVENT_NO_PHASE_GROUP_DATA, GOOD_EVENT_1, GOOD_EVENT_2
 
 BAD_EVENT = Event(
     id=None,

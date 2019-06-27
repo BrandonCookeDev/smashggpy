@@ -1,3 +1,10 @@
+from smashggpy.models.PhaseGroup import PhaseGroup
+from smashggpy.models.Phase import Phase
+from smashggpy.models.Event import Event
+from smashggpy.models.Tournament import Tournament
+from smashggpy.models.Organizer import Organizer
+from smashggpy.models.Venue import Venue
+
 TOURNAMENT_1 = {
     "id": 6620,
     "name": "Tipped Off 12 , Presented by The Lab Gaming Center!",
@@ -456,3 +463,99 @@ GOOD_PHASE_GROUP_DATA_2 = {
         "phaseGroup": PHASE_GROUP_2
     }
 }
+
+
+#######
+
+
+GOOD_TOURNAMENT = Tournament(
+    id=GOOD_TOURNAMENT_DATA['data']['tournament']['id'],
+    name=GOOD_TOURNAMENT_DATA['data']['tournament']['name'],
+    slug=GOOD_TOURNAMENT_DATA['data']['tournament']['slug'],
+    start_time=GOOD_TOURNAMENT_DATA['data']['tournament']['startAt'],
+    end_time=GOOD_TOURNAMENT_DATA['data']['tournament']['endAt'],
+    timezone=GOOD_TOURNAMENT_DATA['data']['tournament']['timezone'],
+    venue=Venue(
+        name=GOOD_TOURNAMENT_DATA['data']['tournament']['venueName'],
+        address=GOOD_TOURNAMENT_DATA['data']['tournament']['venueAddress'],
+        city=GOOD_TOURNAMENT_DATA['data']['tournament']['city'],
+        state=GOOD_TOURNAMENT_DATA['data']['tournament']['addrState'],
+        postal_code=GOOD_TOURNAMENT_DATA['data']['tournament']['postalCode'],
+        country_code=GOOD_TOURNAMENT_DATA['data']['tournament']['countryCode'],
+        region=GOOD_TOURNAMENT_DATA['data']['tournament']['region'],
+        latitude=GOOD_TOURNAMENT_DATA['data']['tournament']['lat'],
+        longitude=GOOD_TOURNAMENT_DATA['data']['tournament']['lng']
+    ),
+    organizer=Organizer(
+        id=GOOD_TOURNAMENT_DATA['data']['tournament']['ownerId'],
+        email=GOOD_TOURNAMENT_DATA['data']['tournament']['contactEmail'],
+        phone=GOOD_TOURNAMENT_DATA['data']['tournament']['contactPhone'],
+        twitter=GOOD_TOURNAMENT_DATA['data']['tournament']['contactTwitter'],
+    )
+)
+
+
+GOOD_EVENT_1 = Event(
+    id=GOOD_EVENT_DATA_1['data']['event']['id'],
+    name=GOOD_EVENT_DATA_1['data']['event']['name'],
+    slug=GOOD_EVENT_DATA_1['data']['event']['slug'],
+    state=GOOD_EVENT_DATA_1['data']['event']['state'],
+    start_at=GOOD_EVENT_DATA_1['data']['event']['startAt'],
+    num_entrants=GOOD_EVENT_DATA_1['data']['event']['numEntrants'],
+    check_in_buffer=GOOD_EVENT_DATA_1['data']['event']['checkInBuffer'],
+    check_in_duration=GOOD_EVENT_DATA_1['data']['event']['checkInDuration'],
+    check_in_enabled=GOOD_EVENT_DATA_1['data']['event']['checkInEnabled'],
+    is_online=GOOD_EVENT_DATA_1['data']['event']['isOnline'],
+    team_name_allowed=GOOD_EVENT_DATA_1['data']['event']['teamNameAllowed'],
+    team_management_deadline=GOOD_EVENT_DATA_1['data']['event']['teamManagementDeadline']
+)
+
+GOOD_EVENT_2 = Event(
+    id=GOOD_EVENT_DATA_2['data']['event']['id'],
+    name=GOOD_EVENT_DATA_2['data']['event']['name'],
+    slug=GOOD_EVENT_DATA_2['data']['event']['slug'],
+    state=GOOD_EVENT_DATA_2['data']['event']['state'],
+    start_at=GOOD_EVENT_DATA_2['data']['event']['startAt'],
+    num_entrants=GOOD_EVENT_DATA_2['data']['event']['numEntrants'],
+    check_in_buffer=GOOD_EVENT_DATA_2['data']['event']['checkInBuffer'],
+    check_in_duration=GOOD_EVENT_DATA_2['data']['event']['checkInDuration'],
+    check_in_enabled=GOOD_EVENT_DATA_2['data']['event']['checkInEnabled'],
+    is_online=GOOD_EVENT_DATA_2['data']['event']['isOnline'],
+    team_name_allowed=GOOD_EVENT_DATA_2['data']['event']['teamNameAllowed'],
+    team_management_deadline=GOOD_EVENT_DATA_2['data']['event']['teamManagementDeadline']
+)
+
+
+GOOD_PHASE_1 = Phase(
+    id=GOOD_PHASE_DATA_1['data']['phase']['id'],
+    name=GOOD_PHASE_DATA_1['data']['phase']['name'],
+    num_seeds=GOOD_PHASE_DATA_1['data']['phase']['numSeeds'],
+    group_count=GOOD_PHASE_DATA_1['data']['phase']['groupCount']
+)
+
+GOOD_PHASE_2 = Phase(
+    id=GOOD_PHASE_DATA_2['data']['phase']['id'],
+    name=GOOD_PHASE_DATA_2['data']['phase']['name'],
+    num_seeds=GOOD_PHASE_DATA_2['data']['phase']['numSeeds'],
+    group_count=GOOD_PHASE_DATA_2['data']['phase']['groupCount']
+)
+
+GOOD_PHASE_GROUP_1 = PhaseGroup(
+    id=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['id'],
+    display_identifier=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['displayIdentifier'],
+    first_round_time=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['firstRoundTime'],
+    state=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['state'],
+    phase_id=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['phaseId'],
+    wave_id=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['waveId'],
+    tiebreak_order=GOOD_PHASE_GROUP_DATA_1['data']['phaseGroup']['tiebreakOrder']
+)
+
+GOOD_PHASE_GROUP_2 = PhaseGroup(
+    id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['id'],
+    display_identifier=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['displayIdentifier'],
+    first_round_time=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['firstRoundTime'],
+    state=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['state'],
+    phase_id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['phaseId'],
+    wave_id=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['waveId'],
+    tiebreak_order=GOOD_PHASE_GROUP_DATA_2['data']['phaseGroup']['tiebreakOrder']
+)
