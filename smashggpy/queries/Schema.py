@@ -135,3 +135,21 @@ slots(includeByes: false){{
     {0}
 }}
 """.format(gg_set_slot_schema)
+
+stream = """
+id
+eventId
+tournamentId
+streamName
+numSetups
+streamSource
+streamType
+streamTypeId
+isOnline
+enabled
+followerCount
+removesTasks
+streamStatus
+streamGame
+streamLogo
+"""

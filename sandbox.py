@@ -5,6 +5,7 @@ from smashggpy.models.Tournament import Tournament
 from smashggpy.models.Event import Event
 from smashggpy.models.Phase import Phase
 from smashggpy.models.PhaseGroup import PhaseGroup
+from smashggpy.models.Stream import Stream
 Common.dotenv()
 
 # dotenv import
@@ -43,7 +44,7 @@ for ggset in sets:
 		ggset.player2)
 	)
 """
-
+"""
 event = Tournament.get('raceway-fridays-13')
 entrants = event.get_entrants()
 for player in entrants:
@@ -54,6 +55,10 @@ for player in entrants:
 			player.attendee_data[0].player_id,
 			player.attendee_data[0].id)
 		)
+"""
+
+stream = Stream.get(4504)
+print(stream)
 
 QueryQueueDaemon.kill_daemon()
 

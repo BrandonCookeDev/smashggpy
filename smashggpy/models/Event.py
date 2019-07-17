@@ -39,6 +39,9 @@ class Event(object):
                      self.check_in_enabled, self.is_online, self.team_name_allowed,
                      self.team_name_allowed))
 
+    def __str__(self):
+        return 'Event ({0}): {1}'
+
     @staticmethod
     def validate_data(input: dict, id: int=0):
         if 'data' in input:

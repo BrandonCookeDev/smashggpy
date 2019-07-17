@@ -1,3 +1,6 @@
+import smashggpy.queries.StreamQueries as queries
+from smashggpy.util.NetworkInterface import NetworkInterface as NI
+
 
 class Stream(object):
 
@@ -33,6 +36,33 @@ class Stream(object):
                      self.stream_source, self.stream_type, self.stream_type_id, self.is_online,
                      self.enabled, self.follower_count, self.removes_tasks, self.stream_status,
                      self.stream_game, self.stream_logo))
+
+    def __str__(self):
+        return 'Stream ({0}): {1} \n' \
+               'Event Id: {2} \n' \
+               'Tournament Id: {3} \n' \
+               'Stream Game:   {4} \n' \
+               'Stream Source:  {5} \n' \
+               'Stream Status: {6} \n' \
+               'Follower Count: {7} \n' \
+               'Is Online: {8} \n' \
+               'Enabled: {9} \n' \
+               'Number of Setups: {10} \n' \
+               'Removes Tasks: {11} \n' \
+               'Stream Type {12} \n' \
+               'Stream Type Id: {13} \n' \
+               'Stream Logo: {14} \n' \
+                .format(self.id, self.stream_name, self.event_id, self.tournament_id, self.stream_game,
+                        self.stream_source, self.stream_status, self.follower_count,  self.is_online,
+                        self.enabled, self.num_setups, self.removes_tasks, self.stream_type,
+                        self.stream_type_id, self.stream_logo)
+
+    @staticmethod
+    def get(id: int):
+        assert (id is not None), 'Stream cannot have a None id'
+        data = NI.query(queries.stream_by_id, {'id': id})
+        base_data = data['data']['stream']
+        return Stream.parse(base_data)
 
     @staticmethod
     def parse(data):

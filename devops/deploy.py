@@ -14,6 +14,7 @@ MAJOR_MINOR_PATCH_REGEX = re.compile("([0-9]+).([0-9]+).([0-9]+)")
 GIT_STATUS_COMMAND = 'cd {} && git status'.format(ROOT_FOLDER)
 GIT_COMMIT_COMMAND = 'cd ' + ROOT_FOLDER + ' && git add . && git commit -m "{0}" && git push'
 
+
 def read_setup_py() -> str:
     lines = []
     content = ""
