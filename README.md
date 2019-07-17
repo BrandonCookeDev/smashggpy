@@ -793,6 +793,13 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
 #### Methods
 
 ##### Statics
+* **get(id)**
+    * get raw stream data from smashgg for the given id
+    * parameters
+        * id
+            * int
+            * identification number of the stream
+    * returns [Stream](#stream)
 * **parse(data)**
     * parse smash.gg api data into an Stream object
     * parameters
@@ -852,6 +859,8 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
 
 #### Properties
 
+* **id**
+    * id of the Tournament this stream queue belongs to
 * **stream**
     * [Stream](#stream)
     * stream this queue is associated with
@@ -860,6 +869,14 @@ Losers Round 3: DarkGenex 2 - 0 CV | Cloud-9
     * sets in the queue
 
 #### Methods
+* **get(tournament_id)**
+    * get the raw stream queue data for a given tournament id
+    * parameters
+        * tournament_id
+            * int
+            * identification number of the tournament
+    * returns [StreamQueue](#streamqueue)
+
 * **parse(data)**
     * parse smash.gg api data into an StreamQueue object
     * parameters
