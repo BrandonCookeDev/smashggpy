@@ -35,6 +35,10 @@ class GGSet(object):
                      self.round, self.started_at, self.completed_at, self.winner_id, self.total_games,
                      self.state, self.player1, self.player1, self.score1, self.score2))
 
+    def __str__(self):
+        return 'Set ({0}) :: {1} :: {2} {3} - {4} {5}' \
+            .format(self.id, self.full_round_text, self.player1, self.score1, self.score2, self.player2)
+
     @staticmethod
     def parse(data):
         assert (data is not None), 'GGSet.parse cannot have a none data parameter'
@@ -51,10 +55,12 @@ class GGSet(object):
         assert ('state' in data), 'GGset.parse must have a state property in data parameter'
 
         display_score_parsed = GGSet.parse_display_score(data['displayScore'])
+        """
         assert ('p1_tag' in data), 'GGSet.parse must resolve p1_tag property in display score'
         assert ('p2_tag' in data), 'GGSet.parse must resolve p2_tag property in display score'
         assert ('p1_score' in data), 'GGSet.parse must resolve p1_score property in display score'
         assert ('p2_score' in data), 'GGSet.parse must resolve p2_score property in display score'
+        """
 
         return GGSet(
             data['id'],
@@ -83,7 +89,7 @@ class GGSet(object):
             'p2_score': -1
         }
 
-        if display_score is not None or display_score != '':
+        if display_score is not None and display_score != '':
             matches = DISPLAY_SCORE_REGEX.match(display_score)
             if matches is not None:
                 ret['p1_tag'] = matches.group(1)

@@ -6,6 +6,7 @@ from smashggpy.models.Event import Event
 from smashggpy.models.Phase import Phase
 from smashggpy.models.PhaseGroup import PhaseGroup
 from smashggpy.models.Stream import Stream
+from smashggpy.models.StreamQueue import StreamQueue
 Common.dotenv()
 
 # dotenv import
@@ -59,6 +60,9 @@ for player in entrants:
 
 stream = Stream.get(4504)
 print(stream)
+
+stream_queue = StreamQueue.get(6620)
+[print(queue) for queue in stream_queue]
 
 QueryQueueDaemon.kill_daemon()
 
