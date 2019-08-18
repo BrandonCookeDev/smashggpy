@@ -3,7 +3,7 @@ from smashggpy.util import Initializer
 from smashggpy.util.QueryQueueDaemon import QueryQueueDaemon
 
 if __name__ == '__main__':
-    Initializer.initialize('68991e2848052ed278a3d88656f66ff6', 'info')
+    Initializer.initialize('API_KEY_GOES_HERE', 'info')
     to12_melee = Event.get('tipped-off-12-presented-by-the-lab-gaming-center', 'melee-singles')
     sets = to12_melee.get_sets()
     for ggset in sets:
