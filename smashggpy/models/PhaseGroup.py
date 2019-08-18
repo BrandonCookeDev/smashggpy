@@ -84,7 +84,6 @@ class PhaseGroup(object):
         assert (self.id is not None), 'phase group id cannot be None when calling get_attendees'
         Logger.info('Getting Attendees for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         data = NI.paginated_query(queries.phase_group_attendees, {'id': self.id})
-        validate_data(data)
 
         participants = flatten([entrant_data['entrant']['participants'] for entrant_data in data])
         attendees = [Attendee.parse(participant_data) for participant_data in participants]
@@ -94,7 +93,6 @@ class PhaseGroup(object):
         assert (self.id is not None), 'phase group id cannot be None when calling get_entrants'
         Logger.info('Getting Entrants for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         data = NI.paginated_query(queries.phase_group_entrants, {'id': self.id})
-        validate_data(data)
         entrants = [Entrant.parse(entrant_data['entrant']) for entrant_data in data]
         return entrants
 
@@ -102,7 +100,6 @@ class PhaseGroup(object):
         assert (self.id is not None), 'phase group id cannot be None when calling get_sets'
         Logger.info('Getting Sets for phase group: {0}:{1}'.format(self.id, self.display_identifier))
         data = NI.paginated_query(queries.phase_group_sets, {'id': self.id})
-        validate_data(data)
         sets = [GGSet.parse(set_data) for set_data in data]
         return sets
 
