@@ -109,7 +109,7 @@ class PhaseGroup(object):
         sets = self.get_sets()
         incomplete_sets = []
         for gg_set in sets:
-            if set.get_is_completed() is False:
+            if gg_set.get_is_completed() is False:
                 incomplete_sets.append(gg_set)
         return incomplete_sets
 
@@ -119,7 +119,7 @@ class PhaseGroup(object):
         sets = self.get_sets()
         incomplete_sets = []
         for gg_set in sets:
-            if set.get_is_completed() is True:
+            if gg_set.get_is_completed() is True:
                 incomplete_sets.append(gg_set)
         return incomplete_sets
 
